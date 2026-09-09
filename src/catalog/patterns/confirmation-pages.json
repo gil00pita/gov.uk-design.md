@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "confirmation-pages",
+  "name": "Confirmation pages",
+  "category": "pattern",
+  "group": "pages",
+  "summary": "Tell users that they have completed a transaction, give them any reference and explain what will happen next.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/confirmation-pages/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use immediately after a user successfully completes a transaction.",
+    "Give a reference when users or support staff will need it later."
+  ],
+  "whenNotToUse": [
+    "Do not use a success page before the service has durably accepted the transaction.",
+    "Do not rely on email or another later message as the only confirmation."
+  ],
+  "rules": [
+    "Use a Confirmation panel with a clear completed-action heading and the reference number when applicable.",
+    "Below the panel, explain what happens next, expected timescales, any action the user must take and how confirmation will be delivered.",
+    "Prevent accidental duplicate submissions on refresh and provide a relevant feedback link."
+  ],
+  "accessibility": [
+    "Make the success heading the page H1 and present the reference as selectable text rather than only in an image.",
+    "Do not communicate success through the green panel colour alone; the text must state the outcome."
+  ],
+  "componentRefs": ["panel"],
+  "relatedPatterns": ["check-answers", "contact-a-department-or-service-team"]
+}

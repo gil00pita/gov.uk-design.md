@@ -1,0 +1,93 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "accordion",
+  "name": "Accordion",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use an accordion to let users reveal and hide related sections when showing all of the content at once would make a page difficult to scan.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/accordion/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/accordion",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for several related sections when users need only some of the content and can understand each section from its heading.",
+    "Consider simplifying or splitting the page before introducing an accordion.",
+    "Use expanded sections sparingly when a section is likely to be needed immediately."
+  ],
+  "whenNotToUse": [
+    "Do not hide information that most users need to complete the current task.",
+    "Do not use an accordion as a substitute for a clear page structure or a sequence of service steps.",
+    "Do not use it for content that users need to compare across sections at the same time."
+  ],
+  "anatomy": [
+    {
+      "name": "Accordion container",
+      "required": true,
+      "description": "A uniquely identified container carries govuk-accordion and data-module=\"govuk-accordion\"."
+    },
+    {
+      "name": "Section",
+      "required": true,
+      "description": "Each repeated section contains one header and one content region."
+    },
+    {
+      "name": "Section heading",
+      "required": true,
+      "description": "A heading at the correct document level contains the section-button hook and a unique ID."
+    },
+    {
+      "name": "Section content",
+      "required": true,
+      "description": "The content region has a unique ID associated with the same accordion and section position."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "div",
+      "classes": ["govuk-accordion"],
+      "use": "Related sections start collapsed after enhancement while remaining visible without JavaScript."
+    },
+    {
+      "id": "expanded-section",
+      "name": "Expanded section",
+      "element": "div",
+      "classes": ["govuk-accordion__section", "govuk-accordion__section--expanded"],
+      "use": "A section whose content should be open when the enhanced component first appears."
+    }
+  ],
+  "behaviour": [
+    "Initialise the official govuk-accordion module from GOV.UK Frontend.",
+    "Without JavaScript, all section content remains visible under ordinary headings.",
+    "With JavaScript, GOV.UK Frontend creates disclosure controls, state text, and show-all behaviour.",
+    "Container, heading, and content IDs must be unique on the page."
+  ],
+  "accessibility": [
+    "Choose heading elements that preserve the page's logical heading hierarchy.",
+    "Section headings must identify the content clearly when read independently.",
+    "Do not hand-build the enhanced button and ARIA state; initialise the official module from the documented base markup.",
+    "Do not hide the unenhanced content before GOV.UK Frontend confirms JavaScript support."
+  ],
+  "content": [
+    "Use short, descriptive section headings.",
+    "Place the information users need to decide whether to expand a section in its heading or optional summary.",
+    "Avoid repeating the same opening words across every heading when distinctive wording is available."
+  ],
+  "tokenRefs": [
+    "govuk.color.border",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.link",
+    "govuk.color.text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Two-section accordion",
+      "html": "<div class=\"govuk-accordion\" data-module=\"govuk-accordion\" id=\"accordion-guidance\">\n  <div class=\"govuk-accordion__section\">\n    <div class=\"govuk-accordion__section-header\">\n      <h2 class=\"govuk-accordion__section-heading\">\n        <span class=\"govuk-accordion__section-button\" id=\"accordion-guidance-heading-1\">\n          Writing well for the web\n        </span>\n      </h2>\n    </div>\n    <div id=\"accordion-guidance-content-1\" class=\"govuk-accordion__section-content\">\n      <p class=\"govuk-body\">This is the content for Writing well for the web.</p>\n    </div>\n  </div>\n  <div class=\"govuk-accordion__section\">\n    <div class=\"govuk-accordion__section-header\">\n      <h2 class=\"govuk-accordion__section-heading\">\n        <span class=\"govuk-accordion__section-button\" id=\"accordion-guidance-heading-2\">\n          Know your audience\n        </span>\n      </h2>\n    </div>\n    <div id=\"accordion-guidance-content-2\" class=\"govuk-accordion__section-content\">\n      <p class=\"govuk-body\">This is the content for Know your audience.</p>\n    </div>\n  </div>\n</div>"
+    }
+  ]
+}

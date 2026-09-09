@@ -1,0 +1,307 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "$description": "Reviewed portable tokens from GOV.UK Frontend 6.5.0. Component CSS, font files and identity assets are intentionally excluded.",
+  "govuk": {
+    "color": {
+      "$type": "color",
+      "palette": {
+        "blue": {
+          "primary": { "$value": "#1d70b8" },
+          "tint-25": { "$value": "#5694ca" },
+          "tint-50": { "$value": "#8eb8dc" },
+          "tint-80": { "$value": "#d2e2f1" },
+          "tint-95": { "$value": "#f4f8fb" },
+          "shade-10": { "$value": "#1a65a6" },
+          "shade-25": { "$value": "#16548a" },
+          "shade-50": { "$value": "#0f385c" }
+        },
+        "green": {
+          "primary": { "$value": "#0f7a52" },
+          "tint-25": { "$value": "#4b9b7d" },
+          "tint-50": { "$value": "#87bca8" },
+          "tint-80": { "$value": "#cfe4dc" },
+          "tint-95": { "$value": "#f3f8f6" },
+          "shade-25": { "$value": "#0b5c3e" },
+          "shade-50": { "$value": "#083d29" }
+        },
+        "teal": {
+          "primary": { "$value": "#158187" },
+          "tint-25": { "$value": "#50a1a5" },
+          "tint-50": { "$value": "#8ac0c3" },
+          "tint-80": { "$value": "#d0e6e7" },
+          "tint-95": { "$value": "#f3f9f9" },
+          "shade-25": { "$value": "#106165" },
+          "shade-50": { "$value": "#0b4144" },
+          "accent": { "$value": "#00ffe0" }
+        },
+        "purple": {
+          "primary": { "$value": "#54319f" },
+          "tint-25": { "$value": "#7f65b7" },
+          "tint-50": { "$value": "#aa98cf" },
+          "tint-80": { "$value": "#ddd6ec" },
+          "tint-95": { "$value": "#f6f5fa" },
+          "shade-25": { "$value": "#3f2577" },
+          "shade-50": { "$value": "#2a1950" }
+        },
+        "magenta": {
+          "primary": { "$value": "#ca357c" },
+          "tint-25": { "$value": "#d7689d" },
+          "tint-50": { "$value": "#e59abe" },
+          "tint-80": { "$value": "#f4d7e5" },
+          "tint-95": { "$value": "#fcf5f8" },
+          "shade-25": { "$value": "#98285d" },
+          "shade-50": { "$value": "#651b3e" }
+        },
+        "red": {
+          "primary": { "$value": "#ca3535" },
+          "tint-25": { "$value": "#d76868" },
+          "tint-50": { "$value": "#e59a9a" },
+          "tint-80": { "$value": "#f4d7d7" },
+          "tint-95": { "$value": "#fcf5f5" },
+          "shade-25": { "$value": "#982828" },
+          "shade-50": { "$value": "#651b1b" }
+        },
+        "orange": {
+          "primary": { "$value": "#f47738" },
+          "tint-25": { "$value": "#f7996a" },
+          "tint-50": { "$value": "#fabb9c" },
+          "tint-80": { "$value": "#fde4d7" },
+          "tint-95": { "$value": "#fef8f5" },
+          "shade-25": { "$value": "#b7592a" },
+          "shade-50": { "$value": "#7a3c1c" }
+        },
+        "yellow": {
+          "primary": { "$value": "#ffdd00" },
+          "tint-25": { "$value": "#ffe640" },
+          "tint-50": { "$value": "#ffee80" },
+          "tint-80": { "$value": "#fff8cc" },
+          "tint-95": { "$value": "#fffdf2" },
+          "shade-25": { "$value": "#bfa600" },
+          "shade-50": { "$value": "#806f00" }
+        },
+        "brown": {
+          "primary": { "$value": "#99704a" },
+          "tint-25": { "$value": "#b39477" },
+          "tint-50": { "$value": "#ccb8a5" },
+          "tint-95": { "$value": "#faf8f6" }
+        },
+        "black": {
+          "primary": { "$value": "#0b0c0c" },
+          "tint-25": { "$value": "#484949" },
+          "tint-50": { "$value": "#858686" },
+          "tint-80": { "$value": "#cecece" },
+          "tint-95": { "$value": "#f3f3f3" }
+        },
+        "white": { "$value": "#ffffff" }
+      },
+      "brand": {
+        "$value": "#1d70b8",
+        "$description": "GOV.UK brand colour."
+      },
+      "text": {
+        "$value": "#0b0c0c",
+        "$description": "Primary text and focus text colour."
+      },
+      "secondary-text": {
+        "$value": "#484949",
+        "$description": "Secondary text colour."
+      },
+      "body-background": {
+        "$value": "#ffffff",
+        "$description": "Default page body background."
+      },
+      "surface-background": {
+        "$value": "#f4f8fb",
+        "$description": "Contrasting surface background."
+      },
+      "template-background": {
+        "$value": "#f4f8fb",
+        "$description": "Page template background behind the body, footer and cookie banner."
+      },
+      "inverse-text": {
+        "$value": "#ffffff",
+        "$description": "Text on dark or brand-coloured surfaces."
+      },
+      "border": {
+        "$value": "#cecece",
+        "$description": "Default border colour."
+      },
+      "input-border": {
+        "$value": "#0b0c0c",
+        "$description": "Default form-control border colour."
+      },
+      "link": {
+        "$value": "#1a65a6",
+        "$description": "Default link colour."
+      },
+      "link-hover": {
+        "$value": "#0f385c",
+        "$description": "Link hover colour."
+      },
+      "link-visited": {
+        "$value": "#54319f",
+        "$description": "Visited link colour."
+      },
+      "link-active": {
+        "$value": "#0b0c0c",
+        "$description": "Active link colour."
+      },
+      "focus": {
+        "$value": "#ffdd00",
+        "$description": "Focus highlight colour."
+      },
+      "focus-text": {
+        "$value": "#0b0c0c",
+        "$description": "Text colour on the focus highlight."
+      },
+      "error": {
+        "$value": "#ca3535",
+        "$description": "Error state colour."
+      },
+      "success": {
+        "$value": "#0f7a52",
+        "$description": "Success colour and the default action-button background in the reviewed release."
+      },
+      "hover": {
+        "$value": "#cecece",
+        "$description": "Hover background for form controls."
+      },
+      "surface-text": {
+        "$value": "#0b0c0c",
+        "$description": "Text colour on a contrasting surface."
+      },
+      "surface-border": {
+        "$value": "#8eb8dc",
+        "$description": "Border colour on a contrasting surface."
+      }
+    },
+    "breakpoint": {
+      "$type": "dimension",
+      "mobile": { "$value": { "value": 320, "unit": "px" } },
+      "tablet": { "$value": { "value": 641, "unit": "px" } },
+      "desktop": { "$value": { "value": 769, "unit": "px" } }
+    },
+    "spacing": {
+      "$type": "dimension",
+      "static": {
+        "0": { "$value": { "value": 0, "unit": "px" } },
+        "1": { "$value": { "value": 5, "unit": "px" } },
+        "2": { "$value": { "value": 10, "unit": "px" } },
+        "3": { "$value": { "value": 15, "unit": "px" } },
+        "4": { "$value": { "value": 20, "unit": "px" } },
+        "5": { "$value": { "value": 25, "unit": "px" } },
+        "6": { "$value": { "value": 30, "unit": "px" } },
+        "7": { "$value": { "value": 40, "unit": "px" } },
+        "8": { "$value": { "value": 50, "unit": "px" } },
+        "9": { "$value": { "value": 60, "unit": "px" } }
+      },
+      "responsive": {
+        "4": {
+          "mobile": { "$value": { "value": 15, "unit": "px" } },
+          "tablet": { "$value": { "value": 20, "unit": "px" } }
+        },
+        "5": {
+          "mobile": { "$value": { "value": 15, "unit": "px" } },
+          "tablet": { "$value": { "value": 25, "unit": "px" } }
+        },
+        "6": {
+          "mobile": { "$value": { "value": 20, "unit": "px" } },
+          "tablet": { "$value": { "value": 30, "unit": "px" } }
+        },
+        "7": {
+          "mobile": { "$value": { "value": 25, "unit": "px" } },
+          "tablet": { "$value": { "value": 40, "unit": "px" } }
+        },
+        "8": {
+          "mobile": { "$value": { "value": 30, "unit": "px" } },
+          "tablet": { "$value": { "value": 50, "unit": "px" } }
+        },
+        "9": {
+          "mobile": { "$value": { "value": 40, "unit": "px" } },
+          "tablet": { "$value": { "value": 60, "unit": "px" } }
+        }
+      }
+    },
+    "typography": {
+      "weight": {
+        "$type": "number",
+        "regular": { "$value": 400 },
+        "bold": { "$value": 700 }
+      },
+      "scale": {
+        "$type": "dimension",
+        "80": {
+          "mobile-font-size": { "$value": { "value": 53, "unit": "px" } },
+          "mobile-line-height": { "$value": { "value": 55, "unit": "px" } },
+          "tablet-font-size": { "$value": { "value": 80, "unit": "px" } },
+          "tablet-line-height": { "$value": { "value": 80, "unit": "px" } }
+        },
+        "48": {
+          "mobile-font-size": { "$value": { "value": 32, "unit": "px" } },
+          "mobile-line-height": { "$value": { "value": 35, "unit": "px" } },
+          "tablet-font-size": { "$value": { "value": 48, "unit": "px" } },
+          "tablet-line-height": { "$value": { "value": 50, "unit": "px" } }
+        },
+        "36": {
+          "mobile-font-size": { "$value": { "value": 27, "unit": "px" } },
+          "mobile-line-height": { "$value": { "value": 30, "unit": "px" } },
+          "tablet-font-size": { "$value": { "value": 36, "unit": "px" } },
+          "tablet-line-height": { "$value": { "value": 40, "unit": "px" } }
+        },
+        "27": {
+          "mobile-font-size": { "$value": { "value": 21, "unit": "px" } },
+          "mobile-line-height": { "$value": { "value": 25, "unit": "px" } },
+          "tablet-font-size": { "$value": { "value": 27, "unit": "px" } },
+          "tablet-line-height": { "$value": { "value": 30, "unit": "px" } }
+        },
+        "24": {
+          "mobile-font-size": { "$value": { "value": 21, "unit": "px" } },
+          "mobile-line-height": { "$value": { "value": 25, "unit": "px" } },
+          "tablet-font-size": { "$value": { "value": 24, "unit": "px" } },
+          "tablet-line-height": { "$value": { "value": 30, "unit": "px" } }
+        },
+        "19": {
+          "mobile-font-size": { "$value": { "value": 19, "unit": "px" } },
+          "mobile-line-height": { "$value": { "value": 25, "unit": "px" } },
+          "tablet-font-size": { "$value": { "value": 19, "unit": "px" } },
+          "tablet-line-height": { "$value": { "value": 25, "unit": "px" } }
+        },
+        "16": {
+          "mobile-font-size": { "$value": { "value": 16, "unit": "px" } },
+          "mobile-line-height": { "$value": { "value": 20, "unit": "px" } },
+          "tablet-font-size": { "$value": { "value": 16, "unit": "px" } },
+          "tablet-line-height": { "$value": { "value": 20, "unit": "px" } }
+        }
+      }
+    },
+    "layout": {
+      "$type": "dimension",
+      "page-width": { "$value": { "value": 960, "unit": "px" } },
+      "gutter": { "$value": { "value": 30, "unit": "px" } },
+      "gutter-half": { "$value": { "value": 15, "unit": "px" } }
+    },
+    "border": {
+      "$type": "dimension",
+      "standard": { "$value": { "value": 5, "unit": "px" } },
+      "wide": { "$value": { "value": 10, "unit": "px" } },
+      "narrow": { "$value": { "value": 4, "unit": "px" } },
+      "form-element": { "$value": { "value": 2, "unit": "px" } },
+      "focus": { "$value": { "value": 3, "unit": "px" } }
+      }
+  },
+  "$extensions": {
+    "org.govuk-design-md.provenance": {
+      "govukFrontendVersion": "6.5.0",
+      "reviewedAt": "2026-09-09",
+      "sources": [
+        "output/design-system.service.gov.uk/tokens.json#/darkMode/lightVariables",
+        "node_modules/govuk-frontend/dist/govuk/settings/_colours-palette--internal.scss",
+        "node_modules/govuk-frontend/dist/govuk/settings/_colours-functional.scss",
+        "node_modules/govuk-frontend/dist/govuk/settings/_media-queries.scss",
+        "node_modules/govuk-frontend/dist/govuk/settings/_spacing.scss",
+        "node_modules/govuk-frontend/dist/govuk/settings/_typography-responsive.scss",
+        "node_modules/govuk-frontend/dist/govuk/settings/_measurements.scss"
+      ]
+    }
+  }
+}

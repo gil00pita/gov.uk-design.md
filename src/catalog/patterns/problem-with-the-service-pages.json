@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "problem-with-the-service-pages",
+  "name": "There is a problem with the service pages",
+  "category": "pattern",
+  "group": "pages",
+  "summary": "Tell users about an unexpected service failure, preserve their work where possible and give a useful recovery or contact route.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/problem-with-the-service-pages/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use the same general page for unexpected service problems while logging and fixing the underlying error.",
+    "Display it only briefly; move to the planned-unavailability pattern if the service cannot return quickly."
+  ],
+  "whenNotToUse": [
+    "Do not use for form validation, a missing URL or an intentional service closure.",
+    "Do not expose exception messages, stack traces, internal identifiers or personal data."
+  ],
+  "rules": [
+    "Use “Sorry, there is a problem with the service” in the title and H1 and tell users to try again later.",
+    "Explain what happened to their answers, preserve recoverable data for a stated reasonable period and offer relevant contact or alternative-service information.",
+    "Do not use breadcrumbs, red warning text, HTTP jargon or vague phrases such as “technical difficulties”."
+  ],
+  "accessibility": [
+    "Return a lightweight semantic error page independently of the failed application path and keep support links keyboard accessible.",
+    "Make the user-facing incident message available without JavaScript and do not repeatedly auto-refresh the page."
+  ],
+  "componentRefs": [],
+  "relatedPatterns": ["service-unavailable-pages", "page-not-found-pages", "contact-a-department-or-service-team"]
+}

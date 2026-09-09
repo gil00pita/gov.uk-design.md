@@ -1,0 +1,76 @@
+{
+  "$schema": "../schema/framework-adapters.schema.json",
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "govukFrontendVersion": "6.5.0",
+  "adapters": [
+    {
+      "id": "html-css",
+      "name": "Plain HTML and CSS",
+      "status": "reference",
+      "output": "html-css/DESIGN.md",
+      "fixture": "fixtures/vertical-slice/index.html",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "requirements": [
+        "Render complete semantic HTML on the server or in the initial document; JavaScript must enhance usable content rather than create the only usable version.",
+        "Copy markup and class contracts from the focused component records under design/govuk/components instead of recreating components from their appearance.",
+        "Use the pinned govuk-frontend component CSS and JavaScript for production components. The portable CSS variables are for project extensions and interoperability, not a replacement for component CSS.",
+        "Keep native form controls, labels, hints, errors, fieldsets, legends, heading hierarchy and ID relationships intact.",
+        "Confirm that the service is eligible before deploying GDS Transport, the GOV.UK crown or other protected identity assets; this package does not redistribute them."
+      ],
+      "assetSetup": [
+        "Install the reviewed implementation with npm install govuk-frontend@6.5.0 --save-exact.",
+        "Copy dist/govuk/govuk-frontend.min.css and dist/govuk/govuk-frontend.min.js to a public URL controlled by the service. Copy source maps when production diagnostics require them.",
+        "Copy dist/govuk/assets to the public /assets path expected by the compiled CSS, or compile Sass with an explicitly reviewed asset-path configuration.",
+        "Load GOV.UK Frontend CSS before service-specific CSS. Put reviewed service overrides in a separate stylesheet and use tokens/govuk.css only for custom UI that is not already supplied by GOV.UK Frontend.",
+        "Do not hotlink assets from the Design System website and do not copy this repository's extraction screenshots or fonts into the service."
+      ],
+      "rendering": [
+        "Return the page shell, skip link, main landmark, form controls, validation messages and component content in the initial HTML response.",
+        "Use one unique ID for each labelled or described element and keep for, aria-describedby, aria-labelledby and href fragment references resolvable.",
+        "On validation failure, render the Error summary and inline errors on the server, retain safe user input and move focus only through the official enhancement behaviour.",
+        "Keep links as links and buttons as buttons. Use a link styled as a button only for navigation, and preserve its href.",
+        "Do not hide Accordion or Tabs content in the unenhanced document; GOV.UK Frontend applies enhanced disclosure behaviour after initialisation."
+      ],
+      "progressiveEnhancement": [
+        "Place the official body-class detection snippet immediately after the opening body element so supported browsers receive js-enabled and govuk-frontend-supported before components initialise.",
+        "Add the documented data-module attribute only to components that GOV.UK Frontend enhances.",
+        "Load the JavaScript entry point as a module near the end of body and call initAll once for the initial document.",
+        "Every form journey and essential action must remain usable when JavaScript fails, is blocked or is unsupported.",
+        "When a Content Security Policy blocks inline scripts, apply the service's nonce or hash policy to the early body-class snippet without delaying it until after page rendering."
+      ],
+      "lifecycle": [
+        "Initial document: call initAll() after the component markup exists in the DOM.",
+        "Inserted fragment: insert complete component markup into a container, then call initAll(container) so only new descendants are discovered.",
+        "Do not repeatedly call initAll() over the whole document; GOV.UK Frontend marks initialised roots and duplicate initialisation is an error.",
+        "If application code removes enhanced markup, discard references to that DOM. Re-render a complete unenhanced component before initialising its replacement.",
+        "Treat console initialisation errors as test failures and verify keyboard, focus and no-JavaScript behaviour for every interactive component used."
+      ],
+      "pageTemplate": "<!doctype html>\n<html class=\"govuk-template\" lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n    <meta name=\"theme-color\" content=\"#1d70b8\">\n    <title>Service name</title>\n    <link rel=\"stylesheet\" href=\"/govuk/govuk-frontend.min.css\">\n    <link rel=\"stylesheet\" href=\"/styles/service.css\">\n  </head>\n  <body class=\"govuk-template__body\">\n    <script>\n      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');\n    </script>\n    <a class=\"govuk-skip-link\" href=\"#main-content\" data-module=\"govuk-skip-link\">\n      Skip to main content\n    </a>\n    <div class=\"govuk-width-container\">\n      <main class=\"govuk-main-wrapper\" id=\"main-content\">\n        <!-- Render complete focused component markup here. -->\n      </main>\n    </div>\n    <script type=\"module\">\n      import { initAll } from '/govuk/govuk-frontend.min.js';\n      initAll();\n    </script>\n  </body>\n</html>",
+      "dynamicExample": "import { initAll } from '/govuk/govuk-frontend.min.js';\n\nconst container = document.querySelector('[data-dynamic-region]');\ncontainer.replaceChildren(renderCompleteServerOrTemplateFragment());\ninitAll(container);",
+      "sourceUrls": [
+        {
+          "name": "Install GOV.UK Frontend with npm",
+          "url": "https://frontend.design-system.service.gov.uk/installing-with-npm/"
+        },
+        {
+          "name": "Import CSS, assets and JavaScript",
+          "url": "https://frontend.design-system.service.gov.uk/importing-css-assets-and-javascript/"
+        },
+        {
+          "name": "GOV.UK Frontend page template",
+          "url": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/template.njk"
+        },
+        {
+          "name": "GOV.UK Frontend JavaScript initialisation",
+          "url": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/init.mjs"
+        }
+      ]
+    }
+  ]
+}

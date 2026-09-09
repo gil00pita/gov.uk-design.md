@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "cookie-banner",
+  "name": "Cookie banner",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use the Cookie banner to ask for consent to non-essential cookies and confirm the choice without blocking access to the service.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/cookie-banner/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/cookie-banner",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when a service sets analytics, advertising or other non-essential cookies that require a user choice.",
+    "Show the banner until the user accepts or rejects non-essential cookies, then show a short confirmation message."
+  ],
+  "whenNotToUse": [
+    "Do not ask for consent for cookies that are strictly necessary to provide the service.",
+    "Do not prevent users from accessing the service while waiting for a decision."
+  ],
+  "anatomy": [
+    {
+      "name": "Region",
+      "required": true,
+      "description": "A labelled region contains the current cookie message and uses data-nosnippet."
+    },
+    {
+      "name": "Heading and explanation",
+      "required": true,
+      "description": "A concise heading and body explain which optional cookies are requested and why."
+    },
+    {
+      "name": "Choice controls",
+      "required": true,
+      "description": "Equivalent accept and reject buttons are accompanied by a cookie-preferences link."
+    },
+    {
+      "name": "Confirmation message",
+      "required": false,
+      "description": "After a choice, a replacement message confirms it and can be dismissed."
+    }
+  ],
+  "variants": [
+    {
+      "id": "question",
+      "name": "Consent question",
+      "element": "div",
+      "classes": ["govuk-cookie-banner"],
+      "use": "Ask the user to accept or reject non-essential cookies."
+    },
+    {
+      "id": "confirmation",
+      "name": "Choice confirmation",
+      "element": "div",
+      "classes": ["govuk-cookie-banner", "govuk-cookie-banner__message"],
+      "use": "Confirm a stored cookie choice and provide a way to hide the message."
+    }
+  ],
+  "behaviour": [
+    "Application code must store the preference, apply it before setting non-essential cookies and replace the question with a confirmation message.",
+    "Both accept and reject actions must work without client-side JavaScript, for example as ordinary form submissions.",
+    "Do not re-display the question on every page after the service has stored a valid preference."
+  ],
+  "accessibility": [
+    "Give the region a concise accessible name such as “Cookie banner”.",
+    "Make accept and reject actions equally prominent and keyboard operable.",
+    "Move focus only when testing shows it helps; do not unexpectedly trap or steal focus."
+  ],
+  "content": [
+    "Name the service and explain the purpose of the optional cookies in plain language.",
+    "Use explicit action labels such as “Accept analytics cookies” and “Reject analytics cookies”.",
+    "Link to a page where users can review and change their preference."
+  ],
+  "tokenRefs": [
+    "govuk.color.body-background",
+    "govuk.color.text",
+    "govuk.color.link",
+    "govuk.spacing.static.4"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Consent question",
+      "html": "<div class=\"govuk-cookie-banner\" data-nosnippet role=\"region\" aria-label=\"Cookie banner\">\n  <div class=\"govuk-cookie-banner__message govuk-width-container\">\n    <h2 class=\"govuk-cookie-banner__heading govuk-heading-m\">Cookies on Example service</h2>\n    <div class=\"govuk-cookie-banner__content\"><p class=\"govuk-body\">We use analytics cookies to understand how you use the service.</p></div>\n    <div class=\"govuk-button-group\">\n      <button class=\"govuk-button\" data-module=\"govuk-button\" type=\"submit\" name=\"cookies\" value=\"accept\">Accept analytics cookies</button>\n      <button class=\"govuk-button\" data-module=\"govuk-button\" type=\"submit\" name=\"cookies\" value=\"reject\">Reject analytics cookies</button>\n      <a class=\"govuk-link\" href=\"/cookies\">View cookie preferences</a>\n    </div>\n  </div>\n</div>"
+    }
+  ]
+}

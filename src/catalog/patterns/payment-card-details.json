@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "payment-card-details",
+  "name": "Payment card details",
+  "category": "pattern",
+  "group": "ask-users-for",
+  "summary": "Collect card details in a familiar order only when an approved payment platform cannot meet the service need.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/payment-card-details/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "First check whether GOV.UK Pay is suitable; use this pattern only when the service must build its own card-payment flow.",
+    "Present card number, expiry date, cardholder name and security code together in the order found on a card."
+  ],
+  "whenNotToUse": [
+    "Do not build a custom card flow without the required payment-security, fraud, privacy and compliance capability.",
+    "Do not store sensitive authentication data or expose card details in logs, URLs, analytics or error reports."
+  ],
+  "rules": [
+    "Accept familiar separators such as spaces and hyphens and normalise them safely.",
+    "Show accepted card types and progressively enhance card-type and security-code guidance; the base form must remain understandable without JavaScript.",
+    "Keep validation specific while avoiding disclosure of sensitive full card values."
+  ],
+  "accessibility": [
+    "Use text inputs with appropriate autocomplete and inputmode values, visible labels and associated hints.",
+    "Provide text equivalents for card-type icons and announce dynamic guidance changes without repeatedly interrupting entry."
+  ],
+  "componentRefs": ["text-input", "date-input", "error-message", "button"],
+  "relatedPatterns": ["validation", "confirmation-pages"]
+}

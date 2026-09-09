@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "validation",
+  "name": "Recover from validation errors",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Validate only information the service cannot use, then explain what is wrong and how the user can fix it without losing their work.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/validation/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Validate information that cannot be correct, is too ambiguous to use or is required but missing.",
+    "Minimise avoidable errors by asking clear questions and accepting unambiguous formatting variations."
+  ],
+  "whenNotToUse": [
+    "Do not use validation to decide eligibility or permission; route to an explanatory outcome page.",
+    "Do not use validation components for missing pages, unexpected system problems or planned service closure."
+  ],
+  "rules": [
+    "Add novalidate to forms, keep server-side validation authoritative and render the same accessible errors even when client-side checks are added.",
+    "Show an Error summary at the top, repeat each message beside the field and link summary items to their correction target.",
+    "Preserve all submitted values, focus the summary appropriately and write a specific message for each error state."
+  ],
+  "accessibility": [
+    "Associate inline errors through aria-describedby, add error styling to the form group and input, and include visually hidden “Error:” text.",
+    "Do not rely on colour, icons, browser-native bubbles or focus alone to communicate an error."
+  ],
+  "componentRefs": ["error-summary", "error-message", "text-input", "fieldset"],
+  "relatedPatterns": ["question-pages", "problem-with-the-service-pages", "page-not-found-pages", "service-unavailable-pages"]
+}

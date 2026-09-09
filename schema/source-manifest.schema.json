@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gilalvaro/govuk-design-md/blob/main/schema/source-manifest.schema.json",
+  "title": "GOV.UK source manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "reviewedAt", "upstreams", "inventories", "evidence"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "reviewedAt": { "type": "string", "format": "date" },
+    "upstreams": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["designSystem", "govukFrontend"],
+      "properties": {
+        "designSystem": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["url", "contentLicense"],
+          "properties": {
+            "url": { "type": "string", "format": "uri" },
+            "contentLicense": { "const": "OGL-UK-3.0" }
+          }
+        },
+        "govukFrontend": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["version", "package", "registryUrl", "repositoryUrl", "codeLicense"],
+          "properties": {
+            "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+            "package": { "const": "govuk-frontend" },
+            "registryUrl": { "type": "string", "format": "uri" },
+            "repositoryUrl": { "type": "string", "format": "uri" },
+            "codeLicense": { "const": "MIT" }
+          }
+        }
+      }
+    },
+    "inventories": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["styles", "components", "patterns"],
+      "properties": {
+        "styles": {
+          "allOf": [
+            { "$ref": "#/$defs/inventory" },
+            {
+              "properties": {
+                "items": {
+                  "items": { "$ref": "#/$defs/baseItem" }
+                }
+              }
+            }
+          ]
+        },
+        "components": {
+          "allOf": [
+            { "$ref": "#/$defs/inventory" },
+            {
+              "properties": {
+                "items": {
+                  "items": { "$ref": "#/$defs/componentItem" }
+                }
+              }
+            }
+          ]
+        },
+        "patterns": {
+          "allOf": [
+            { "$ref": "#/$defs/inventory" },
+            {
+              "properties": {
+                "items": {
+                  "items": { "$ref": "#/$defs/patternItem" }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["directory", "extractedAt", "pagesCrawled", "limitations"],
+      "properties": {
+        "directory": { "type": "string", "minLength": 1 },
+        "extractedAt": { "type": "string", "format": "date-time" },
+        "pagesCrawled": { "type": "integer", "minimum": 1 },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["indexUrl", "expectedCount", "items"],
+      "properties": {
+        "indexUrl": { "type": "string", "format": "uri" },
+        "expectedCount": { "type": "integer", "minimum": 1 },
+        "items": {
+          "type": "array",
+          "minItems": 1
+        }
+      }
+    },
+    "baseItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "url"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "componentItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "url", "status", "implementationId"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "status": { "enum": ["stable", "trial", "deprecated"] },
+        "implementationId": { "$ref": "#/$defs/id" }
+      }
+    },
+    "patternItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "url", "group"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "group": { "enum": ["ask-users-for", "help-users-to", "pages"] }
+      }
+    }
+  }
+}

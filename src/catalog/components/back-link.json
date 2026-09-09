@@ -1,0 +1,77 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "back-link",
+  "name": "Back link",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a back link to return users to the previous page, in its previous state, within a multi-page transaction.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/back-link/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/back-link",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Always include a back link on question pages in a GOV.UK service.",
+    "Use it on another page in a multi-page transaction when returning to the previous state helps users."
+  ],
+  "whenNotToUse": [
+    "Never use a back link and breadcrumbs together on the same page.",
+    "Do not use it as a general navigation link to an unrelated or fixed destination."
+  ],
+  "anatomy": [
+    {
+      "name": "Anchor",
+      "required": true,
+      "description": "A real href returns to the previous page and retains its state without requiring JavaScript."
+    },
+    {
+      "name": "Label",
+      "required": true,
+      "description": "Usually “Back”; a complex journey may name the destination to remove ambiguity."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "a",
+      "classes": ["govuk-back-link"],
+      "use": "At the top of an ordinary service page."
+    },
+    {
+      "id": "inverse",
+      "name": "Inverse",
+      "element": "a",
+      "classes": ["govuk-back-link", "govuk-back-link--inverse"],
+      "use": "On a dark background that maintains at least 4.5:1 contrast with white."
+    }
+  ],
+  "behaviour": [
+    "Place the link before the main element so the page skip link can bypass it with other navigation.",
+    "Prefer a server-generated href. If it cannot work without JavaScript, hide it until JavaScript is available.",
+    "Return the user to the prior page as they last saw it, including entered state."
+  ],
+  "accessibility": [
+    "Keep native anchor semantics and a visible focus indicator.",
+    "Do not move the link into main solely to silence automated landmark warnings; official guidance places it before main.",
+    "For the inverse variant, verify white link contrast against the actual background."
+  ],
+  "content": [
+    "Use “Back” for a simple linear journey.",
+    "For a complex journey use specific text such as “Go back to applications” when “Back” is unclear."
+  ],
+  "tokenRefs": [
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.inverse-text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Default back link",
+      "html": "<a href=\"/previous-step\" class=\"govuk-back-link\">Back</a>"
+    }
+  ]
+}

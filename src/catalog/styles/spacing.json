@@ -1,0 +1,51 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "spacing",
+  "name": "Spacing",
+  "category": "style",
+  "group": "page-structure",
+  "summary": "Use the GOV.UK static and responsive spacing scales to maintain a consistent vertical rhythm and predictable component separation.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/spacing/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/settings/_spacing.scss",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Use responsive spacing for page and component layout unless a measurement must remain fixed across breakpoints.",
+    "Spacing units 0 to 3 stay fixed; responsive units 4 to 9 increase at the tablet breakpoint.",
+    "In Sass, prefer govuk-responsive-margin, govuk-responsive-padding and govuk-spacing helpers.",
+    "In HTML, use GOV.UK spacing override classes sparingly and only when a component's default spacing does not fit the content relationship.",
+    "Keep additions on the 5px-based scale rather than inventing arbitrary near-values."
+  ],
+  "accessibility": [
+    "Spacing must survive text resizing and content expansion without clipping or overlap.",
+    "Do not use whitespace instead of semantic grouping or headings.",
+    "Do not tighten interactive controls below their usable pointer and touch target area."
+  ],
+  "restrictions": [
+    "Avoid chains of override classes that obscure the component's intended layout.",
+    "Do not use negative spacing points unless the official helper explicitly supports the property and the result has been tested."
+  ],
+  "tokenRefs": [
+    "govuk.spacing.static.0",
+    "govuk.spacing.static.1",
+    "govuk.spacing.static.2",
+    "govuk.spacing.static.3",
+    "govuk.spacing.static.4",
+    "govuk.spacing.static.5",
+    "govuk.spacing.static.6",
+    "govuk.spacing.static.7",
+    "govuk.spacing.static.8",
+    "govuk.spacing.static.9",
+    "govuk.breakpoint.tablet"
+  ],
+  "examples": [
+    {
+      "name": "Reviewed spacing override",
+      "language": "html",
+      "code": "<p class=\"govuk-body govuk-!-margin-bottom-6\">Related content</p>"
+    }
+  ]
+}

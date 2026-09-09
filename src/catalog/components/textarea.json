@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "textarea",
+  "name": "Textarea",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a textarea when users need to enter more than one line of free text.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/textarea/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/textarea",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when the expected answer may contain sentences or several lines.",
+    "Set rows to suggest a useful starting height without restricting how much users can enter."
+  ],
+  "whenNotToUse": [
+    "Use a Text input for a short single-line answer.",
+    "Use Character count when a genuine, user-understood maximum length must be enforced.",
+    "Do not ask for large free-text answers when structured questions would be easier to answer and process."
+  ],
+  "anatomy": [
+    {
+      "name": "Form group",
+      "required": true,
+      "description": "Groups the visible label, optional hint, optional error and textarea."
+    },
+    {
+      "name": "Label",
+      "required": true,
+      "description": "A visible label is associated using for and id."
+    },
+    {
+      "name": "Native textarea",
+      "required": true,
+      "description": "The govuk-textarea supports multi-line input and browser resizing."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "textarea",
+      "classes": ["govuk-textarea"],
+      "use": "A multi-line answer without a strict character limit."
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "element": "textarea",
+      "classes": ["govuk-textarea", "govuk-textarea--error"],
+      "use": "Redisplay an invalid answer with a linked error message."
+    }
+  ],
+  "behaviour": [
+    "The base textarea requires no GOV.UK JavaScript.",
+    "Allow native resizing and retain the submitted answer after recoverable validation errors.",
+    "Validate on the server and store line breaks safely."
+  ],
+  "accessibility": [
+    "Associate a visible label and reference hint and error IDs in aria-describedby.",
+    "Do not use placeholder text instead of a label or hint.",
+    "Do not disable browser resizing or clip enlarged text."
+  ],
+  "content": [
+    "Ask a focused question and explain what information to include.",
+    "Say how the answer will be used when users may disclose sensitive information.",
+    "Avoid unnecessary maximum lengths; when one is necessary explain it before input."
+  ],
+  "tokenRefs": [
+    "govuk.color.input-border",
+    "govuk.color.error",
+    "govuk.color.focus",
+    "govuk.color.focus-text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "More detail",
+      "html": "<div class=\"govuk-form-group\">\n  <label class=\"govuk-label\" for=\"more-detail\">Can you provide more detail?</label>\n  <textarea class=\"govuk-textarea\" id=\"more-detail\" name=\"moreDetail\" rows=\"5\"></textarea>\n</div>"
+    }
+  ]
+}

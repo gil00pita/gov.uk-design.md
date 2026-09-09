@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "cookies-page",
+  "name": "Cookies page",
+  "category": "pattern",
+  "group": "pages",
+  "summary": "Explain every cookie the service sets and let users review and change consent for categories of non-essential cookies.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/cookies-page/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Provide a cookies page whenever the service stores cookies or similar data on a user’s device.",
+    "Let users change optional-cookie preferences after responding to the Cookie banner."
+  ],
+  "whenNotToUse": [
+    "Do not present strictly necessary cookies as optional or set non-essential cookies before a valid consent choice.",
+    "Do not use generic copied cookie lists that differ from what the deployed service actually sets."
+  ],
+  "rules": [
+    "Explain what cookies are, why the service uses each category and that essential cookies do not require consent.",
+    "For each cookie list its name, purpose and expiry, and keep the page synchronised with production behaviour and third parties.",
+    "Provide equivalent accept and reject controls for optional categories, store the choice and confirm when it changes."
+  ],
+  "accessibility": [
+    "Use properly captioned tables with scoped headers and real form controls with a fieldset and legend for each choice group.",
+    "Make saving preferences work without JavaScript and expose the outcome in a clear notification."
+  ],
+  "componentRefs": ["cookie-banner", "table", "radios", "button", "notification-banner"],
+  "relatedPatterns": []
+}

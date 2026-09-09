@@ -1,0 +1,81 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "exit-this-page",
+  "name": "Exit this page",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use Exit this page in sensitive services when viewing the page could put someone at risk and they may need to leave immediately.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/exit-this-page/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/exit-this-page",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use only when sensitive page content could place a user in danger if another person sees it.",
+    "Use it as part of the complete GOV.UK pattern for leaving a page quickly, including the secondary hidden exit link and service-level safety decisions."
+  ],
+  "whenNotToUse": [
+    "Do not use as a normal close, cancel, sign-out or back control.",
+    "Do not assume the component clears browser history, hides network activity or guarantees a user’s safety."
+  ],
+  "anatomy": [
+    {
+      "name": "Exit container",
+      "required": true,
+      "description": "The component module coordinates pointer, keyboard and repeated-key activation."
+    },
+    {
+      "name": "Warning action",
+      "required": true,
+      "description": "A warning-styled link has button semantics and navigates to a safer neutral destination."
+    },
+    {
+      "name": "Hidden emergency context",
+      "required": true,
+      "description": "Visually hidden text makes the urgency clear without lengthening the visible label."
+    },
+    {
+      "name": "Secondary exit link",
+      "required": false,
+      "description": "The complete pattern includes an early hidden link to the same destination for assistive-technology users."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "a",
+      "classes": ["govuk-button", "govuk-button--warning", "govuk-exit-this-page__button"],
+      "use": "A prominent emergency exit action near the top of a sensitive page."
+    }
+  ],
+  "behaviour": [
+    "Initialise govuk-exit-this-page so the button supports the documented rapid keyboard gesture and enhanced loading feedback.",
+    "The ordinary href must navigate immediately when JavaScript is unavailable.",
+    "Choose a neutral, non-personalised destination and consider clearing sensitive application session data before redirecting."
+  ],
+  "accessibility": [
+    "Position the action early in the page inside the width container and keep its focus treatment visible.",
+    "Provide the companion hidden exit link described by the full pattern, pointing to the same destination.",
+    "Test wording, placement and destination with people who face the relevant safety risk."
+  ],
+  "content": [
+    "Keep the visible label direct, normally “Exit this page”.",
+    "Use visually hidden context such as “Emergency” where it makes the action clearer to screen-reader users.",
+    "Explain any limitations or additional safety advice elsewhere in the service without delaying the exit action."
+  ],
+  "tokenRefs": [
+    "govuk.color.error",
+    "govuk.color.inverse-text",
+    "govuk.color.focus",
+    "govuk.color.focus-text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Emergency exit action",
+      "html": "<div class=\"govuk-exit-this-page\" data-module=\"govuk-exit-this-page\">\n  <a href=\"https://www.bbc.co.uk/weather\" role=\"button\" draggable=\"false\" class=\"govuk-button govuk-button--warning govuk-exit-this-page__button govuk-js-exit-this-page-button\" data-module=\"govuk-button\" rel=\"nofollow noreferrer\">\n    <span class=\"govuk-visually-hidden\">Emergency</span> Exit this page\n  </a>\n</div>"
+    }
+  ]
+}

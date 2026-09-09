@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "equality-information",
+  "name": "Equality information",
+  "category": "pattern",
+  "group": "ask-users-for",
+  "summary": "Collect optional equality information consistently for monitoring and public-sector equality work, separately from operational questions.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/equality-information/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use the harmonised standards when collecting equality information to monitor access, representation or outcomes.",
+    "Explain why the questions are separate, how answers will be used and that answering is optional."
+  ],
+  "whenNotToUse": [
+    "Do not use this monitoring pattern for operational decisions or where legislation requires information to be asked differently.",
+    "Do not make equality questions a condition of completing the service."
+  ],
+  "rules": [
+    "For a one-off service, place the optional questions after check answers and before confirmation, preceded by an explanation page.",
+    "Use the current harmonised question wording and response options; review the official page rather than recreating categories from memory.",
+    "Protect sensitive responses, minimise access and define retention and analysis purposes before collection."
+  ],
+  "accessibility": [
+    "Use fieldsets and legends for every response group and include inclusive options such as a preference not to answer where guidance specifies it.",
+    "Test language and response options with affected groups and ensure conditional follow-up controls work without excluding assistive-technology users."
+  ],
+  "componentRefs": ["fieldset", "radios", "checkboxes", "details"],
+  "relatedPatterns": ["check-answers", "confirmation-pages", "question-pages"]
+}

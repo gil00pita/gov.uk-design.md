@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "character-count",
+  "name": "Character count",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use Character count when a textarea has a genuine maximum number of characters or words that users need help meeting.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/character-count/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/character-count",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when a back-end or downstream process imposes a real maximum and users benefit from seeing what remains.",
+    "Choose either a character limit or word limit that matches the actual validation rule."
+  ],
+  "whenNotToUse": [
+    "Do not impose a limit only to keep stored answers or layouts convenient.",
+    "Use an ordinary Textarea if users do not need a strict maximum."
+  ],
+  "anatomy": [
+    {
+      "name": "Character-count form group",
+      "required": true,
+      "description": "The container carries data-module and one max-length or max-words configuration."
+    },
+    {
+      "name": "Textarea",
+      "required": true,
+      "description": "A govuk-textarea govuk-js-character-count control has a label and references the count message."
+    },
+    {
+      "name": "Count message",
+      "required": true,
+      "description": "A uniquely identified hint provides the limit before enhancement and live remaining-count updates after enhancement."
+    }
+  ],
+  "variants": [
+    {
+      "id": "characters",
+      "name": "Character limit",
+      "element": "div",
+      "classes": ["govuk-character-count"],
+      "use": "A limit defined in characters using data-maxlength."
+    },
+    {
+      "id": "words",
+      "name": "Word limit",
+      "element": "div",
+      "classes": ["govuk-character-count"],
+      "use": "A limit defined in words using data-maxwords."
+    }
+  ],
+  "behaviour": [
+    "Initialise the official govuk-character-count module and keep its govuk-js hook classes.",
+    "Without JavaScript, show a static message describing the maximum and enforce the same rule on the server.",
+    "Do not rely on the HTML maxlength attribute as the only validation because it can prevent users from seeing how much they exceeded the limit."
+  ],
+  "accessibility": [
+    "Associate the visible label and add the message ID to aria-describedby.",
+    "Use the module's throttled screen-reader announcements rather than creating a live update for every keystroke.",
+    "On error, link the error message and explain how far the answer exceeds the limit."
+  ],
+  "content": [
+    "Tell users the maximum before they type and whether it counts words or characters.",
+    "Phrase remaining and exceeded messages consistently and localise all module messages.",
+    "Do not encourage users to fill the full allowance."
+  ],
+  "tokenRefs": [
+    "govuk.color.secondary-text",
+    "govuk.color.error",
+    "govuk.color.input-border",
+    "govuk.color.focus"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Ten-character limit",
+      "html": "<div class=\"govuk-form-group govuk-character-count\" data-module=\"govuk-character-count\" data-maxlength=\"10\">\n  <label class=\"govuk-label\" for=\"more-detail\">Can you provide more detail?</label>\n  <textarea class=\"govuk-textarea govuk-js-character-count\" id=\"more-detail\" name=\"moreDetail\" rows=\"5\" aria-describedby=\"more-detail-info\"></textarea>\n  <div id=\"more-detail-info\" class=\"govuk-hint govuk-character-count__message\">You can enter up to 10 characters</div>\n</div>"
+    }
+  ]
+}

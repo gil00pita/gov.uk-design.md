@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "page-template",
+  "name": "Page template",
+  "category": "style",
+  "group": "page-structure",
+  "summary": "Use the GOV.UK page template to supply the document structure, assets and shared components required for a consistent GOV.UK page.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/page-template/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/template.njk",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Prefer the Nunjucks page template supplied by GOV.UK Frontend so template changes arrive with dependency updates.",
+    "When translating the template to another framework, preserve the document language, UTF-8 declaration, viewport-fit setting, theme colour, body classes, asset links, skip link, header, main landmark, footer and JavaScript initialisation.",
+    "Run the official body-start support snippet before rendering enhanced components; it adds js-enabled and govuk-frontend-supported only in capable browsers.",
+    "Place the main page content in a uniquely identified main element targeted by the skip link."
+  ],
+  "accessibility": [
+    "Set the html lang attribute to the language of the page and use pageTitleLang or equivalent when the title differs.",
+    "Keep the skip link as the first useful focusable control and make its target ID resolve to the main landmark.",
+    "Set a unique, descriptive page title and retain browser zoom by using the official viewport declaration.",
+    "Do not hide unenhanced component content while waiting for JavaScript."
+  ],
+  "restrictions": [
+    "The default GOV.UK header, footer, crown, favicon and other identity assets are only for eligible services; non-GOV.UK services must follow the official unbranded configuration guidance.",
+    "Plain HTML copies do not receive upstream template fixes automatically and must be reviewed whenever GOV.UK Frontend changes."
+  ],
+  "tokenRefs": [
+    "govuk.color.brand",
+    "govuk.color.body-background",
+    "govuk.color.template-background",
+    "govuk.layout.page-width"
+  ],
+  "examples": [
+    {
+      "name": "Essential document shell",
+      "language": "html",
+      "code": "<!doctype html>\n<html class=\"govuk-template\" lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n    <title>Service page</title>\n    <link rel=\"stylesheet\" href=\"/assets/govuk-frontend.min.css\">\n  </head>\n  <body class=\"govuk-template__body\">\n    <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>\n    <a class=\"govuk-skip-link\" href=\"#main-content\" data-module=\"govuk-skip-link\">Skip to main content</a>\n    <main class=\"govuk-main-wrapper\" id=\"main-content\"></main>\n  </body>\n</html>"
+    }
+  ]
+}

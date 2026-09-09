@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "pagination",
+  "name": "Pagination",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use pagination to help users move through a collection split across several pages.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/pagination/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/pagination",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when a long result set or collection is meaningfully divided into pages.",
+    "Use block-style previous and next links for content pages where destination labels help orientation."
+  ],
+  "whenNotToUse": [
+    "Do not paginate a short list that is easier to scan on one page.",
+    "Do not use pagination to represent steps in a transaction."
+  ],
+  "anatomy": [
+    {
+      "name": "Pagination navigation",
+      "required": true,
+      "description": "A nav landmark has a concise pagination label."
+    },
+    {
+      "name": "Previous and next links",
+      "required": false,
+      "description": "Directional links use rel=prev or rel=next and hidden “page” context."
+    },
+    {
+      "name": "Page list",
+      "required": false,
+      "description": "Numbered links include accessible page labels and identify the current page."
+    }
+  ],
+  "variants": [
+    {
+      "id": "numbered",
+      "name": "Numbered",
+      "element": "nav",
+      "classes": ["govuk-pagination"],
+      "use": "A results collection where users may move to a particular page."
+    },
+    {
+      "id": "block",
+      "name": "Block previous and next",
+      "element": "nav",
+      "classes": ["govuk-pagination", "govuk-pagination--block"],
+      "use": "Sequential content where descriptive previous and next labels help users."
+    }
+  ],
+  "behaviour": [
+    "Every destination is a normal server-resolvable link; no GOV.UK JavaScript module is required.",
+    "Omit previous on the first page and next on the last page instead of rendering disabled links.",
+    "Preserve active filters and sorting in pagination URLs."
+  ],
+  "accessibility": [
+    "Set aria-current=\"page\" on the current page link.",
+    "Give numbered links accessible names such as “Page 3”; hidden context distinguishes Previous page and Next page.",
+    "Hide decorative arrow SVGs using aria-hidden and focusable=false."
+  ],
+  "content": [
+    "Use “Previous” and “Next” consistently.",
+    "For block navigation, add a concise label that names the destination content.",
+    "Do not show every page number when a large range would become difficult to scan."
+  ],
+  "tokenRefs": [
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.border"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Previous and next links",
+      "html": "<nav class=\"govuk-pagination\" aria-label=\"Pagination\">\n  <div class=\"govuk-pagination__prev\"><a class=\"govuk-link govuk-pagination__link\" href=\"?page=1\" rel=\"prev\"><span class=\"govuk-pagination__link-title\">Previous<span class=\"govuk-visually-hidden\"> page</span></span></a></div>\n  <div class=\"govuk-pagination__next\"><a class=\"govuk-link govuk-pagination__link\" href=\"?page=3\" rel=\"next\"><span class=\"govuk-pagination__link-title\">Next<span class=\"govuk-visually-hidden\"> page</span></span></a></div>\n</nav>"
+    }
+  ]
+}

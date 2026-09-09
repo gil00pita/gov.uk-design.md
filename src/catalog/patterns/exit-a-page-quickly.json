@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "exit-a-page-quickly",
+  "name": "Exit a page quickly",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Provide a rapid exit action, an accessible secondary route and supporting safety content for sensitive services where discovery could put a user at risk.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/exit-a-page-quickly/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when service information could expose a user to abuse, retaliation, stalking or another credible safety risk.",
+    "Design the component together with an interruption page and online-safety content."
+  ],
+  "whenNotToUse": [
+    "Do not present the pattern as a guarantee that browser history, network activity or device monitoring is hidden.",
+    "For a standalone content page, follow the current component guidance to decide whether the Exit this page component alone is more appropriate."
+  ],
+  "rules": [
+    "Choose a fast neutral external destination, use the Exit this page component and add its secondary hidden link for assistive-technology users.",
+    "Provide the documented loading overlay and ordinary-link fallback, and consider clearing sensitive service session data before redirecting.",
+    "Create an interruption page explaining the exit and a separate safety page; test both with people who face the identified risk."
+  ],
+  "accessibility": [
+    "Place the control predictably near the start of service pages and make every activation route keyboard and screen-reader operable.",
+    "Do not delay navigation with confirmation, animation or analytics and do not depend on JavaScript for the basic exit."
+  ],
+  "componentRefs": ["exit-this-page", "button"],
+  "relatedPatterns": ["interruption-pages"]
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "inset-text",
+  "name": "Inset text",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use inset text to distinguish a short block of supporting information from the content around it.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/inset-text/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/inset-text",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for important supplementary information that users should notice but that is not a warning or success state.",
+    "Use for a short block that benefits from visual separation within the flow of the page."
+  ],
+  "whenNotToUse": [
+    "Do not use for warnings about serious consequences; use Warning text.",
+    "Do not use for successful completion; use a Panel where appropriate.",
+    "Do not place most of a page inside inset text."
+  ],
+  "anatomy": [
+    {
+      "name": "Inset container",
+      "required": true,
+      "description": "A govuk-inset-text container provides the reviewed left border and spacing."
+    },
+    {
+      "name": "Supporting content",
+      "required": true,
+      "description": "Concise text or simple semantic content explains the supporting point."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "div",
+      "classes": ["govuk-inset-text"],
+      "use": "A short supporting block on the standard page background."
+    }
+  ],
+  "behaviour": [
+    "The component has no JavaScript behaviour and remains ordinary document content without CSS.",
+    "Keep it in the reading order at the point where its information is relevant."
+  ],
+  "accessibility": [
+    "The left border is decorative; the wording must carry the full meaning.",
+    "Add semantic headings, lists or links inside only when the content requires them.",
+    "Do not use colour or placement alone to indicate urgency."
+  ],
+  "content": [
+    "Keep the message concise and directly related to the surrounding task.",
+    "Use ordinary sentence case and avoid a heading unless it helps users scan a longer inset."
+  ],
+  "tokenRefs": [
+    "govuk.color.border",
+    "govuk.color.text",
+    "govuk.border.standard",
+    "govuk.spacing.static.3"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Processing-time information",
+      "html": "<div class=\"govuk-inset-text\">\n  It can take up to 8 weeks to register a lasting power of attorney.\n</div>"
+    }
+  ]
+}

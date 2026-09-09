@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "table",
+  "name": "Table",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a table to let users compare structured data across rows and columns.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/table/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/table",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when information has consistent row and column relationships that users need to compare.",
+    "Use numeric column classes for numbers that benefit from right alignment and tabular figures."
+  ],
+  "whenNotToUse": [
+    "Do not use a table for page layout.",
+    "Do not use for a simple key-value record; use a Summary list.",
+    "Do not put unrelated content into columns only to save vertical space."
+  ],
+  "anatomy": [
+    {
+      "name": "Table and caption",
+      "required": true,
+      "description": "A govuk-table has a descriptive caption, which may be visually hidden if an equivalent heading is already present."
+    },
+    {
+      "name": "Column headings",
+      "required": true,
+      "description": "A thead uses th scope=col for each column label."
+    },
+    {
+      "name": "Body rows",
+      "required": true,
+      "description": "Rows contain th scope=row where the first cell identifies the row, followed by data cells."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "table",
+      "classes": ["govuk-table"],
+      "use": "Textual row-and-column data."
+    },
+    {
+      "id": "numeric",
+      "name": "Numeric columns",
+      "element": "th",
+      "classes": ["govuk-table__header", "govuk-table__header--numeric"],
+      "use": "Values such as prices, counts and measurements that should align by digit."
+    }
+  ],
+  "behaviour": [
+    "The table has no GOV.UK JavaScript behaviour.",
+    "For narrow screens, simplify columns or provide an intentional responsive treatment without changing relationships.",
+    "If sorting is added, use a separately tested accessible pattern; base GOV.UK Table is not sortable."
+  ],
+  "accessibility": [
+    "Provide a caption and use scope attributes so headers are associated with their data.",
+    "Keep a logical source order and do not rely on colour or position alone for meaning.",
+    "Avoid horizontal scrolling for ordinary data; when unavoidable, keep keyboard access and visible context."
+  ],
+  "content": [
+    "Use concise column headings with consistent units and formatting.",
+    "Align comparable numeric values and include currency or measurement units clearly.",
+    "Do not leave ambiguous empty cells; use meaningful text when absence itself matters."
+  ],
+  "tokenRefs": [
+    "govuk.color.border",
+    "govuk.color.text",
+    "govuk.typography.weight.bold",
+    "govuk.typography.scale.19.mobile-font-size"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Monthly costs",
+      "html": "<table class=\"govuk-table\">\n  <caption class=\"govuk-table__caption govuk-table__caption--m\">Monthly costs</caption>\n  <thead class=\"govuk-table__head\"><tr class=\"govuk-table__row\"><th scope=\"col\" class=\"govuk-table__header\">Month</th><th scope=\"col\" class=\"govuk-table__header govuk-table__header--numeric\">Amount</th></tr></thead>\n  <tbody class=\"govuk-table__body\"><tr class=\"govuk-table__row\"><th scope=\"row\" class=\"govuk-table__header\">January</th><td class=\"govuk-table__cell govuk-table__cell--numeric\">£85</td></tr></tbody>\n</table>"
+    }
+  ]
+}

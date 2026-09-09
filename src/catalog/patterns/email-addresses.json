@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "email-addresses",
+  "name": "Email addresses",
+  "category": "pattern",
+  "group": "ask-users-for",
+  "summary": "Ask for an email address in one field, explain why it is needed and accept the broad range of valid addresses users may have.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/email-addresses/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use whenever the service genuinely needs to capture an email address.",
+    "Explain the purpose, especially when it will be used for receipts, updates or account recovery."
+  ],
+  "whenNotToUse": [
+    "Do not assume every user has reliable access to email when another channel can meet the need.",
+    "Do not add a confirmation loop unless the separate Confirm an email address pattern’s high-impact conditions apply."
+  ],
+  "rules": [
+    "Use a single type=email text input with autocomplete=email and spellcheck disabled.",
+    "Accept valid address characters and avoid validation rules that reject uncommon but valid domains or formats.",
+    "Let users paste and correct the address; do not ask them to type it twice."
+  ],
+  "accessibility": [
+    "Use a visible label and connect the purpose hint and any specific error to the input.",
+    "Do not rely on browser-native validation messages; use the service’s accessible validation flow."
+  ],
+  "componentRefs": ["text-input", "error-message"],
+  "relatedPatterns": ["confirm-an-email-address", "validation"]
+}

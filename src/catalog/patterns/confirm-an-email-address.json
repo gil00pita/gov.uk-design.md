@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "confirm-an-email-address",
+  "name": "Confirm an email address",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Check that a user currently has access to an email account using a carefully designed confirmation link or code loop.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/confirm-an-email-address/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use only when critical functionality depends on email or a mistyped address could expose sensitive information to someone else.",
+    "Choose a blocking or non-blocking loop according to the risk and the user’s need to continue."
+  ],
+  "whenNotToUse": [
+    "Do not confirm email by default for low-impact messages or receipts.",
+    "Do not treat a confirmed address as proof of identity; it only proves access at the time of confirmation."
+  ],
+  "rules": [
+    "Make confirmation links single-use and time-limited, and expire them when superseded or when the account email changes.",
+    "Let users resend the message and change a mistyped address without losing journey data.",
+    "Explain that the user must switch to email and return, and design the activation landing page for both same-device and cross-device use."
+  ],
+  "accessibility": [
+    "Write a clear email subject and link purpose, and do not rely on a long raw URL as the only activation route.",
+    "Provide support or an alternative path for users who cannot access email and make status messages available to assistive technology."
+  ],
+  "componentRefs": ["text-input", "button", "notification-banner"],
+  "relatedPatterns": ["email-addresses", "create-accounts"]
+}

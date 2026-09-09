@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "feedback",
+  "name": "Feedback",
+  "category": "component",
+  "status": "trial",
+  "summary": "Use the Feedback component to give users a consistent, low-distraction route for sharing their experience of a service.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/feedback/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/feedback",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use on as many service pages as practical when the team has a feedback route it monitors.",
+    "Place immediately before the footer so it remains available without distracting from the current task."
+  ],
+  "whenNotToUse": [
+    "Do not use when feedback is not reviewed or cannot influence the service.",
+    "Do not use it as a replacement for a support route when users need help completing a task."
+  ],
+  "anatomy": [
+    {
+      "name": "Feedback region",
+      "required": true,
+      "description": "A govuk-feedback container uses the standard width and grid."
+    },
+    {
+      "name": "Title",
+      "required": true,
+      "description": "A configurable heading identifies the invitation."
+    },
+    {
+      "name": "Message and link",
+      "required": true,
+      "description": "Brief body copy explains why feedback is useful and links to the feedback route."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "div",
+      "classes": ["govuk-feedback", "govuk-width-container"],
+      "use": "The service-wide invitation shown before the footer."
+    }
+  ],
+  "behaviour": [
+    "The component has no GOV.UK JavaScript behaviour; its link must work without JavaScript.",
+    "In the Nunjucks page template, place it in footerStart so document order remains consistent.",
+    "Treat this Trial component as changeable and review it on every GOV.UK Frontend update."
+  ],
+  "accessibility": [
+    "Set headingLevel so the title fits the page's heading hierarchy.",
+    "Make the feedback link purpose clear from its text and surrounding sentence.",
+    "Distinguish feedback from urgent help and provide an accessible support route elsewhere."
+  ],
+  "content": [
+    "Explain why feedback is requested and what the team will do with it.",
+    "Where useful, say how long providing feedback will take and distinguish it from support.",
+    "Use a direct label such as “Give us your feedback”."
+  ],
+  "tokenRefs": [
+    "govuk.color.surface-background",
+    "govuk.color.text",
+    "govuk.color.link",
+    "govuk.layout.page-width"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Service feedback invitation",
+      "html": "<div class=\"govuk-feedback govuk-width-container\">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-two-thirds\">\n      <h2 class=\"govuk-feedback__title\">Help us improve this service</h2>\n      <div class=\"govuk-feedback__body\">\n        <p class=\"govuk-body\">Tell us about your experience using this service. <a href=\"/feedback\" class=\"govuk-link\">Give us your feedback</a></p>\n      </div>\n    </div>\n  </div>\n</div>"
+    }
+  ]
+}

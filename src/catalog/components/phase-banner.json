@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "phase-banner",
+  "name": "Phase banner",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a phase banner to show that a service is in alpha or beta and give users a way to provide feedback.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/phase-banner/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/phase-banner",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when a public service is genuinely in alpha or beta and users should understand its development status.",
+    "Provide a working feedback route that the team monitors and can act on."
+  ],
+  "whenNotToUse": [
+    "Do not use a phase banner as a substitute for explaining known limitations or service availability.",
+    "Do not retain an alpha or beta label after the service no longer meets that lifecycle stage."
+  ],
+  "anatomy": [
+    {
+      "name": "Banner container",
+      "required": true,
+      "description": "A govuk-phase-banner sits inside the standard width context near the top of the page."
+    },
+    {
+      "name": "Phase tag",
+      "required": true,
+      "description": "A GOV.UK Tag contains the current phase label."
+    },
+    {
+      "name": "Feedback message",
+      "required": true,
+      "description": "Short text explains that the service is developing and contains a feedback link."
+    }
+  ],
+  "variants": [
+    {
+      "id": "alpha",
+      "name": "Alpha",
+      "element": "div",
+      "classes": ["govuk-phase-banner"],
+      "use": "An alpha service being tested and iterated."
+    },
+    {
+      "id": "beta",
+      "name": "Beta",
+      "element": "div",
+      "classes": ["govuk-phase-banner"],
+      "use": "A beta service available to users while continuing to improve."
+    }
+  ],
+  "behaviour": [
+    "No GOV.UK JavaScript module is required.",
+    "Place the banner consistently below the header or service navigation and before main content.",
+    "The feedback link must work without JavaScript."
+  ],
+  "accessibility": [
+    "The phase is visible text inside the tag rather than a colour-only badge.",
+    "Use descriptive feedback-link text when the surrounding sentence would not be announced with it.",
+    "Preserve link focus and visited-state behaviour."
+  ],
+  "content": [
+    "Use the actual service phase label, usually “Alpha” or “Beta”.",
+    "Keep the message short and explain that feedback helps improve the service.",
+    "Link directly to the feedback mechanism rather than a generic homepage."
+  ],
+  "tokenRefs": [
+    "govuk.color.border",
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.spacing.static.2"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Alpha phase banner",
+      "html": "<div class=\"govuk-phase-banner\">\n  <p class=\"govuk-phase-banner__content\">\n    <strong class=\"govuk-tag govuk-phase-banner__content__tag\">Alpha</strong>\n    <span class=\"govuk-phase-banner__text\">This is a new service – your <a href=\"/feedback\" class=\"govuk-link\">feedback</a> will help us to improve it.</span>\n  </p>\n</div>"
+    }
+  ]
+}

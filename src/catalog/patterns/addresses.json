@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "addresses",
+  "name": "Addresses",
+  "category": "pattern",
+  "group": "ask-users-for",
+  "summary": "Help users provide an address using separate fields, an address lookup with a manual fallback, or a textarea chosen for the service’s data needs.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/addresses/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use whenever an address is genuinely required to deliver the service.",
+    "Choose the input approach according to the countries covered and whether the service needs structured address parts."
+  ],
+  "whenNotToUse": [
+    "Do not force international addresses into a UK-only structure or lookup.",
+    "Do not collect county or other address parts unless the service uses them."
+  ],
+  "rules": [
+    "Use separate fields when supported countries share a workable structure; keep address line 2 and county optional unless there is a proven need.",
+    "For a UK address lookup, accept flexible postcode formatting and always provide a clear manual-entry route.",
+    "Use a textarea with autocomplete=street-address only when free-form addresses are usable and structured parts are unnecessary."
+  ],
+  "accessibility": [
+    "Apply the correct autocomplete purpose to each address field and associate every hint and error with its input.",
+    "Make lookup results and the manual alternative keyboard and screen-reader accessible, including when JavaScript fails."
+  ],
+  "componentRefs": ["fieldset", "text-input", "textarea", "error-message"],
+  "relatedPatterns": ["validation"]
+}

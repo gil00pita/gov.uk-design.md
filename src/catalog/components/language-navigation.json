@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "language-navigation",
+  "name": "Language navigation",
+  "category": "component",
+  "status": "trial",
+  "summary": "Use Language navigation to let users identify the current language and switch to equivalent versions offered by the service.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/language-navigation/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/language-navigation",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when the service offers equivalent content or journeys in more than one language.",
+    "Keep the switcher consistently placed and preserve journey state where the service can do so safely."
+  ],
+  "whenNotToUse": [
+    "Do not show a language as available when the linked page or journey is incomplete.",
+    "Do not use country flags to represent languages."
+  ],
+  "anatomy": [
+    {
+      "name": "Language navigation landmark",
+      "required": true,
+      "description": "A nav has a localised aria-label describing the language choice."
+    },
+    {
+      "name": "Language list",
+      "required": true,
+      "description": "A list contains one item for each offered language."
+    },
+    {
+      "name": "Current language",
+      "required": true,
+      "description": "Non-link text has aria-current=true and an accurate lang attribute."
+    },
+    {
+      "name": "Alternative links",
+      "required": true,
+      "description": "Each link uses rel=alternate, lang and hreflang for the target language."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "nav",
+      "classes": ["govuk-language-navigation"],
+      "use": "A small language set on a standard background."
+    },
+    {
+      "id": "inverse",
+      "name": "Inverse",
+      "element": "nav",
+      "classes": ["govuk-language-navigation", "govuk-language-navigation--inverse"],
+      "use": "A supported dark-background location with verified contrast."
+    }
+  ],
+  "behaviour": [
+    "The component requires no GOV.UK JavaScript and all alternative links must be ordinary href navigation.",
+    "Retain relevant user data across language changes only where privacy, validation and service design allow it.",
+    "Review this Trial component when updating GOV.UK Frontend because its guidance or API may change."
+  ],
+  "accessibility": [
+    "Write each language name in that language and set lang so assistive technology pronounces it correctly.",
+    "Set dir on items when scripts have different writing directions.",
+    "Localise the navigation label and any visually hidden language-description text."
+  ],
+  "content": [
+    "Use the native name for each language, for example “Cymraeg”.",
+    "Do not abbreviate language names unless research shows the abbreviation is understood.",
+    "Keep equivalent pages aligned so switching language does not unexpectedly change the task."
+  ],
+  "tokenRefs": [
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.inverse-text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "English and Welsh navigation",
+      "html": "<nav class=\"govuk-language-navigation\" aria-label=\"Language\">\n  <ul class=\"govuk-language-navigation__list\">\n    <li class=\"govuk-language-navigation__list-item\"><span class=\"govuk-language-navigation__text\" aria-current=\"true\" lang=\"en\">English</span></li>\n    <li class=\"govuk-language-navigation__list-item\"><a class=\"govuk-language-navigation__link\" href=\"/cy\" rel=\"alternate\" lang=\"cy\" hreflang=\"cy\">Cymraeg</a></li>\n  </ul>\n</nav>"
+    }
+  ]
+}

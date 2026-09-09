@@ -1,0 +1,59 @@
+{
+  "name": "govuk-design-md",
+  "version": "0.4.0",
+  "description": "Installable, AI-readable GOV.UK Design System guidance",
+  "type": "module",
+  "bin": {
+    "govuk-design-md": "bin/govuk-design-md.js"
+  },
+  "files": [
+    "adapters",
+    "agents",
+    "bin",
+    "design",
+    "docs",
+    "frameworks",
+    "schema",
+    "sources",
+    "tokens",
+    "catalog.json",
+    "DESIGN.md",
+    "PLAN.md",
+    "LICENSE",
+    "LICENSE-CODE.md",
+    "LICENSE-CONTENT.md",
+    "NOTICE.md",
+    "README.md"
+  ],
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "validate": "node scripts/validate.mjs",
+    "test": "node --test",
+    "evals:validate": "node scripts/validate-evals.mjs",
+    "check": "npm run validate && npm run evals:validate && npm test",
+    "pack:check": "node scripts/pack-check.mjs",
+    "release:archive": "node scripts/release-archive.mjs",
+    "fixture:serve": "node scripts/serve-fixture.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "govuk",
+    "design-system",
+    "design-md",
+    "agent-skills",
+    "accessibility"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gilalvaro/govuk-design-md.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "govuk-frontend": "6.5.0"
+  }
+}

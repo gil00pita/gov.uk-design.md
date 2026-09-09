@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gilalvaro/govuk-design-md/blob/main/schema/pattern.schema.json",
+  "title": "GOV.UK pattern record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "category",
+    "group",
+    "summary",
+    "source",
+    "whenToUse",
+    "whenNotToUse",
+    "rules",
+    "accessibility",
+    "componentRefs",
+    "relatedPatterns"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "category": { "const": "pattern" },
+    "group": {
+      "type": "string",
+      "enum": ["ask-users-for", "help-users-to", "pages"]
+    },
+    "summary": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["guidanceUrl", "reviewedAt"],
+      "properties": {
+        "guidanceUrl": { "type": "string", "format": "uri" },
+        "reviewedAt": { "type": "string", "format": "date" }
+      }
+    },
+    "whenToUse": { "$ref": "#/$defs/nonEmptyStrings" },
+    "whenNotToUse": { "$ref": "#/$defs/nonEmptyStrings" },
+    "rules": { "$ref": "#/$defs/nonEmptyStrings" },
+    "accessibility": { "$ref": "#/$defs/nonEmptyStrings" },
+    "componentRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "uniqueItems": true
+    },
+    "relatedPatterns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

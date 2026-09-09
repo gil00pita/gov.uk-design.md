@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "govukFrontendVersion": "6.5.0",
+  "compatibilityLevels": [
+    "guidance",
+    "token",
+    "markup",
+    "behaviour-tested"
+  ],
+  "adapters": [
+    {
+      "id": "html-css",
+      "name": "Plain HTML and CSS",
+      "status": "reference",
+      "guidance": "html-css/DESIGN.md",
+      "fixture": "fixtures/vertical-slice/index.html",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ]
+    }
+  ]
+}

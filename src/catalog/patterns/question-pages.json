@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "question-pages",
+  "name": "Question pages",
+  "category": "pattern",
+  "group": "pages",
+  "summary": "Ask one thing per page using the page heading as the form label or legend and a simple continue action.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/question-pages/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for most questions in a transactional service, especially when later questions depend on earlier answers.",
+    "Combine closely related controls only when users understand them as one coherent question."
+  ],
+  "whenNotToUse": [
+    "Do not put unrelated questions on one page merely to shorten the journey.",
+    "Do not use a generic H1 that fails to identify the field or response group."
+  ],
+  "rules": [
+    "Make the label or fieldset legend the page H1, add a caption for section context when needed and use a two-thirds content column.",
+    "Use a form with novalidate, the appropriate GOV.UK input component, one primary Continue button and a working Back link where appropriate.",
+    "Put hints before inputs, preserve answers on return and use the full validation pattern for errors."
+  ],
+  "accessibility": [
+    "Use a fieldset and legend for grouped controls and an explicitly associated label for a single control.",
+    "Keep DOM order logical, maintain one descriptive page H1 and move focus appropriately after navigation or validation."
+  ],
+  "componentRefs": ["fieldset", "radios", "checkboxes", "text-input", "button", "back-link"],
+  "relatedPatterns": ["validation", "check-answers"]
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "select",
+  "name": "Select",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a select when users must choose one option from a familiar list that is too long for radios.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/select/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/select",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for one choice from a moderately long list whose options users already understand.",
+    "Order options predictably and select a value only when a genuine default exists."
+  ],
+  "whenNotToUse": [
+    "Use radios for a small set because all options remain visible.",
+    "Use an accessible autocomplete for a very long list such as countries when users benefit from search.",
+    "Do not use a select for multiple choices unless research supports the native multiple-select interaction."
+  ],
+  "anatomy": [
+    {
+      "name": "Form group",
+      "required": true,
+      "description": "Groups label, optional hint, optional error and select."
+    },
+    {
+      "name": "Label",
+      "required": true,
+      "description": "A visible label is associated using for and id."
+    },
+    {
+      "name": "Native select",
+      "required": true,
+      "description": "A govuk-select contains semantic option elements and submits the selected value."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "select",
+      "classes": ["govuk-select"],
+      "use": "A single choice from a familiar option set."
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "element": "select",
+      "classes": ["govuk-select", "govuk-select--error"],
+      "use": "Redisplay an invalid or missing selection with a linked error message."
+    }
+  ],
+  "behaviour": [
+    "Use the native select without replacing its keyboard and platform behaviour; no GOV.UK JavaScript is required.",
+    "Validate the submitted value on the server against the allowed options.",
+    "Retain the user's selection after a validation error."
+  ],
+  "accessibility": [
+    "Associate one visible label and reference hint and error IDs with aria-describedby.",
+    "Do not use size or multiple attributes without testing their more complex interaction.",
+    "Avoid a disabled placeholder as the only instruction; use a label and hint."
+  ],
+  "content": [
+    "Write a clear question in the label and concise option labels.",
+    "Sort alphabetically, numerically or by a user-understood priority.",
+    "Do not preselect an answer merely to avoid a blank value."
+  ],
+  "tokenRefs": [
+    "govuk.color.input-border",
+    "govuk.color.error",
+    "govuk.color.focus",
+    "govuk.color.focus-text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Country selection",
+      "html": "<div class=\"govuk-form-group\">\n  <label class=\"govuk-label\" for=\"country\">Country</label>\n  <select class=\"govuk-select\" id=\"country\" name=\"country\">\n    <option value=\"\">Select a country</option>\n    <option value=\"england\">England</option>\n    <option value=\"scotland\">Scotland</option>\n    <option value=\"wales\">Wales</option>\n  </select>\n</div>"
+    }
+  ]
+}

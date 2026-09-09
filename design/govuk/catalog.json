@@ -1,0 +1,1289 @@
+{
+  "schemaVersion": 1,
+  "packageVersion": "0.4.0",
+  "govukFrontendVersion": "6.5.0",
+  "reviewedAt": "2026-09-09",
+  "status": "canonical-complete",
+  "coverage": {
+    "styles": {
+      "documented": 13,
+      "total": 13
+    },
+    "components": {
+      "documented": 37,
+      "total": 37
+    },
+    "patterns": {
+      "documented": 30,
+      "total": 30
+    }
+  },
+  "styles": [
+    {
+      "id": "colour",
+      "name": "Colour",
+      "group": "visual-elements",
+      "summary": "Use GOV.UK functional colours and the refreshed palette to keep meaning, interaction states and contrast consistent across services.",
+      "path": "design/govuk/styles/colour.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/colour/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/settings/_colours-functional.scss",
+      "tokenRefs": [
+        "govuk.color.brand",
+        "govuk.color.text",
+        "govuk.color.secondary-text",
+        "govuk.color.link",
+        "govuk.color.link-visited",
+        "govuk.color.link-hover",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.error",
+        "govuk.color.success"
+      ]
+    },
+    {
+      "id": "font-override-classes",
+      "name": "Font override classes",
+      "group": "typography",
+      "summary": "Use GOV.UK font override classes sparingly when content needs an explicit alignment, size, weight, number style or overflow treatment.",
+      "path": "design/govuk/styles/font-override-classes.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/font-override-classes/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/overrides/_typography.scss",
+      "tokenRefs": [
+        "govuk.typography.weight.regular",
+        "govuk.typography.weight.bold",
+        "govuk.typography.scale.16.mobile-font-size",
+        "govuk.typography.scale.19.mobile-font-size",
+        "govuk.typography.scale.24.mobile-font-size"
+      ]
+    },
+    {
+      "id": "headings",
+      "name": "Headings",
+      "group": "typography",
+      "summary": "Use semantic heading elements and GOV.UK heading classes to create a consistent, navigable content hierarchy.",
+      "path": "design/govuk/styles/headings.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/headings/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/core/_typography.scss",
+      "tokenRefs": [
+        "govuk.typography.scale.48.mobile-font-size",
+        "govuk.typography.scale.36.mobile-font-size",
+        "govuk.typography.scale.24.mobile-font-size",
+        "govuk.typography.scale.19.mobile-font-size",
+        "govuk.typography.weight.bold"
+      ]
+    },
+    {
+      "id": "images",
+      "name": "Images",
+      "group": "visual-elements",
+      "summary": "Use images only for a demonstrated user need and ensure their information remains available to people who cannot see them.",
+      "path": "design/govuk/styles/images.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/images/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/assets",
+      "tokenRefs": []
+    },
+    {
+      "id": "layout",
+      "name": "Layout",
+      "group": "page-structure",
+      "summary": "Use GOV.UK wrappers and grid classes to create mobile-first pages with readable line lengths and predictable responsive behaviour.",
+      "path": "design/govuk/styles/layout.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/layout/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/objects",
+      "tokenRefs": [
+        "govuk.breakpoint.mobile",
+        "govuk.breakpoint.tablet",
+        "govuk.breakpoint.desktop",
+        "govuk.layout.page-width",
+        "govuk.layout.gutter",
+        "govuk.layout.gutter-half"
+      ]
+    },
+    {
+      "id": "links",
+      "name": "Links",
+      "group": "typography",
+      "summary": "Use descriptive, underlined GOV.UK links for navigation and preserve their visited, hover, active and focus states.",
+      "path": "design/govuk/styles/links.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/links/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/core/_links.scss",
+      "tokenRefs": [
+        "govuk.color.link",
+        "govuk.color.link-visited",
+        "govuk.color.link-hover",
+        "govuk.color.link-active",
+        "govuk.color.focus",
+        "govuk.color.focus-text"
+      ]
+    },
+    {
+      "id": "lists",
+      "name": "Lists",
+      "group": "typography",
+      "summary": "Use semantic GOV.UK lists to break information into manageable chunks and communicate whether order matters.",
+      "path": "design/govuk/styles/lists.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/lists/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/core/_lists.scss",
+      "tokenRefs": [
+        "govuk.typography.scale.19.mobile-font-size",
+        "govuk.spacing.static.1",
+        "govuk.spacing.static.3"
+      ]
+    },
+    {
+      "id": "page-template",
+      "name": "Page template",
+      "group": "page-structure",
+      "summary": "Use the GOV.UK page template to supply the document structure, assets and shared components required for a consistent GOV.UK page.",
+      "path": "design/govuk/styles/page-template.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/page-template/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/template.njk",
+      "tokenRefs": [
+        "govuk.color.brand",
+        "govuk.color.body-background",
+        "govuk.color.template-background",
+        "govuk.layout.page-width"
+      ]
+    },
+    {
+      "id": "paragraphs",
+      "name": "Paragraphs",
+      "group": "typography",
+      "summary": "Use GOV.UK body classes for readable text, with lead and small variants only when their hierarchy has a clear purpose.",
+      "path": "design/govuk/styles/paragraphs.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/paragraphs/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/core/_typography.scss",
+      "tokenRefs": [
+        "govuk.typography.scale.24.mobile-font-size",
+        "govuk.typography.scale.19.mobile-font-size",
+        "govuk.typography.scale.16.mobile-font-size",
+        "govuk.color.text"
+      ]
+    },
+    {
+      "id": "section-break",
+      "name": "Section break",
+      "group": "page-structure",
+      "summary": "Use a GOV.UK section break on an hr element to create a thematic break with standard spacing and an optional visible rule.",
+      "path": "design/govuk/styles/section-break.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/section-break/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/core/_section-break.scss",
+      "tokenRefs": [
+        "govuk.color.border",
+        "govuk.spacing.static.3",
+        "govuk.spacing.static.6",
+        "govuk.spacing.static.9"
+      ]
+    },
+    {
+      "id": "spacing",
+      "name": "Spacing",
+      "group": "page-structure",
+      "summary": "Use the GOV.UK static and responsive spacing scales to maintain a consistent vertical rhythm and predictable component separation.",
+      "path": "design/govuk/styles/spacing.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/spacing/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/settings/_spacing.scss",
+      "tokenRefs": [
+        "govuk.spacing.static.0",
+        "govuk.spacing.static.1",
+        "govuk.spacing.static.2",
+        "govuk.spacing.static.3",
+        "govuk.spacing.static.4",
+        "govuk.spacing.static.5",
+        "govuk.spacing.static.6",
+        "govuk.spacing.static.7",
+        "govuk.spacing.static.8",
+        "govuk.spacing.static.9",
+        "govuk.breakpoint.tablet"
+      ]
+    },
+    {
+      "id": "type-scale",
+      "name": "Type scale",
+      "group": "typography",
+      "summary": "Use the responsive GOV.UK type scale so text sizes and line heights retain the tested rhythm introduced in GOV.UK Frontend 6.",
+      "path": "design/govuk/styles/type-scale.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/type-scale/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/settings/_typography-responsive.scss",
+      "tokenRefs": [
+        "govuk.typography.scale.16.mobile-font-size",
+        "govuk.typography.scale.19.mobile-font-size",
+        "govuk.typography.scale.24.mobile-font-size",
+        "govuk.typography.scale.27.mobile-font-size",
+        "govuk.typography.scale.36.mobile-font-size",
+        "govuk.typography.scale.48.mobile-font-size",
+        "govuk.typography.scale.80.mobile-font-size",
+        "govuk.breakpoint.tablet"
+      ]
+    },
+    {
+      "id": "typeface",
+      "name": "Typeface",
+      "group": "typography",
+      "summary": "Use the approved GOV.UK typeface only for eligible services and configure an appropriate alternative for services outside the GOV.UK proposition.",
+      "path": "design/govuk/styles/typeface.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/styles/typeface/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/settings/_typography-font.scss",
+      "tokenRefs": [
+        "govuk.typography.weight.regular",
+        "govuk.typography.weight.bold"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "accordion",
+      "name": "Accordion",
+      "status": "stable",
+      "summary": "Use an accordion to let users reveal and hide related sections when showing all of the content at once would make a page difficult to scan.",
+      "path": "design/govuk/components/accordion.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/accordion/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/accordion",
+      "tokenRefs": [
+        "govuk.color.border",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.link",
+        "govuk.color.text"
+      ]
+    },
+    {
+      "id": "back-link",
+      "name": "Back link",
+      "status": "stable",
+      "summary": "Use a back link to return users to the previous page, in its previous state, within a multi-page transaction.",
+      "path": "design/govuk/components/back-link.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/back-link/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/back-link",
+      "tokenRefs": [
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.inverse-text"
+      ]
+    },
+    {
+      "id": "breadcrumbs",
+      "name": "Breadcrumbs",
+      "status": "stable",
+      "summary": "Use breadcrumbs to help users understand and move between levels in a website with a deep hierarchy.",
+      "path": "design/govuk/components/breadcrumbs.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/breadcrumbs/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/breadcrumbs",
+      "tokenRefs": [
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.inverse-text",
+        "govuk.breakpoint.tablet"
+      ]
+    },
+    {
+      "id": "button",
+      "name": "Button",
+      "status": "stable",
+      "summary": "Use a button to let a user perform a clear action, such as saving information or continuing to the next step.",
+      "path": "design/govuk/components/button.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/button/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/button",
+      "tokenRefs": [
+        "govuk.color.success",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.text"
+      ]
+    },
+    {
+      "id": "character-count",
+      "name": "Character count",
+      "status": "stable",
+      "summary": "Use Character count when a textarea has a genuine maximum number of characters or words that users need help meeting.",
+      "path": "design/govuk/components/character-count.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/character-count/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/character-count",
+      "tokenRefs": [
+        "govuk.color.secondary-text",
+        "govuk.color.error",
+        "govuk.color.input-border",
+        "govuk.color.focus"
+      ]
+    },
+    {
+      "id": "checkboxes",
+      "name": "Checkboxes",
+      "status": "stable",
+      "summary": "Use checkboxes when users can select any number of options from a visible set, including none when allowed.",
+      "path": "design/govuk/components/checkboxes.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/checkboxes/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/checkboxes",
+      "tokenRefs": [
+        "govuk.color.input-border",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.error"
+      ]
+    },
+    {
+      "id": "cookie-banner",
+      "name": "Cookie banner",
+      "status": "stable",
+      "summary": "Use the Cookie banner to ask for consent to non-essential cookies and confirm the choice without blocking access to the service.",
+      "path": "design/govuk/components/cookie-banner.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/cookie-banner/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/cookie-banner",
+      "tokenRefs": [
+        "govuk.color.body-background",
+        "govuk.color.text",
+        "govuk.color.link",
+        "govuk.spacing.static.4"
+      ]
+    },
+    {
+      "id": "date-input",
+      "name": "Date input",
+      "status": "stable",
+      "summary": "Use Date input to collect a memorable or document-based date as separate day, month and year fields.",
+      "path": "design/govuk/components/date-input.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/date-input/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/date-input",
+      "tokenRefs": [
+        "govuk.color.input-border",
+        "govuk.color.error",
+        "govuk.color.focus",
+        "govuk.color.focus-text"
+      ]
+    },
+    {
+      "id": "details",
+      "name": "Details",
+      "status": "stable",
+      "summary": "Use details to let users reveal optional supporting information without distracting from the main task.",
+      "path": "design/govuk/components/details.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/details/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/details",
+      "tokenRefs": [
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.text"
+      ]
+    },
+    {
+      "id": "error-message",
+      "name": "Error message",
+      "status": "stable",
+      "summary": "Use an error message next to an invalid field to explain what went wrong and how the user can correct it.",
+      "path": "design/govuk/components/error-message.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/error-message/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/error-message",
+      "tokenRefs": [
+        "govuk.color.error",
+        "govuk.color.text",
+        "govuk.typography.weight.bold"
+      ]
+    },
+    {
+      "id": "error-summary",
+      "name": "Error summary",
+      "status": "stable",
+      "summary": "Use the Error summary at the top of a page to list validation errors and link each message to the field that needs attention.",
+      "path": "design/govuk/components/error-summary.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/error-summary/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/error-summary",
+      "tokenRefs": [
+        "govuk.color.error",
+        "govuk.color.text",
+        "govuk.color.link",
+        "govuk.color.focus"
+      ]
+    },
+    {
+      "id": "exit-this-page",
+      "name": "Exit this page",
+      "status": "stable",
+      "summary": "Use Exit this page in sensitive services when viewing the page could put someone at risk and they may need to leave immediately.",
+      "path": "design/govuk/components/exit-this-page.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/exit-this-page/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/exit-this-page",
+      "tokenRefs": [
+        "govuk.color.error",
+        "govuk.color.inverse-text",
+        "govuk.color.focus",
+        "govuk.color.focus-text"
+      ]
+    },
+    {
+      "id": "feedback",
+      "name": "Feedback",
+      "status": "trial",
+      "summary": "Use the Feedback component to give users a consistent, low-distraction route for sharing their experience of a service.",
+      "path": "design/govuk/components/feedback.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/feedback/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/feedback",
+      "tokenRefs": [
+        "govuk.color.surface-background",
+        "govuk.color.text",
+        "govuk.color.link",
+        "govuk.layout.page-width"
+      ]
+    },
+    {
+      "id": "fieldset",
+      "name": "Fieldset",
+      "status": "stable",
+      "summary": "Use a fieldset and legend to group related form controls under one question or shared label.",
+      "path": "design/govuk/components/fieldset.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/fieldset/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/fieldset",
+      "tokenRefs": [
+        "govuk.color.text",
+        "govuk.spacing.static.3",
+        "govuk.typography.weight.bold"
+      ]
+    },
+    {
+      "id": "file-upload",
+      "name": "File upload",
+      "status": "stable",
+      "summary": "Use file upload when users must select and submit one or more files from their device.",
+      "path": "design/govuk/components/file-upload.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/file-upload/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/file-upload",
+      "tokenRefs": [
+        "govuk.color.input-border",
+        "govuk.color.error",
+        "govuk.color.focus",
+        "govuk.color.focus-text"
+      ]
+    },
+    {
+      "id": "generic-header",
+      "name": "Generic header",
+      "status": "stable",
+      "summary": "Use the Generic header to give a public-sector service a clear branded header when it is not entitled to use the GOV.UK crown and logotype.",
+      "path": "design/govuk/components/generic-header.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/generic-header/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/generic-header",
+      "tokenRefs": [
+        "govuk.color.text",
+        "govuk.color.body-background",
+        "govuk.color.focus",
+        "govuk.layout.page-width"
+      ]
+    },
+    {
+      "id": "footer",
+      "name": "GOV.UK footer",
+      "status": "stable",
+      "summary": "Use the official GOV.UK footer on authorised GOV.UK services for service links, licensing and Crown copyright information.",
+      "path": "design/govuk/components/footer.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/footer/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/footer",
+      "tokenRefs": [
+        "govuk.color.template-background",
+        "govuk.color.text",
+        "govuk.color.link",
+        "govuk.layout.page-width"
+      ]
+    },
+    {
+      "id": "header",
+      "name": "GOV.UK header",
+      "status": "stable",
+      "summary": "Use the official GOV.UK header on authorised GOV.UK services to identify the site and link consistently to the GOV.UK homepage.",
+      "path": "design/govuk/components/header.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/header/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/header",
+      "tokenRefs": [
+        "govuk.color.brand",
+        "govuk.color.inverse-text",
+        "govuk.color.focus",
+        "govuk.layout.page-width"
+      ]
+    },
+    {
+      "id": "inset-text",
+      "name": "Inset text",
+      "status": "stable",
+      "summary": "Use inset text to distinguish a short block of supporting information from the content around it.",
+      "path": "design/govuk/components/inset-text.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/inset-text/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/inset-text",
+      "tokenRefs": [
+        "govuk.color.border",
+        "govuk.color.text",
+        "govuk.border.standard",
+        "govuk.spacing.static.3"
+      ]
+    },
+    {
+      "id": "language-navigation",
+      "name": "Language navigation",
+      "status": "trial",
+      "summary": "Use Language navigation to let users identify the current language and switch to equivalent versions offered by the service.",
+      "path": "design/govuk/components/language-navigation.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/language-navigation/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/language-navigation",
+      "tokenRefs": [
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.inverse-text"
+      ]
+    },
+    {
+      "id": "notification-banner",
+      "name": "Notification banner",
+      "status": "stable",
+      "summary": "Use the Notification banner to tell users about an important change or the successful result of an action.",
+      "path": "design/govuk/components/notification-banner.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/notification-banner/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/notification-banner",
+      "tokenRefs": [
+        "govuk.color.brand",
+        "govuk.color.success",
+        "govuk.color.text",
+        "govuk.color.focus"
+      ]
+    },
+    {
+      "id": "pagination",
+      "name": "Pagination",
+      "status": "stable",
+      "summary": "Use pagination to help users move through a collection split across several pages.",
+      "path": "design/govuk/components/pagination.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/pagination/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/pagination",
+      "tokenRefs": [
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.border"
+      ]
+    },
+    {
+      "id": "panel",
+      "name": "Panel",
+      "status": "stable",
+      "summary": "Use a panel to highlight the outcome of an important action, especially successful completion of a transaction.",
+      "path": "design/govuk/components/panel.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/panel/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/panel",
+      "tokenRefs": [
+        "govuk.color.success",
+        "govuk.color.inverse-text",
+        "govuk.typography.weight.bold"
+      ]
+    },
+    {
+      "id": "password-input",
+      "name": "Password input",
+      "status": "stable",
+      "summary": "Use the Password input when users need to enter a password, with an optional progressively enhanced control to show or hide it.",
+      "path": "design/govuk/components/password-input.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/password-input/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/password-input",
+      "tokenRefs": [
+        "govuk.color.input-border",
+        "govuk.color.focus",
+        "govuk.color.error",
+        "govuk.spacing.static.2"
+      ]
+    },
+    {
+      "id": "phase-banner",
+      "name": "Phase banner",
+      "status": "stable",
+      "summary": "Use a phase banner to show that a service is in alpha or beta and give users a way to provide feedback.",
+      "path": "design/govuk/components/phase-banner.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/phase-banner/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/phase-banner",
+      "tokenRefs": [
+        "govuk.color.border",
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.spacing.static.2"
+      ]
+    },
+    {
+      "id": "radios",
+      "name": "Radios",
+      "status": "stable",
+      "summary": "Use radios when users must choose exactly one option from a small, visible set.",
+      "path": "design/govuk/components/radios.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/radios/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/radios",
+      "tokenRefs": [
+        "govuk.color.input-border",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.error"
+      ]
+    },
+    {
+      "id": "select",
+      "name": "Select",
+      "status": "stable",
+      "summary": "Use a select when users must choose one option from a familiar list that is too long for radios.",
+      "path": "design/govuk/components/select.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/select/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/select",
+      "tokenRefs": [
+        "govuk.color.input-border",
+        "govuk.color.error",
+        "govuk.color.focus",
+        "govuk.color.focus-text"
+      ]
+    },
+    {
+      "id": "service-navigation",
+      "name": "Service navigation",
+      "status": "stable",
+      "summary": "Use Service navigation beneath the GOV.UK header to show a service name and a small set of service-level navigation links.",
+      "path": "design/govuk/components/service-navigation.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/service-navigation/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/service-navigation",
+      "tokenRefs": [
+        "govuk.color.brand",
+        "govuk.color.text",
+        "govuk.color.link",
+        "govuk.color.focus"
+      ]
+    },
+    {
+      "id": "skip-link",
+      "name": "Skip link",
+      "status": "stable",
+      "summary": "Use a skip link as the first focusable control so keyboard users can bypass repeated navigation and move to main content.",
+      "path": "design/govuk/components/skip-link.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/skip-link/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/skip-link",
+      "tokenRefs": [
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.link"
+      ]
+    },
+    {
+      "id": "summary-list",
+      "name": "Summary list",
+      "status": "stable",
+      "summary": "Use a summary list to present related key-and-value facts, optionally with contextual actions or a summary-card heading.",
+      "path": "design/govuk/components/summary-list.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/summary-list/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/summary-list",
+      "tokenRefs": [
+        "govuk.color.border",
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.typography.weight.bold"
+      ]
+    },
+    {
+      "id": "table",
+      "name": "Table",
+      "status": "stable",
+      "summary": "Use a table to let users compare structured data across rows and columns.",
+      "path": "design/govuk/components/table.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/table/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/table",
+      "tokenRefs": [
+        "govuk.color.border",
+        "govuk.color.text",
+        "govuk.typography.weight.bold",
+        "govuk.typography.scale.19.mobile-font-size"
+      ]
+    },
+    {
+      "id": "tabs",
+      "name": "Tabs",
+      "status": "stable",
+      "summary": "Use Tabs to let experienced users switch between closely related sections of content without leaving the page.",
+      "path": "design/govuk/components/tabs.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/tabs/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/tabs",
+      "tokenRefs": [
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.color.border",
+        "govuk.color.body-background"
+      ]
+    },
+    {
+      "id": "tag",
+      "name": "Tag",
+      "status": "stable",
+      "summary": "Use a tag to show a concise status or category that helps users scan related information.",
+      "path": "design/govuk/components/tag.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/tag/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/tag",
+      "tokenRefs": [
+        "govuk.color.brand",
+        "govuk.color.success",
+        "govuk.color.error",
+        "govuk.color.text",
+        "govuk.color.inverse-text"
+      ]
+    },
+    {
+      "id": "task-list",
+      "name": "Task list",
+      "status": "stable",
+      "summary": "Use a task list to show the tasks in a multi-part service and help users understand which are complete or still need attention.",
+      "path": "design/govuk/components/task-list.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/task-list/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/task-list",
+      "tokenRefs": [
+        "govuk.color.border",
+        "govuk.color.link",
+        "govuk.color.focus",
+        "govuk.typography.weight.bold"
+      ]
+    },
+    {
+      "id": "text-input",
+      "name": "Text input",
+      "status": "stable",
+      "summary": "Use a text input when a user needs to enter a short amount of text that cannot be selected from predetermined options.",
+      "path": "design/govuk/components/text-input.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/text-input/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/input",
+      "tokenRefs": [
+        "govuk.color.input-border",
+        "govuk.color.error",
+        "govuk.color.focus",
+        "govuk.color.focus-text",
+        "govuk.color.text"
+      ]
+    },
+    {
+      "id": "textarea",
+      "name": "Textarea",
+      "status": "stable",
+      "summary": "Use a textarea when users need to enter more than one line of free text.",
+      "path": "design/govuk/components/textarea.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/textarea/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/textarea",
+      "tokenRefs": [
+        "govuk.color.input-border",
+        "govuk.color.error",
+        "govuk.color.focus",
+        "govuk.color.focus-text"
+      ]
+    },
+    {
+      "id": "warning-text",
+      "name": "Warning text",
+      "status": "stable",
+      "summary": "Use warning text to alert users to an important consequence of an action or inaction.",
+      "path": "design/govuk/components/warning-text.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/components/warning-text/",
+      "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/warning-text",
+      "tokenRefs": [
+        "govuk.color.text",
+        "govuk.color.inverse-text",
+        "govuk.typography.weight.bold",
+        "govuk.border.standard"
+      ]
+    }
+  ],
+  "patterns": [
+    {
+      "id": "addresses",
+      "name": "Addresses",
+      "group": "ask-users-for",
+      "summary": "Help users provide an address using separate fields, an address lookup with a manual fallback, or a textarea chosen for the service’s data needs.",
+      "path": "design/govuk/patterns/addresses.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/addresses/",
+      "componentRefs": [
+        "fieldset",
+        "text-input",
+        "textarea",
+        "error-message"
+      ],
+      "relatedPatterns": [
+        "validation"
+      ]
+    },
+    {
+      "id": "bank-details",
+      "name": "Bank details",
+      "group": "ask-users-for",
+      "summary": "Ask for bank or building-society account details in familiar separate fields, accepting the formats people normally use.",
+      "path": "design/govuk/patterns/bank-details.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/bank-details/",
+      "componentRefs": [
+        "text-input",
+        "error-message",
+        "button"
+      ],
+      "relatedPatterns": [
+        "validation",
+        "check-answers"
+      ]
+    },
+    {
+      "id": "check-a-service-is-suitable",
+      "name": "Check a service is suitable",
+      "group": "help-users-to",
+      "summary": "Ask a short sequence of simple questions so users can learn early whether a service is suitable, what it costs or what outcome they may receive.",
+      "path": "design/govuk/patterns/check-a-service-is-suitable.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/check-a-service-is-suitable/",
+      "componentRefs": [
+        "radios",
+        "checkboxes",
+        "button",
+        "back-link"
+      ],
+      "relatedPatterns": [
+        "question-pages",
+        "start-using-a-service"
+      ]
+    },
+    {
+      "id": "check-answers",
+      "name": "Check answers",
+      "group": "help-users-to",
+      "summary": "Let users review and change the information they provided before they submit a transaction.",
+      "path": "design/govuk/patterns/check-answers.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/check-answers/",
+      "componentRefs": [
+        "summary-list",
+        "button",
+        "back-link"
+      ],
+      "relatedPatterns": [
+        "confirmation-pages",
+        "validation"
+      ]
+    },
+    {
+      "id": "complete-multiple-tasks",
+      "name": "Complete multiple tasks",
+      "group": "help-users-to",
+      "summary": "Use a task-list journey to show which tasks are required, their helpful order and each task’s current status.",
+      "path": "design/govuk/patterns/complete-multiple-tasks.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/complete-multiple-tasks/",
+      "componentRefs": [
+        "task-list",
+        "tag",
+        "button"
+      ],
+      "relatedPatterns": [
+        "check-answers",
+        "confirmation-pages",
+        "navigate-a-service"
+      ]
+    },
+    {
+      "id": "confirm-a-phone-number",
+      "name": "Confirm a phone number",
+      "group": "help-users-to",
+      "summary": "Check that a user currently has access to a mobile number by sending a time-limited security code in a text message.",
+      "path": "design/govuk/patterns/confirm-a-phone-number.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/confirm-a-phone-number/",
+      "componentRefs": [
+        "text-input",
+        "button",
+        "error-message",
+        "notification-banner"
+      ],
+      "relatedPatterns": [
+        "phone-numbers",
+        "validation"
+      ]
+    },
+    {
+      "id": "confirm-an-email-address",
+      "name": "Confirm an email address",
+      "group": "help-users-to",
+      "summary": "Check that a user currently has access to an email account using a carefully designed confirmation link or code loop.",
+      "path": "design/govuk/patterns/confirm-an-email-address.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/confirm-an-email-address/",
+      "componentRefs": [
+        "text-input",
+        "button",
+        "notification-banner"
+      ],
+      "relatedPatterns": [
+        "email-addresses",
+        "create-accounts"
+      ]
+    },
+    {
+      "id": "confirmation-pages",
+      "name": "Confirmation pages",
+      "group": "pages",
+      "summary": "Tell users that they have completed a transaction, give them any reference and explain what will happen next.",
+      "path": "design/govuk/patterns/confirmation-pages.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/confirmation-pages/",
+      "componentRefs": [
+        "panel"
+      ],
+      "relatedPatterns": [
+        "check-answers",
+        "contact-a-department-or-service-team"
+      ]
+    },
+    {
+      "id": "contact-a-department-or-service-team",
+      "name": "Contact a department or service team",
+      "group": "help-users-to",
+      "summary": "Give users complete, contextual contact information at the point they are likely to need help.",
+      "path": "design/govuk/patterns/contact-a-department-or-service-team.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/contact-a-department-or-service-team/",
+      "componentRefs": [
+        "inset-text"
+      ],
+      "relatedPatterns": [
+        "phone-numbers",
+        "email-addresses",
+        "problem-with-the-service-pages"
+      ]
+    },
+    {
+      "id": "cookies-page",
+      "name": "Cookies page",
+      "group": "pages",
+      "summary": "Explain every cookie the service sets and let users review and change consent for categories of non-essential cookies.",
+      "path": "design/govuk/patterns/cookies-page.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/cookies-page/",
+      "componentRefs": [
+        "cookie-banner",
+        "table",
+        "radios",
+        "button",
+        "notification-banner"
+      ],
+      "relatedPatterns": []
+    },
+    {
+      "id": "create-a-username",
+      "name": "Create a username",
+      "group": "help-users-to",
+      "summary": "Help users create or use a memorable unique username only after establishing that the service needs accounts.",
+      "path": "design/govuk/patterns/create-a-username.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/create-a-username/",
+      "componentRefs": [
+        "text-input",
+        "error-message",
+        "button"
+      ],
+      "relatedPatterns": [
+        "create-accounts",
+        "email-addresses"
+      ]
+    },
+    {
+      "id": "create-accounts",
+      "name": "Create accounts",
+      "group": "help-users-to",
+      "summary": "Create an account only when users need recurring access to their service data, and defer account creation until it becomes necessary.",
+      "path": "design/govuk/patterns/create-accounts.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/create-accounts/",
+      "componentRefs": [
+        "text-input",
+        "password-input",
+        "button",
+        "error-message"
+      ],
+      "relatedPatterns": [
+        "create-a-username",
+        "passwords",
+        "confirm-an-email-address"
+      ]
+    },
+    {
+      "id": "dates",
+      "name": "Dates",
+      "group": "ask-users-for",
+      "summary": "Help users provide or select a date using an interaction suited to whether the date is memorable, copied from a document, approximate or selected from known options.",
+      "path": "design/govuk/patterns/dates.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/dates/",
+      "componentRefs": [
+        "date-input",
+        "fieldset",
+        "radios",
+        "error-message"
+      ],
+      "relatedPatterns": [
+        "validation"
+      ]
+    },
+    {
+      "id": "email-addresses",
+      "name": "Email addresses",
+      "group": "ask-users-for",
+      "summary": "Ask for an email address in one field, explain why it is needed and accept the broad range of valid addresses users may have.",
+      "path": "design/govuk/patterns/email-addresses.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/email-addresses/",
+      "componentRefs": [
+        "text-input",
+        "error-message"
+      ],
+      "relatedPatterns": [
+        "confirm-an-email-address",
+        "validation"
+      ]
+    },
+    {
+      "id": "equality-information",
+      "name": "Equality information",
+      "group": "ask-users-for",
+      "summary": "Collect optional equality information consistently for monitoring and public-sector equality work, separately from operational questions.",
+      "path": "design/govuk/patterns/equality-information.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/equality-information/",
+      "componentRefs": [
+        "fieldset",
+        "radios",
+        "checkboxes",
+        "details"
+      ],
+      "relatedPatterns": [
+        "check-answers",
+        "confirmation-pages",
+        "question-pages"
+      ]
+    },
+    {
+      "id": "exit-a-page-quickly",
+      "name": "Exit a page quickly",
+      "group": "help-users-to",
+      "summary": "Provide a rapid exit action, an accessible secondary route and supporting safety content for sensitive services where discovery could put a user at risk.",
+      "path": "design/govuk/patterns/exit-a-page-quickly.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/exit-a-page-quickly/",
+      "componentRefs": [
+        "exit-this-page",
+        "button"
+      ],
+      "relatedPatterns": [
+        "interruption-pages"
+      ]
+    },
+    {
+      "id": "interruption-pages",
+      "name": "Interruption pages",
+      "group": "pages",
+      "summary": "Pause a journey only when users must understand unusually important information or confirm a significant consequence before continuing.",
+      "path": "design/govuk/patterns/interruption-pages.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/interruption-pages/",
+      "componentRefs": [
+        "panel",
+        "button",
+        "back-link"
+      ],
+      "relatedPatterns": [
+        "question-pages",
+        "exit-a-page-quickly"
+      ]
+    },
+    {
+      "id": "names",
+      "name": "Names",
+      "group": "ask-users-for",
+      "summary": "Ask for a person’s name only when needed, using the fewest fields and accepting the characters and structures real names require.",
+      "path": "design/govuk/patterns/names.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/names/",
+      "componentRefs": [
+        "text-input",
+        "error-message"
+      ],
+      "relatedPatterns": [
+        "validation"
+      ]
+    },
+    {
+      "id": "national-insurance-numbers",
+      "name": "National Insurance numbers",
+      "group": "ask-users-for",
+      "summary": "Ask for a National Insurance number in one short text field, helping users find it and accepting common spacing and letter case.",
+      "path": "design/govuk/patterns/national-insurance-numbers.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/national-insurance-numbers/",
+      "componentRefs": [
+        "text-input",
+        "error-message"
+      ],
+      "relatedPatterns": [
+        "validation"
+      ]
+    },
+    {
+      "id": "navigate-a-service",
+      "name": "Navigate a service",
+      "group": "help-users-to",
+      "summary": "Use the GOV.UK header and Service navigation together when repeat users need to move among persistent areas of a non-linear service.",
+      "path": "design/govuk/patterns/navigate-a-service.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/navigate-a-service/",
+      "componentRefs": [
+        "header",
+        "service-navigation",
+        "task-list"
+      ],
+      "relatedPatterns": [
+        "complete-multiple-tasks"
+      ]
+    },
+    {
+      "id": "page-not-found-pages",
+      "name": "Page not found pages",
+      "group": "pages",
+      "summary": "Return a clear page when a requested URL does not exist and help users recover without blaming them or exposing technical jargon.",
+      "path": "design/govuk/patterns/page-not-found-pages.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/page-not-found-pages/",
+      "componentRefs": [],
+      "relatedPatterns": [
+        "problem-with-the-service-pages",
+        "service-unavailable-pages",
+        "contact-a-department-or-service-team"
+      ]
+    },
+    {
+      "id": "passwords",
+      "name": "Passwords",
+      "group": "ask-users-for",
+      "summary": "Help users create, enter and reset secure, memorable passwords without obstructive restrictions or unsafe recovery journeys.",
+      "path": "design/govuk/patterns/passwords.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/passwords/",
+      "componentRefs": [
+        "password-input",
+        "error-message",
+        "button"
+      ],
+      "relatedPatterns": [
+        "create-accounts",
+        "confirm-an-email-address",
+        "validation"
+      ]
+    },
+    {
+      "id": "payment-card-details",
+      "name": "Payment card details",
+      "group": "ask-users-for",
+      "summary": "Collect card details in a familiar order only when an approved payment platform cannot meet the service need.",
+      "path": "design/govuk/patterns/payment-card-details.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/payment-card-details/",
+      "componentRefs": [
+        "text-input",
+        "date-input",
+        "error-message",
+        "button"
+      ],
+      "relatedPatterns": [
+        "validation",
+        "confirmation-pages"
+      ]
+    },
+    {
+      "id": "phone-numbers",
+      "name": "Phone numbers",
+      "group": "ask-users-for",
+      "summary": "Ask for a phone number only when needed, accepting the formats, prefixes and separators people normally use.",
+      "path": "design/govuk/patterns/phone-numbers.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/phone-numbers/",
+      "componentRefs": [
+        "text-input",
+        "error-message"
+      ],
+      "relatedPatterns": [
+        "confirm-a-phone-number",
+        "validation"
+      ]
+    },
+    {
+      "id": "question-pages",
+      "name": "Question pages",
+      "group": "pages",
+      "summary": "Ask one thing per page using the page heading as the form label or legend and a simple continue action.",
+      "path": "design/govuk/patterns/question-pages.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/question-pages/",
+      "componentRefs": [
+        "fieldset",
+        "radios",
+        "checkboxes",
+        "text-input",
+        "button",
+        "back-link"
+      ],
+      "relatedPatterns": [
+        "validation",
+        "check-answers"
+      ]
+    },
+    {
+      "id": "validation",
+      "name": "Recover from validation errors",
+      "group": "help-users-to",
+      "summary": "Validate only information the service cannot use, then explain what is wrong and how the user can fix it without losing their work.",
+      "path": "design/govuk/patterns/validation.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/validation/",
+      "componentRefs": [
+        "error-summary",
+        "error-message",
+        "text-input",
+        "fieldset"
+      ],
+      "relatedPatterns": [
+        "question-pages",
+        "problem-with-the-service-pages",
+        "page-not-found-pages",
+        "service-unavailable-pages"
+      ]
+    },
+    {
+      "id": "service-unavailable-pages",
+      "name": "Service unavailable pages",
+      "group": "pages",
+      "summary": "Tell users when a service has been deliberately closed temporarily or permanently and explain when it returns or what they can do instead.",
+      "path": "design/govuk/patterns/service-unavailable-pages.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/service-unavailable-pages/",
+      "componentRefs": [],
+      "relatedPatterns": [
+        "problem-with-the-service-pages",
+        "page-not-found-pages",
+        "contact-a-department-or-service-team"
+      ]
+    },
+    {
+      "id": "start-using-a-service",
+      "name": "Start using a service",
+      "group": "help-users-to",
+      "summary": "Start a public-facing UK government service from an agreed GOV.UK content page that explains the service and links into it.",
+      "path": "design/govuk/patterns/start-using-a-service.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/start-using-a-service/",
+      "componentRefs": [
+        "button",
+        "details"
+      ],
+      "relatedPatterns": [
+        "check-a-service-is-suitable",
+        "contact-a-department-or-service-team"
+      ]
+    },
+    {
+      "id": "step-by-step-navigation",
+      "name": "Step by step navigation",
+      "group": "pages",
+      "summary": "Prototype an end-to-end GOV.UK content journey as ordered expandable steps linking to the guidance and transactions needed to complete it.",
+      "path": "design/govuk/patterns/step-by-step-navigation.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/step-by-step-navigation/",
+      "componentRefs": [],
+      "relatedPatterns": [
+        "complete-multiple-tasks"
+      ]
+    },
+    {
+      "id": "problem-with-the-service-pages",
+      "name": "There is a problem with the service pages",
+      "group": "pages",
+      "summary": "Tell users about an unexpected service failure, preserve their work where possible and give a useful recovery or contact route.",
+      "path": "design/govuk/patterns/problem-with-the-service-pages.md",
+      "guidanceUrl": "https://design-system.service.gov.uk/patterns/problem-with-the-service-pages/",
+      "componentRefs": [],
+      "relatedPatterns": [
+        "service-unavailable-pages",
+        "page-not-found-pages",
+        "contact-a-department-or-service-team"
+      ]
+    }
+  ]
+}

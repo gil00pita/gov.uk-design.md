@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "skip-link",
+  "name": "Skip link",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a skip link as the first focusable control so keyboard users can bypass repeated navigation and move to main content.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/skip-link/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/skip-link",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Include on every page with repeated header or navigation content.",
+    "Target the unique main-content landmark ID."
+  ],
+  "whenNotToUse": [
+    "Do not omit it because the page appears short at one viewport size.",
+    "Do not point it at an element that is missing, hidden or earlier in the focus order."
+  ],
+  "anatomy": [
+    {
+      "name": "Skip anchor",
+      "required": true,
+      "description": "A govuk-skip-link with a fragment href appears at the start of body content."
+    },
+    {
+      "name": "Target landmark",
+      "required": true,
+      "description": "The fragment resolves to the main element's unique ID."
+    },
+    {
+      "name": "Module hook",
+      "required": true,
+      "description": "data-module=govuk-skip-link enables supported target-focus handling."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "a",
+      "classes": ["govuk-skip-link"],
+      "use": "The first focusable element in the GOV.UK page template."
+    }
+  ],
+  "behaviour": [
+    "Initialise GOV.UK Frontend so the module can manage focus on targets that are not naturally focusable.",
+    "The anchor and fragment still provide useful navigation without JavaScript.",
+    "Do not intercept activation or replace fragment navigation with scrolling alone."
+  ],
+  "accessibility": [
+    "Keep the link first in the useful keyboard order and visibly expose it on focus.",
+    "Use a stable target such as main#main-content and verify focus moves there in supported browsers.",
+    "Localise the link text for the page language."
+  ],
+  "content": [
+    "Use “Skip to main content” unless the target has a clearer established localised label.",
+    "Do not add several skip links unless the page structure and user testing demonstrate a need."
+  ],
+  "tokenRefs": [
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.link"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Main-content skip link",
+      "html": "<a href=\"#main-content\" class=\"govuk-skip-link\" data-module=\"govuk-skip-link\">Skip to main content</a>"
+    }
+  ]
+}

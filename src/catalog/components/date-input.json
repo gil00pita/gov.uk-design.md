@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "date-input",
+  "name": "Date input",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use Date input to collect a memorable or document-based date as separate day, month and year fields.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/date-input/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/date-input",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for dates users know or can copy from a document, such as date of birth or passport issue date.",
+    "Use an example hint in the order expected by the service."
+  ],
+  "whenNotToUse": [
+    "Do not use for dates users need to choose from a calendar, such as an appointment slot.",
+    "Do not use a single unstructured field when the service needs day, month and year separately.",
+    "Do not use input type=number because its interaction and formatting are unsuitable for date parts."
+  ],
+  "anatomy": [
+    {
+      "name": "Fieldset and legend",
+      "required": true,
+      "description": "The date question groups its parts and references the example hint."
+    },
+    {
+      "name": "Date-input group",
+      "required": true,
+      "description": "A uniquely identified govuk-date-input contains the ordered parts."
+    },
+    {
+      "name": "Day, month and year inputs",
+      "required": true,
+      "description": "Each part has its own label, text input, numeric input mode, width and submitted name."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Day, month and year",
+      "element": "div",
+      "classes": ["govuk-date-input"],
+      "use": "A complete date in UK service order."
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "element": "input",
+      "classes": ["govuk-date-input__input", "govuk-input--error"],
+      "use": "Highlight only the invalid parts where possible and provide one specific group error."
+    }
+  ],
+  "behaviour": [
+    "The component requires no GOV.UK JavaScript.",
+    "Parse and validate the three submitted strings on the server, including incomplete, impossible and context-invalid dates.",
+    "Retain entered values and mark only affected parts when redisplaying an error."
+  ],
+  "accessibility": [
+    "Use the fieldset, legend, role=group and unique labels shown in official markup.",
+    "Reference the group hint and error from the fieldset and preserve visible focus on each part.",
+    "Use inputmode=numeric while keeping type=text so users can enter leading zeroes and avoid number-input controls."
+  ],
+  "content": [
+    "Ask which date is required in the legend.",
+    "Use a realistic example such as “For example, 31 3 1980” without punctuation that suggests a different format.",
+    "Write errors for missing parts, invalid dates and dates outside the allowed context."
+  ],
+  "tokenRefs": [
+    "govuk.color.input-border",
+    "govuk.color.error",
+    "govuk.color.focus",
+    "govuk.color.focus-text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Date of birth",
+      "html": "<div class=\"govuk-form-group\"><fieldset class=\"govuk-fieldset\" role=\"group\" aria-describedby=\"dob-hint\"><legend class=\"govuk-fieldset__legend\">What is your date of birth?</legend><div id=\"dob-hint\" class=\"govuk-hint\">For example, 31 3 1980</div><div class=\"govuk-date-input\" id=\"dob\"><div class=\"govuk-date-input__item\"><label class=\"govuk-label govuk-date-input__label\" for=\"dob-day\">Day</label><input class=\"govuk-input govuk-date-input__input govuk-input--width-2\" id=\"dob-day\" name=\"dobDay\" type=\"text\" inputmode=\"numeric\"></div><div class=\"govuk-date-input__item\"><label class=\"govuk-label govuk-date-input__label\" for=\"dob-month\">Month</label><input class=\"govuk-input govuk-date-input__input govuk-input--width-2\" id=\"dob-month\" name=\"dobMonth\" type=\"text\" inputmode=\"numeric\"></div><div class=\"govuk-date-input__item\"><label class=\"govuk-label govuk-date-input__label\" for=\"dob-year\">Year</label><input class=\"govuk-input govuk-date-input__input govuk-input--width-4\" id=\"dob-year\" name=\"dobYear\" type=\"text\" inputmode=\"numeric\"></div></div></fieldset></div>"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "national-insurance-numbers",
+  "name": "National Insurance numbers",
+  "category": "pattern",
+  "group": "ask-users-for",
+  "summary": "Ask for a National Insurance number in one short text field, helping users find it and accepting common spacing and letter case.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/national-insurance-numbers/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use whenever the service has a legitimate need for a National Insurance number.",
+    "Tell users where they can find it and give a non-personal example of the expected structure."
+  ],
+  "whenNotToUse": [
+    "Never use a National Insurance number to verify a person’s identity.",
+    "Do not collect or retain it when the service can meet the need without it."
+  ],
+  "rules": [
+    "Use a type=text input with spellcheck disabled, extra letter spacing and a width that reflects the expected value.",
+    "Accept upper or lower case and common spacing; normalise for processing without forcing the user to reformat it.",
+    "Protect the number as sensitive personal data and avoid exposing it in URLs, logs or analytics."
+  ],
+  "accessibility": [
+    "Associate the location hint and specific validation message with the input.",
+    "Do not use a number input or numeric-only keyboard because the value contains letters."
+  ],
+  "componentRefs": ["text-input", "error-message"],
+  "relatedPatterns": ["validation"]
+}

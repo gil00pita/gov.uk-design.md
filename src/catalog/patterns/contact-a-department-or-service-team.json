@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "contact-a-department-or-service-team",
+  "name": "Contact a department or service team",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Give users complete, contextual contact information at the point they are likely to need help.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/contact-a-department-or-service-team/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use wherever research shows users need to contact the responsible team during or after a service journey.",
+    "Offer the contact channels the team can reliably support."
+  ],
+  "whenNotToUse": [
+    "Do not hide essential contact routes behind vague help links or a channel users may not be able to access.",
+    "Do not publish contact details without ownership, opening-hours and maintenance arrangements."
+  ],
+  "rules": [
+    "For phone support, include the number, opening times, closures, any textphone or Welsh-language route and a call-charges link where relevant.",
+    "For email or webchat, state expected response or availability and what information users should prepare.",
+    "Use a specific heading such as “Get help with your application” and keep the information close to the task context."
+  ],
+  "accessibility": [
+    "Provide more than one usable channel where possible and explain relay, textphone or other accessibility support.",
+    "Use readable text and descriptive links rather than presenting contact details only in images, scripts or icons."
+  ],
+  "componentRefs": ["inset-text"],
+  "relatedPatterns": ["phone-numbers", "email-addresses", "problem-with-the-service-pages"]
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "footer",
+  "name": "GOV.UK footer",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use the official GOV.UK footer on authorised GOV.UK services for service links, licensing and Crown copyright information.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/footer/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/footer",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use the official footer on services that are part of GOV.UK and authorised to use its identity and standard licensing statements.",
+    "Add only useful service links, grouped into navigation sections when there are enough links to justify them."
+  ],
+  "whenNotToUse": [
+    "Do not use Crown identity or licensing claims for content that is not covered by them.",
+    "Do not recreate or redistribute crown and licensing artwork from these documentation records; consume the official GOV.UK Frontend component and assets."
+  ],
+  "anatomy": [
+    {
+      "name": "Footer container",
+      "required": true,
+      "description": "A semantic footer aligns its content to the GOV.UK width container."
+    },
+    {
+      "name": "Navigation sections",
+      "required": false,
+      "description": "Optional headings and lists group useful service links."
+    },
+    {
+      "name": "Meta links",
+      "required": false,
+      "description": "A compact list contains service policies and other secondary destinations."
+    },
+    {
+      "name": "Licence and copyright",
+      "required": true,
+      "description": "Official assets and wording describe applicable content licensing and Crown copyright."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "footer",
+      "classes": ["govuk-footer"],
+      "use": "Licence, copyright and a small set of meta links."
+    },
+    {
+      "id": "navigation",
+      "name": "With navigation",
+      "element": "footer",
+      "classes": ["govuk-footer"],
+      "use": "Add organised link columns when a service has several persistent destinations."
+    }
+  ],
+  "behaviour": [
+    "The Footer requires no GOV.UK JavaScript and all destinations must be ordinary links.",
+    "Use the official template or macro so identity, licence markup and assets stay aligned with the pinned release.",
+    "Do not copy protected identity SVG data into framework adapters or generated DESIGN.md files."
+  ],
+  "accessibility": [
+    "Use a semantic footer landmark and heading levels that fit the surrounding page.",
+    "Give each navigation group a clear heading and keep link text descriptive.",
+    "Preserve the official link focus treatments and accessible handling of decorative assets."
+  ],
+  "content": [
+    "Include only links users reasonably expect to find across the whole service.",
+    "Keep official licence and copyright wording unchanged unless legal guidance for the service requires a different statement.",
+    "Do not imply Crown ownership or Open Government Licence coverage where it does not apply."
+  ],
+  "tokenRefs": [
+    "govuk.color.template-background",
+    "govuk.color.text",
+    "govuk.color.link",
+    "govuk.layout.page-width"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Official macro required",
+      "html": "<!-- Render the GOV.UK Frontend footer macro/component from the pinned release. -->\n<footer class=\"govuk-footer\">\n  <div class=\"govuk-width-container\">\n    <div class=\"govuk-footer__meta\"><div class=\"govuk-footer__meta-item govuk-footer__meta-item--grow\">\n      <!-- Official licence and Crown copyright markup and supplied assets go here. -->\n    </div></div>\n  </div>\n</footer>"
+    }
+  ]
+}

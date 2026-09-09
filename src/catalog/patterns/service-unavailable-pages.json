@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "service-unavailable-pages",
+  "name": "Service unavailable pages",
+  "category": "pattern",
+  "group": "pages",
+  "summary": "Tell users when a service has been deliberately closed temporarily or permanently and explain when it returns or what they can do instead.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/service-unavailable-pages/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when the service is intentionally closed for a known period or permanently.",
+    "Prepare a general version in advance, then add a precise return date and time as soon as known."
+  ],
+  "whenNotToUse": [
+    "Do not use for an unexpected failure; use the problem-with-the-service page and fix the incident.",
+    "Do not leave a planned-closure page in place after the service is available."
+  ],
+  "rules": [
+    "Use “Sorry, the service is unavailable” in the title and H1 and state when it returns or what permanent alternative applies.",
+    "Explain what happened to saved answers and provide useful contact or alternative-service information.",
+    "Do not use breadcrumbs, red warning text or vague explanations such as “maintenance” and “improvements”."
+  ],
+  "accessibility": [
+    "Serve a simple semantic page even when the main application bundle or JavaScript is unavailable.",
+    "Write dates and times unambiguously, include the time zone when needed and make alternatives ordinary descriptive links."
+  ],
+  "componentRefs": [],
+  "relatedPatterns": ["problem-with-the-service-pages", "page-not-found-pages", "contact-a-department-or-service-team"]
+}

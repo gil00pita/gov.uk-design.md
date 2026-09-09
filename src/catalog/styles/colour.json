@@ -1,0 +1,52 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "colour",
+  "name": "Colour",
+  "category": "style",
+  "group": "visual-elements",
+  "summary": "Use GOV.UK functional colours and the refreshed palette to keep meaning, interaction states and contrast consistent across services.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/colour/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/settings/_colours-functional.scss",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Always start from the current GOV.UK palette and use functional colours for essential page elements.",
+    "In Sass use govuk-functional-colour with a purpose such as brand, text, link, focus, error or success instead of copying a hexadecimal value.",
+    "In plain CSS use the corresponding functional custom-property alias from tokens/govuk.css; palette variables are for reviewed mappings, not new semantics.",
+    "Preserve the full hover, visited, active, error, success and focus state system when adapting components.",
+    "Update the pinned token set when GOV.UK Frontend changes instead of retaining an obsolete colour for visual compatibility."
+  ],
+  "accessibility": [
+    "Text and interactive elements must meet WCAG 2.2 level AA contrast requirements in every state.",
+    "Never use colour as the only way to communicate status, validation, selection or action hierarchy.",
+    "Test custom colour combinations rather than assuming that two palette colours have sufficient contrast.",
+    "Retain the yellow focus background and dark focus text unless official component guidance specifies another tested treatment."
+  ],
+  "restrictions": [
+    "Do not assign a new meaning to an existing GOV.UK functional colour.",
+    "Do not claim an interface is GOV.UK-conformant because its brand blue and green values match the palette.",
+    "This portable token export does not replace GOV.UK Frontend component CSS."
+  ],
+  "tokenRefs": [
+    "govuk.color.brand",
+    "govuk.color.text",
+    "govuk.color.secondary-text",
+    "govuk.color.link",
+    "govuk.color.link-visited",
+    "govuk.color.link-hover",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.error",
+    "govuk.color.success"
+  ],
+  "examples": [
+    {
+      "name": "Functional colour in plain CSS",
+      "language": "css",
+      "code": ".app-status--error {\n  color: var(--govuk-error-colour);\n  border-left: var(--govuk-border-width) solid currentcolor;\n}"
+    }
+  ]
+}

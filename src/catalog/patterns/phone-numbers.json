@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "phone-numbers",
+  "name": "Phone numbers",
+  "category": "pattern",
+  "group": "ask-users-for",
+  "summary": "Ask for a phone number only when needed, accepting the formats, prefixes and separators people normally use.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/phone-numbers/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Collect a phone number only when the service genuinely needs it.",
+    "Offer another contact route because not everyone has or can use a phone."
+  ],
+  "whenNotToUse": [
+    "Do not make a phone number mandatory when the task can be completed or supported through another channel.",
+    "Do not assume all numbers use a UK length or format."
+  ],
+  "rules": [
+    "Use a type=tel text input with autocomplete=tel rather than a number input.",
+    "Accept spaces, hyphens, dashes, brackets, country codes and area codes, then validate against the relevant numbering plan.",
+    "Explain how the number will be used and whether calls or messages may be sent."
+  ],
+  "accessibility": [
+    "Use a visible label and associate purpose hints and specific errors with the field.",
+    "Do not force a numeric-only value or formatting script that disrupts cursor, paste or assistive-input behaviour."
+  ],
+  "componentRefs": ["text-input", "error-message"],
+  "relatedPatterns": ["confirm-a-phone-number", "validation"]
+}

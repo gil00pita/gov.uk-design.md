@@ -1,0 +1,70 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "generic-header",
+  "name": "Generic header",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use the Generic header to give a public-sector service a clear branded header when it is not entitled to use the GOV.UK crown and logotype.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/generic-header/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/generic-header",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for services outside the GOV.UK proposition that want a compatible GOV.UK Frontend page structure without GOV.UK identity assets.",
+    "Use a concise organisation or service name as the homepage link."
+  ],
+  "whenNotToUse": [
+    "Do not use it as an imitation GOV.UK header by adding the GOV.UK crown, logotype or protected identity styling.",
+    "Do not replace the official GOV.UK header with this component when the service is authorised and required to use the GOV.UK identity."
+  ],
+  "anatomy": [
+    {
+      "name": "Header container",
+      "required": true,
+      "description": "A full-width header contains an aligned GOV.UK width container."
+    },
+    {
+      "name": "Homepage link",
+      "required": true,
+      "description": "A prominent text link names the service or organisation and returns to its home page."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "div",
+      "classes": ["govuk-generic-header"],
+      "use": "A non-GOV.UK service with a short text identity."
+    }
+  ],
+  "behaviour": [
+    "The Generic header requires no GOV.UK JavaScript and the homepage control is an ordinary link.",
+    "Keep the link destination stable and preserve standard browser link behaviour."
+  ],
+  "accessibility": [
+    "Use a real link with a visible accessible name and sufficient contrast.",
+    "Keep the text identity legible at narrow widths and high zoom.",
+    "Do not communicate the service identity through an image or colour alone."
+  ],
+  "content": [
+    "Use the official public name of the service or organisation.",
+    "Keep the name short enough to wrap predictably on small screens.",
+    "Do not add the words GOV.UK or a crown mark unless use has been explicitly authorised."
+  ],
+  "tokenRefs": [
+    "govuk.color.text",
+    "govuk.color.body-background",
+    "govuk.color.focus",
+    "govuk.layout.page-width"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Text identity",
+      "html": "<div class=\"govuk-generic-header\">\n  <div class=\"govuk-generic-header__container govuk-width-container\">\n    <div class=\"govuk-generic-header__logo\"><a href=\"/\" class=\"govuk-generic-header__homepage-link\">Example service</a></div>\n  </div>\n</div>"
+    }
+  ]
+}

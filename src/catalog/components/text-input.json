@@ -1,0 +1,105 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "text-input",
+  "name": "Text input",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a text input when a user needs to enter a short amount of text that cannot be selected from predetermined options.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/text-input/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/input",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for a short free-text answer such as a name, reference, or account identifier.",
+    "Choose a width that communicates the expected answer length when the expected format is known.",
+    "Add hint text only when it helps users provide the requested information."
+  ],
+  "whenNotToUse": [
+    "Do not use for long answers; use the textarea component.",
+    "Do not use free text when users should select from a small, known set of options.",
+    "Do not set a maximum length merely to force visual width; input width and data validation are separate concerns."
+  ],
+  "anatomy": [
+    {
+      "name": "Form group",
+      "required": true,
+      "description": "Groups the label, optional hint, optional error, and input. Error state adds govuk-form-group--error."
+    },
+    {
+      "name": "Label",
+      "required": true,
+      "description": "A visible label is programmatically associated to the input using for and id."
+    },
+    {
+      "name": "Hint",
+      "required": false,
+      "description": "Supplementary guidance is referenced from aria-describedby when present."
+    },
+    {
+      "name": "Error message",
+      "required": false,
+      "description": "An error is visible, includes a visually hidden Error prefix, and is referenced from aria-describedby."
+    },
+    {
+      "name": "Input",
+      "required": true,
+      "description": "The native input keeps a stable id and name and receives the govuk-input class."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "input",
+      "classes": ["govuk-input"],
+      "use": "A short free-text answer whose expected length is not usefully constrained visually."
+    },
+    {
+      "id": "fixed-width",
+      "name": "Fixed width",
+      "element": "input",
+      "classes": ["govuk-input", "govuk-input--width-10"],
+      "use": "An answer with a predictable maximum presentation length, such as a National Insurance number."
+    },
+    {
+      "id": "error",
+      "name": "Error",
+      "element": "input",
+      "classes": ["govuk-input", "govuk-input--error"],
+      "use": "Redisplay an invalid answer with a specific error message and linked error summary."
+    }
+  ],
+  "behaviour": [
+    "The text input itself requires no GOV.UK JavaScript.",
+    "On validation failure, retain the user's answer unless doing so would expose sensitive information.",
+    "Server-side validation remains authoritative even when client-side validation is also used."
+  ],
+  "accessibility": [
+    "Every input must have a visible label associated using matching for and id values.",
+    "List hint IDs before error IDs in aria-describedby so supporting information is announced in a useful order.",
+    "Add govuk-input--error and govuk-form-group--error together; colour alone is not the error message.",
+    "Use an appropriate autocomplete token and input mode when the requested data has a defined purpose or keyboard layout."
+  ],
+  "content": [
+    "Ask one clear question and use the label as the primary prompt.",
+    "Do not use placeholder text as a substitute for a label or persistent hint.",
+    "Error messages should explain what went wrong and how to correct it without blaming the user."
+  ],
+  "tokenRefs": [
+    "govuk.color.input-border",
+    "govuk.color.error",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Input with hint and error",
+      "html": "<div class=\"govuk-form-group govuk-form-group--error\">\n  <label class=\"govuk-label\" for=\"national-insurance-number\">\n    National Insurance number\n  </label>\n  <div id=\"national-insurance-number-hint\" class=\"govuk-hint\">\n    It is on your National Insurance card, benefit letter, payslip or P60.\n  </div>\n  <p id=\"national-insurance-number-error\" class=\"govuk-error-message\">\n    <span class=\"govuk-visually-hidden\">Error:</span> Enter a National Insurance number in the correct format\n  </p>\n  <input class=\"govuk-input govuk-input--width-10 govuk-input--error\" id=\"national-insurance-number\" name=\"nationalInsuranceNumber\" type=\"text\" spellcheck=\"false\" aria-describedby=\"national-insurance-number-hint national-insurance-number-error\">\n</div>"
+    }
+  ]
+}
+

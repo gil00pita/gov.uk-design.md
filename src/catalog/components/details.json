@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "details",
+  "name": "Details",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use details to let users reveal optional supporting information without distracting from the main task.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/details/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/details",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for optional help or additional context that only some users need.",
+    "Use when the summary alone clearly explains what will be revealed."
+  ],
+  "whenNotToUse": [
+    "Do not hide information most users need to understand or complete the task.",
+    "Do not hide validation errors, eligibility conditions or important consequences.",
+    "Do not use several details components when a clearer page structure would be easier to scan."
+  ],
+  "anatomy": [
+    {
+      "name": "Details element",
+      "required": true,
+      "description": "The native details element provides disclosure behaviour without GOV.UK JavaScript."
+    },
+    {
+      "name": "Summary",
+      "required": true,
+      "description": "A native summary contains a short, descriptive govuk-details__summary-text label."
+    },
+    {
+      "name": "Details text",
+      "required": true,
+      "description": "The revealed content sits in govuk-details__text."
+    }
+  ],
+  "variants": [
+    {
+      "id": "closed",
+      "name": "Closed by default",
+      "element": "details",
+      "classes": ["govuk-details"],
+      "use": "Optional supporting content that is not required immediately."
+    },
+    {
+      "id": "open",
+      "name": "Open by default",
+      "element": "details",
+      "classes": ["govuk-details"],
+      "use": "An exceptional case where the native open attribute is justified by the current context."
+    }
+  ],
+  "behaviour": [
+    "Use the browser's native details and summary disclosure; no GOV.UK JavaScript module is required.",
+    "Do not replace summary with a generic div or custom click handler.",
+    "Content remains available in browsers that expose the native element without CSS."
+  ],
+  "accessibility": [
+    "Keep the native elements and visible focus treatment.",
+    "Make the summary meaningful when read independently and avoid duplicate summaries on a page.",
+    "Ensure revealed interactive content follows the summary in a logical keyboard order."
+  ],
+  "content": [
+    "Write the summary as a concise label for the hidden content, such as “Help with nationality”.",
+    "Keep the revealed answer focused and move essential instructions into the main page content."
+  ],
+  "tokenRefs": [
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Optional help",
+      "html": "<details class=\"govuk-details\">\n  <summary class=\"govuk-details__summary\">\n    <span class=\"govuk-details__summary-text\">Help with nationality</span>\n  </summary>\n  <div class=\"govuk-details__text\">Tell us the nationality shown on your passport.</div>\n</details>"
+    }
+  ]
+}

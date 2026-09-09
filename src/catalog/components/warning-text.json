@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "warning-text",
+  "name": "Warning text",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use warning text to alert users to an important consequence of an action or inaction.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/warning-text/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/warning-text",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when users need to understand a serious consequence before deciding what to do.",
+    "Place it immediately before the related action or decision when timing matters."
+  ],
+  "whenNotToUse": [
+    "Do not use for ordinary guidance, validation errors or successful outcomes.",
+    "Do not show several warning-text components on one page, which makes it difficult to identify the most important consequence."
+  ],
+  "anatomy": [
+    {
+      "name": "Warning container",
+      "required": true,
+      "description": "A govuk-warning-text groups the icon and message."
+    },
+    {
+      "name": "Decorative icon",
+      "required": true,
+      "description": "The exclamation mark is hidden from assistive technology using aria-hidden."
+    },
+    {
+      "name": "Warning message",
+      "required": true,
+      "description": "Strong text contains a visually hidden Warning label followed by the consequence."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "div",
+      "classes": ["govuk-warning-text"],
+      "use": "A serious consequence on the standard page background."
+    }
+  ],
+  "behaviour": [
+    "No GOV.UK JavaScript module is required.",
+    "Keep the warning adjacent to the action or information it qualifies."
+  ],
+  "accessibility": [
+    "Retain aria-hidden on the icon and the govuk-visually-hidden Warning text.",
+    "The consequence must be understandable without seeing the icon, weight or layout.",
+    "Do not use warning styling as the only indication that an action has risk."
+  ],
+  "content": [
+    "State the specific consequence in plain language.",
+    "Avoid vague phrases such as “Warning: be careful” and do not duplicate “Warning” in visible text.",
+    "Tell users what they can do to avoid the consequence when that is not obvious."
+  ],
+  "tokenRefs": [
+    "govuk.color.text",
+    "govuk.color.inverse-text",
+    "govuk.typography.weight.bold",
+    "govuk.border.standard"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Registration warning",
+      "html": "<div class=\"govuk-warning-text\">\n  <span class=\"govuk-warning-text__icon\" aria-hidden=\"true\">!</span>\n  <strong class=\"govuk-warning-text__text\">\n    <span class=\"govuk-visually-hidden\">Warning</span>\n    You can be fined up to £5,000 if you do not register.\n  </strong>\n</div>"
+    }
+  ]
+}

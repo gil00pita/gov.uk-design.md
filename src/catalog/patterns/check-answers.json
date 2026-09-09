@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "check-answers",
+  "name": "Check answers",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Let users review and change the information they provided before they submit a transaction.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/check-answers/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use before a final submission when users need to confirm that collected information is correct.",
+    "Group answers into meaningful sections that match the journey."
+  ],
+  "whenNotToUse": [
+    "Do not add a check page to a very short, low-risk interaction unless research shows it helps.",
+    "Do not make users restart the journey to correct one answer."
+  ],
+  "rules": [
+    "Use Summary list rows for question-and-answer pairs and add a specific change link for every editable answer.",
+    "Change links must return users to the check page after editing and retain other answers.",
+    "Make the final action explicit and explain any declaration, legal effect or next step before the button."
+  ],
+  "accessibility": [
+    "Append visually hidden context to repeated change links so each has a unique accessible name.",
+    "Render answers as text rather than disabled form controls and preserve a logical heading hierarchy."
+  ],
+  "componentRefs": ["summary-list", "button", "back-link"],
+  "relatedPatterns": ["confirmation-pages", "validation"]
+}

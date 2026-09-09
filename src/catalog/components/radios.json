@@ -1,0 +1,97 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "radios",
+  "name": "Radios",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use radios when users must choose exactly one option from a small, visible set.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/radios/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/radios",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for one answer from a small set where seeing every option helps users compare.",
+    "Use inline radios only for short, familiar binary choices such as Yes and No."
+  ],
+  "whenNotToUse": [
+    "Use checkboxes when more than one answer may be selected.",
+    "Use a select or autocomplete when the option set is too long to scan.",
+    "Do not preselect an answer unless it is a genuine, safe default."
+  ],
+  "anatomy": [
+    {
+      "name": "Fieldset and legend",
+      "required": true,
+      "description": "A fieldset groups the question and all radio options."
+    },
+    {
+      "name": "Radio group",
+      "required": true,
+      "description": "A govuk-radios container carries the enhancement hook."
+    },
+    {
+      "name": "Radio items",
+      "required": true,
+      "description": "Native inputs share one name and each has a unique ID, value and associated label."
+    },
+    {
+      "name": "Conditional content",
+      "required": false,
+      "description": "An option may reveal one small, directly related follow-up region."
+    }
+  ],
+  "variants": [
+    {
+      "id": "stacked",
+      "name": "Stacked",
+      "element": "div",
+      "classes": ["govuk-radios"],
+      "use": "The default for most radio questions."
+    },
+    {
+      "id": "inline",
+      "name": "Inline",
+      "element": "div",
+      "classes": ["govuk-radios", "govuk-radios--inline"],
+      "use": "Short binary choices such as Yes and No."
+    },
+    {
+      "id": "small",
+      "name": "Small",
+      "element": "div",
+      "classes": ["govuk-radios", "govuk-radios--small"],
+      "use": "A compact expert interface after testing target size and usability."
+    }
+  ],
+  "behaviour": [
+    "Initialise govuk-radios when using conditional content.",
+    "Without JavaScript, conditional content remains visible and server validation remains authoritative.",
+    "Do not reveal complex questions or another radio group conditionally; use a new page.",
+    "Retain the selected value after validation errors."
+  ],
+  "accessibility": [
+    "Use native radio inputs inside a fieldset with a visible legend.",
+    "Associate labels, hints, errors and conditional content using unique IDs and official attributes.",
+    "Ensure options remain understandable in source order and with styling removed."
+  ],
+  "content": [
+    "Write mutually exclusive, non-overlapping options that complete the legend's question.",
+    "Use a divider such as “or” only to separate a distinct final alternative.",
+    "Keep labels concise and add item hints only where necessary."
+  ],
+  "tokenRefs": [
+    "govuk.color.input-border",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.error"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Yes or no",
+      "html": "<div class=\"govuk-form-group\"><fieldset class=\"govuk-fieldset\"><legend class=\"govuk-fieldset__legend\">Have you changed your name?</legend><div class=\"govuk-radios govuk-radios--inline\" data-module=\"govuk-radios\"><div class=\"govuk-radios__item\"><input class=\"govuk-radios__input\" id=\"changed-name\" name=\"changedName\" type=\"radio\" value=\"yes\"><label class=\"govuk-label govuk-radios__label\" for=\"changed-name\">Yes</label></div><div class=\"govuk-radios__item\"><input class=\"govuk-radios__input\" id=\"changed-name-2\" name=\"changedName\" type=\"radio\" value=\"no\"><label class=\"govuk-label govuk-radios__label\" for=\"changed-name-2\">No</label></div></div></fieldset></div>"
+    }
+  ]
+}

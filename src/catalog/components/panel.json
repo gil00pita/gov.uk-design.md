@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "panel",
+  "name": "Panel",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a panel to highlight the outcome of an important action, especially successful completion of a transaction.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/panel/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/panel",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use at the top of a confirmation page to tell users that they completed an important action.",
+    "Include a reference number or other short result in the body when users must retain it."
+  ],
+  "whenNotToUse": [
+    "Do not use a panel for routine information, warnings or validation errors.",
+    "Do not rely on the panel as the entire confirmation page; follow it with what happens next."
+  ],
+  "anatomy": [
+    {
+      "name": "Confirmation panel",
+      "required": true,
+      "description": "A govuk-panel govuk-panel--confirmation container carries the highlighted outcome."
+    },
+    {
+      "name": "Title",
+      "required": true,
+      "description": "A concise heading states the successful result and is normally the page h1."
+    },
+    {
+      "name": "Body",
+      "required": false,
+      "description": "Optional content shows a reference or another immediately important detail."
+    }
+  ],
+  "variants": [
+    {
+      "id": "confirmation",
+      "name": "Confirmation",
+      "element": "div",
+      "classes": ["govuk-panel", "govuk-panel--confirmation"],
+      "use": "The primary outcome at the start of a confirmation page."
+    }
+  ],
+  "behaviour": [
+    "No GOV.UK JavaScript module is required.",
+    "Render the panel after the server has completed or authoritatively confirmed the action, not as an optimistic client-only state.",
+    "Follow the panel with details about next steps, timing, records and support."
+  ],
+  "accessibility": [
+    "Use an h1 for the confirmation title when it is the page's main heading.",
+    "Ensure the result is explicit in text and not conveyed only by the green background.",
+    "When navigation moves to the confirmation page, make the page title and heading identify the completed task."
+  ],
+  "content": [
+    "State the outcome directly, such as “Application complete”.",
+    "Label any reference number and make it easy to copy accurately.",
+    "Do not use celebratory or vague copy that obscures what was completed."
+  ],
+  "tokenRefs": [
+    "govuk.color.success",
+    "govuk.color.inverse-text",
+    "govuk.typography.weight.bold"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Application confirmation",
+      "html": "<div class=\"govuk-panel govuk-panel--confirmation\">\n  <h1 class=\"govuk-panel__title\">Application complete</h1>\n  <div class=\"govuk-panel__body\">Your reference number<br><strong>HDJ2123F</strong></div>\n</div>"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "bank-details",
+  "name": "Bank details",
+  "category": "pattern",
+  "group": "ask-users-for",
+  "summary": "Ask for bank or building-society account details in familiar separate fields, accepting the formats people normally use.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/bank-details/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when the service must pay money into or collect money from a UK bank or building-society account.",
+    "Collect only the fields needed for the transaction and applicable validation."
+  ],
+  "whenNotToUse": [
+    "Do not ask for bank details before the user understands why they are needed and how they will be protected.",
+    "Do not confuse bank details with payment-card details."
+  ],
+  "rules": [
+    "Use separate fields for name on the account, sort code, account number and an optional building-society roll number.",
+    "Use text inputs with numeric input mode where helpful; do not use number inputs because leading zeroes and spacing matter.",
+    "Accept common separators and normalise input safely rather than demanding one visual format."
+  ],
+  "accessibility": [
+    "Keep every label visible and associate format hints and specific errors using aria-describedby.",
+    "Do not prevent pasting, password-manager assistance or assistive input methods."
+  ],
+  "componentRefs": ["text-input", "error-message", "button"],
+  "relatedPatterns": ["validation", "check-answers"]
+}

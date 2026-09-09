@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "task-list",
+  "name": "Task list",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a task list to show the tasks in a multi-part service and help users understand which are complete or still need attention.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/task-list/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/task-list",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for services with several tasks that users may complete over time or in a flexible order.",
+    "Show a clear current status for each task and link only tasks the user can open."
+  ],
+  "whenNotToUse": [
+    "Do not use for a short linear journey where normal page navigation is clearer.",
+    "Do not use as a generic navigation menu or checklist unrelated to completing a service."
+  ],
+  "anatomy": [
+    {
+      "name": "Task list",
+      "required": true,
+      "description": "A govuk-task-list ul contains one li per task."
+    },
+    {
+      "name": "Task name and hint",
+      "required": true,
+      "description": "The task has a concise name, optional hint and an href only when it is available."
+    },
+    {
+      "name": "Status",
+      "required": true,
+      "description": "A uniquely identified status is referenced from the task link using aria-describedby."
+    }
+  ],
+  "variants": [
+    {
+      "id": "linked-task",
+      "name": "Linked task",
+      "element": "li",
+      "classes": ["govuk-task-list__item", "govuk-task-list__item--with-link"],
+      "use": "A task the user can currently open."
+    },
+    {
+      "id": "unlinked-task",
+      "name": "Unlinked task",
+      "element": "li",
+      "classes": ["govuk-task-list__item"],
+      "use": "A task that is unavailable or does not have a destination."
+    }
+  ],
+  "behaviour": [
+    "No GOV.UK JavaScript module is required; links navigate to the corresponding task.",
+    "Derive status from authoritative service data and update it after task completion.",
+    "Do not make the status itself the only clickable target when the task name is the destination."
+  ],
+  "accessibility": [
+    "Associate each link with its unique status ID using aria-describedby.",
+    "Status text must be meaningful without its tag colour.",
+    "Keep list order and task availability understandable to keyboard and screen-reader users."
+  ],
+  "content": [
+    "Name each task with a concise verb phrase or recognisable subject.",
+    "Use a small consistent status vocabulary, such as “Not started”, “In progress” and “Completed”.",
+    "Add hint text only when the task name does not provide enough context."
+  ],
+  "tokenRefs": [
+    "govuk.color.border",
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.typography.weight.bold"
+  ],
+  "htmlExamples": [
+    {
+      "name": "One task with status",
+      "html": "<ul class=\"govuk-task-list\">\n  <li class=\"govuk-task-list__item govuk-task-list__item--with-link\">\n    <div class=\"govuk-task-list__name-and-hint\"><a class=\"govuk-link govuk-task-list__link\" href=\"/company-details\" aria-describedby=\"company-details-status\">Company details</a></div>\n    <div class=\"govuk-task-list__status\" id=\"company-details-status\">Completed</div>\n  </li>\n</ul>"
+    }
+  ]
+}

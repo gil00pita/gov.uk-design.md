@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "images",
+  "name": "Images",
+  "category": "style",
+  "group": "visual-elements",
+  "summary": "Use images only for a demonstrated user need and ensure their information remains available to people who cannot see them.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/images/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/assets",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Begin with clear written content and add an image only when research shows that it helps users understand or complete the service.",
+    "Treat an image as a visual aid; all information needed to complete the task must also exist in text or another accessible form.",
+    "Use photography, illustration and icons consistently and avoid decorative stock imagery.",
+    "Avoid images containing text because the text cannot reflow, translate or respond reliably to user settings.",
+    "Supply intrinsic width and height and responsive sizing to reduce layout shifts without cropping essential information."
+  ],
+  "accessibility": [
+    "Write concise alt text that communicates the image's purpose in context; use an empty alt attribute for a genuinely decorative image.",
+    "Do not repeat nearby visible text in alt text or begin it with image of.",
+    "For complex diagrams, provide the equivalent information in adjacent text or a linked accessible description.",
+    "Maintain sufficient contrast for meaningful details and do not communicate distinctions by colour alone."
+  ],
+  "restrictions": [
+    "Do not copy or redistribute GOV.UK crowns, logotypes, favicons or other identity assets from this repository; obtain approved assets through official GOV.UK Frontend channels when the service is eligible.",
+    "Do not replace a native control or a text label with an unexplained icon."
+  ],
+  "tokenRefs": [],
+  "examples": [
+    {
+      "name": "Informative responsive image",
+      "language": "html",
+      "code": "<img src=\"/assets/permit-example.webp\" alt=\"Permit number highlighted in the top-right corner\" width=\"800\" height=\"450\" style=\"max-width: 100%; height: auto\">"
+    }
+  ]
+}

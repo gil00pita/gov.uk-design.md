@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "navigate-a-service",
+  "name": "Navigate a service",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Use the GOV.UK header and Service navigation together when repeat users need to move among persistent areas of a non-linear service.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/navigate-a-service/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use navigation links for services used repeatedly, with multiple tasks and no single end-to-end order.",
+    "Simplify the service structure first and include only destinations that meet a persistent user need."
+  ],
+  "whenNotToUse": [
+    "Avoid service navigation for a clear linear transaction.",
+    "Use a Task list instead when users need to understand tasks, their order and completion status."
+  ],
+  "rules": [
+    "Use the official GOV.UK header only when identity eligibility applies and place Service navigation directly beneath it.",
+    "Put the service name and its primary links in Service navigation; keep GOV.UK-wide identity and tools in the header.",
+    "Mark the current page and keep responsive menu enhancement usable without JavaScript."
+  ],
+  "accessibility": [
+    "Give each navigation landmark a distinct accessible name and expose current-page state programmatically.",
+    "Keep the service name, links and responsive control usable at high zoom and with keyboard navigation."
+  ],
+  "componentRefs": ["header", "service-navigation", "task-list"],
+  "relatedPatterns": ["complete-multiple-tasks"]
+}

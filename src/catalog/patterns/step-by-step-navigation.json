@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "step-by-step-navigation",
+  "name": "Step by step navigation",
+  "category": "pattern",
+  "group": "pages",
+  "summary": "Prototype an end-to-end GOV.UK content journey as ordered expandable steps linking to the guidance and transactions needed to complete it.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/step-by-step-navigation/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for a GOV.UK journey with a specific start and end, several pieces of guidance or transactions and a helpful task order.",
+    "Use this repository guidance for prototyping and work with departmental and GOV.UK content teams for production."
+  ],
+  "whenNotToUse": [
+    "Do not use when most journey content is outside GOV.UK, no user action is needed or there is no helpful order.",
+    "Do not use inside a transactional service; use Complete multiple tasks and the Task list component."
+  ],
+  "rules": [
+    "Do not self-publish a custom step-by-step journey on live GOV.UK; the production pattern is created with GDS and content teams and is not provided by govuk-frontend.",
+    "Write a short introduction, group user tasks into numbered expandable steps and order them according to user need and dependency.",
+    "Prototype both the standalone page and the related-page sidebar/link presentation without customising the established design."
+  ],
+  "accessibility": [
+    "Make every step operable by keyboard with an exposed expanded state and keep task links available when enhancement fails.",
+    "Do not put information needed to complete a task only in the introduction because the sidebar does not show it."
+  ],
+  "componentRefs": [],
+  "relatedPatterns": ["complete-multiple-tasks"]
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gilalvaro/govuk-design-md/blob/main/schema/component.schema.json",
+  "title": "GOV.UK component record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "category",
+    "status",
+    "summary",
+    "source",
+    "whenToUse",
+    "whenNotToUse",
+    "anatomy",
+    "variants",
+    "behaviour",
+    "accessibility",
+    "content",
+    "tokenRefs",
+    "htmlExamples"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "category": { "const": "component" },
+    "status": {
+      "type": "string",
+      "enum": ["stable", "trial", "deprecated"]
+    },
+    "summary": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "guidanceUrl",
+        "implementationUrl",
+        "govukFrontendVersion",
+        "reviewedAt"
+      ],
+      "properties": {
+        "guidanceUrl": { "type": "string", "format": "uri" },
+        "implementationUrl": { "type": "string", "format": "uri" },
+        "govukFrontendVersion": { "type": "string" },
+        "reviewedAt": { "type": "string", "format": "date" }
+      }
+    },
+    "whenToUse": { "$ref": "#/$defs/nonEmptyStrings" },
+    "whenNotToUse": { "$ref": "#/$defs/nonEmptyStrings" },
+    "anatomy": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "required", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "required": { "type": "boolean" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "variants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "element", "classes", "use"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "name": { "type": "string" },
+          "element": { "type": "string" },
+          "classes": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "use": { "type": "string" }
+        }
+      }
+    },
+    "behaviour": { "$ref": "#/$defs/nonEmptyStrings" },
+    "accessibility": { "$ref": "#/$defs/nonEmptyStrings" },
+    "content": { "$ref": "#/$defs/nonEmptyStrings" },
+    "tokenRefs": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9.-]+$" },
+      "uniqueItems": true
+    },
+    "htmlExamples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "html"],
+        "properties": {
+          "name": { "type": "string" },
+          "html": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

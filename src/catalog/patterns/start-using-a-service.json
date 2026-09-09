@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "start-using-a-service",
+  "name": "Start using a service",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Start a public-facing UK government service from an agreed GOV.UK content page that explains the service and links into it.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/start-using-a-service/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use to prototype and agree the start point for a public-facing government service.",
+    "Work with the GOV.UK content team because the production start page is created in GOV.UK publishing tools, not GOV.UK Frontend."
+  ],
+  "whenNotToUse": [
+    "Do not launch a public GOV.UK transaction from an unindexed standalone application page.",
+    "Do not overload the start page with information only a minority of users need later."
+  ],
+  "rules": [
+    "Explain what the service does, who can use it, cost, likely time, information users need and alternative access routes.",
+    "Use one start-button link with an action-specific label such as “Start now” or “Sign in”; make secondary actions ordinary links.",
+    "Include resume, sign-in or update routes where relevant and align the service name with the user need it solves."
+  ],
+  "accessibility": [
+    "Use a real link for the start action and preserve its destination and visible focus state without JavaScript.",
+    "Write content in a clear heading structure and ensure alternative access information is complete and usable."
+  ],
+  "componentRefs": ["button", "details"],
+  "relatedPatterns": ["check-a-service-is-suitable", "contact-a-department-or-service-team"]
+}

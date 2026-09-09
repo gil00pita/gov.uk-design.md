@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "error-summary",
+  "name": "Error summary",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use the Error summary at the top of a page to list validation errors and link each message to the field that needs attention.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/error-summary/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/error-summary",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use after server-side or client-side validation fails on a page with user inputs.",
+    "Place it near the top of main content and repeat each error beside its field."
+  ],
+  "whenNotToUse": [
+    "Do not use as the only indication that a field has an error.",
+    "Do not use for system failures or service-wide status messages; use an appropriate error page or notification instead."
+  ],
+  "anatomy": [
+    {
+      "name": "Summary container",
+      "required": true,
+      "description": "A GOV.UK JavaScript module contains an alert region."
+    },
+    {
+      "name": "Title",
+      "required": true,
+      "description": "A heading identifies that the page contains a problem."
+    },
+    {
+      "name": "Error list",
+      "required": true,
+      "description": "Each concise message links to the related input, fieldset legend or other appropriate target."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "div",
+      "classes": ["govuk-error-summary"],
+      "use": "Summarise one or more validation errors on the current page."
+    }
+  ],
+  "behaviour": [
+    "Initialise the govuk-error-summary module so it can move focus to the summary when appropriate after validation.",
+    "Each link must target the relevant form control; for grouped controls, target the first control unless research supports a better focus target.",
+    "Keep server-side validation authoritative even when adding client-side validation."
+  ],
+  "accessibility": [
+    "Put the summary inside main content and keep it visible in the document without JavaScript.",
+    "Use matching text in the summary and the inline error so users can connect them.",
+    "Do not rely on red colour or focus movement alone to announce errors."
+  ],
+  "content": [
+    "Use a standard title such as “There is a problem”.",
+    "Write messages that explain what happened and how to fix it, without blaming the user.",
+    "Do not include the word “Error” before every list item."
+  ],
+  "tokenRefs": [
+    "govuk.color.error",
+    "govuk.color.text",
+    "govuk.color.link",
+    "govuk.color.focus"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Validation summary",
+      "html": "<div class=\"govuk-error-summary\" data-module=\"govuk-error-summary\">\n  <div role=\"alert\">\n    <h2 class=\"govuk-error-summary__title\">There is a problem</h2>\n    <div class=\"govuk-error-summary__body\">\n      <ul class=\"govuk-list govuk-error-summary__list\">\n        <li><a href=\"#email\">Enter an email address</a></li>\n      </ul>\n    </div>\n  </div>\n</div>"
+    }
+  ]
+}

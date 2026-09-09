@@ -1,0 +1,97 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "summary-list",
+  "name": "Summary list",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a summary list to present related key-and-value facts, optionally with contextual actions or a summary-card heading.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/summary-list/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/summary-list",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for facts that each have a clear key and at least one value.",
+    "Use summary cards for several records of the same type, such as people or appointments.",
+    "Add actions when users can change or remove the corresponding information."
+  ],
+  "whenNotToUse": [
+    "Do not use for tabular comparisons; use a Table.",
+    "Do not use for an ordinary sequence or task list.",
+    "Do not force content without a meaningful key-value relationship into a description list."
+  ],
+  "anatomy": [
+    {
+      "name": "Description list",
+      "required": true,
+      "description": "A govuk-summary-list dl contains repeated row wrappers."
+    },
+    {
+      "name": "Key and value",
+      "required": true,
+      "description": "Each row contains a dt key and dd value."
+    },
+    {
+      "name": "Actions",
+      "required": false,
+      "description": "An optional dd contains links with visually hidden row context."
+    },
+    {
+      "name": "Card heading",
+      "required": false,
+      "description": "A summary card can group a list with a heading and whole-card actions."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Summary list",
+      "element": "dl",
+      "classes": ["govuk-summary-list"],
+      "use": "One group of key-value facts."
+    },
+    {
+      "id": "no-border",
+      "name": "Without borders",
+      "element": "dl",
+      "classes": ["govuk-summary-list", "govuk-summary-list--no-border"],
+      "use": "A short simple list where row borders add unnecessary visual weight."
+    },
+    {
+      "id": "card",
+      "name": "Summary card",
+      "element": "div",
+      "classes": ["govuk-summary-card"],
+      "use": "One of several comparable records requiring its own heading or actions."
+    }
+  ],
+  "behaviour": [
+    "No GOV.UK JavaScript module is required and action links use ordinary href navigation.",
+    "Keep rows in a meaningful order and retain the semantic dl, dt and dd elements.",
+    "After a change action, return users to the correct review context where possible."
+  ],
+  "accessibility": [
+    "Add visually hidden key context to repeated action labels, for example “Change name”.",
+    "Set the card heading level to fit the page hierarchy.",
+    "Do not create empty keys or values merely to preserve a visual grid."
+  ],
+  "content": [
+    "Keep keys concise and use the same terms as the questions that collected the data.",
+    "Format values for reading rather than exposing raw storage values.",
+    "Use consistent action verbs such as “Change” and “Remove”."
+  ],
+  "tokenRefs": [
+    "govuk.color.border",
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.typography.weight.bold"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Facts with contextual action",
+      "html": "<dl class=\"govuk-summary-list\">\n  <div class=\"govuk-summary-list__row\">\n    <dt class=\"govuk-summary-list__key\">Name</dt>\n    <dd class=\"govuk-summary-list__value\">Alex Smith</dd>\n    <dd class=\"govuk-summary-list__actions\"><a class=\"govuk-link\" href=\"/name\">Change<span class=\"govuk-visually-hidden\"> name</span></a></dd>\n  </div>\n</dl>"
+    }
+  ]
+}

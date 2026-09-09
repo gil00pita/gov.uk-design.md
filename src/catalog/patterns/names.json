@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "names",
+  "name": "Names",
+  "category": "pattern",
+  "group": "ask-users-for",
+  "summary": "Ask for a person’s name only when needed, using the fewest fields and accepting the characters and structures real names require.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/names/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when a person’s name is necessary to deliver the service.",
+    "Prefer one full-name field unless the service has a proven reason to address or process name parts separately."
+  ],
+  "whenNotToUse": [
+    "Do not collect titles, middle names, previous names or separate name parts by default.",
+    "Do not use a name as proof of identity or assume it is unique or permanent."
+  ],
+  "rules": [
+    "Make fields long enough for the population using the service and support letters, diacritics, numbers, spaces, apostrophes and other needed symbols.",
+    "Use autocomplete=name for a full name, or the appropriate name-part values only when separate fields are justified.",
+    "Avoid over-validating capitalisation, length or word count; store the value without silently rewriting it."
+  ],
+  "accessibility": [
+    "Keep the label visible and do not encode assumptions about name order in placeholder text.",
+    "Explain precisely whose name is requested when a user may act for another person."
+  ],
+  "componentRefs": ["text-input", "error-message"],
+  "relatedPatterns": ["validation"]
+}

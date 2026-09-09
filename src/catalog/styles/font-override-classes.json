@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "font-override-classes",
+  "name": "Font override classes",
+  "category": "style",
+  "group": "typography",
+  "summary": "Use GOV.UK font override classes sparingly when content needs an explicit alignment, size, weight, number style or overflow treatment.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/font-override-classes/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/overrides/_typography.scss",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Prefer the default typography of the component or content element before applying an override.",
+    "Use govuk-!-text-align-left, -right or -centre only when the content convention requires it.",
+    "Use reviewed govuk-!-font-size-* and govuk-!-font-weight-* classes instead of custom declarations.",
+    "Use tabular number and break-word overrides only for content that demonstrates the need."
+  ],
+  "accessibility": [
+    "Visual alignment and weight do not change semantic reading order or importance.",
+    "Do not shrink essential information below standard body size.",
+    "When breaking long words or identifiers, confirm the full value remains available and understandable to assistive technology."
+  ],
+  "restrictions": [
+    "Do not stack several override classes to redesign a component.",
+    "Do not use typography overrides as a substitute for the correct heading, paragraph or component class."
+  ],
+  "tokenRefs": [
+    "govuk.typography.weight.regular",
+    "govuk.typography.weight.bold",
+    "govuk.typography.scale.16.mobile-font-size",
+    "govuk.typography.scale.19.mobile-font-size",
+    "govuk.typography.scale.24.mobile-font-size"
+  ],
+  "examples": [
+    {
+      "name": "Tabular numeric data",
+      "language": "html",
+      "code": "<span class=\"govuk-!-font-tabular-numbers\">12,345.67</span>"
+    }
+  ]
+}

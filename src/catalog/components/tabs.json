@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "tabs",
+  "name": "Tabs",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use Tabs to let experienced users switch between closely related sections of content without leaving the page.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/tabs/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/tabs",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for users who are familiar with tabbed interfaces, such as caseworkers switching between related data views.",
+    "Use only when users do not need to compare the sections at the same time."
+  ],
+  "whenNotToUse": [
+    "Do not use for primary page or site navigation, or to hide steps in a journey.",
+    "Do not use when users need to read sections in order or compare information across them."
+  ],
+  "anatomy": [
+    {
+      "name": "Tabs module",
+      "required": true,
+      "description": "The root contains a fallback contents heading, link list and corresponding panels."
+    },
+    {
+      "name": "Tab links",
+      "required": true,
+      "description": "Each ordinary anchor targets the id of one content panel."
+    },
+    {
+      "name": "Panels",
+      "required": true,
+      "description": "Each uniquely identified panel contains a heading and its complete content."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "div",
+      "classes": ["govuk-tabs"],
+      "use": "Two or more closely related content views for experienced users."
+    }
+  ],
+  "behaviour": [
+    "Initialise govuk-tabs so wide screens receive tab semantics, keyboard behaviour and history-fragment updates.",
+    "On narrow screens and without JavaScript, links and panels behave as an in-page table of contents rather than an inaccessible tab widget.",
+    "Do not manually add ARIA tab roles; allow the official GOV.UK module to enhance the base markup."
+  ],
+  "accessibility": [
+    "Every tab href must match one unique panel id and every panel needs a descriptive heading.",
+    "Keep all content in the document so it remains reachable before enhancement.",
+    "Test keyboard navigation, back and forward navigation, and layouts at high zoom."
+  ],
+  "content": [
+    "Use short, distinct tab labels that describe the panel content.",
+    "Keep the number of tabs small enough to remain understandable and usable on narrow screens.",
+    "Do not repeat the same information in multiple panels."
+  ],
+  "tokenRefs": [
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.color.border",
+    "govuk.color.body-background"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Two related views",
+      "html": "<div class=\"govuk-tabs\" data-module=\"govuk-tabs\">\n  <h2 class=\"govuk-tabs__title\">Contents</h2>\n  <ul class=\"govuk-tabs__list\">\n    <li class=\"govuk-tabs__list-item govuk-tabs__list-item--selected\"><a class=\"govuk-tabs__tab\" href=\"#today\">Today</a></li>\n    <li class=\"govuk-tabs__list-item\"><a class=\"govuk-tabs__tab\" href=\"#this-week\">This week</a></li>\n  </ul>\n  <div class=\"govuk-tabs__panel\" id=\"today\"><h2 class=\"govuk-heading-l\">Today</h2><p class=\"govuk-body\">Today’s information.</p></div>\n  <div class=\"govuk-tabs__panel govuk-tabs__panel--hidden\" id=\"this-week\"><h2 class=\"govuk-heading-l\">This week</h2><p class=\"govuk-body\">This week’s information.</p></div>\n</div>"
+    }
+  ]
+}

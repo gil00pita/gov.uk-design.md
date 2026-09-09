@@ -1,0 +1,91 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "breadcrumbs",
+  "name": "Breadcrumbs",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use breadcrumbs to help users understand and move between levels in a website with a deep hierarchy.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/breadcrumbs/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/breadcrumbs",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when a site has multiple hierarchical levels and users need to understand or traverse that structure.",
+    "Use the collapse-on-mobile variant for a long path after confirming that the first and final visible items remain useful."
+  ],
+  "whenNotToUse": [
+    "Do not use on a site with a flat information architecture.",
+    "Do not use breadcrumbs to show progress through a linear transaction.",
+    "Never show breadcrumbs together with a back link."
+  ],
+  "anatomy": [
+    {
+      "name": "Navigation landmark",
+      "required": true,
+      "description": "A nav element has a concise aria-label that identifies the breadcrumb navigation."
+    },
+    {
+      "name": "Ordered path",
+      "required": true,
+      "description": "An ordered list represents the hierarchy from the home page to the current page's parent."
+    },
+    {
+      "name": "Breadcrumb links",
+      "required": true,
+      "description": "Each item links to its corresponding ancestor level."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "nav",
+      "classes": ["govuk-breadcrumbs"],
+      "use": "A short hierarchy on the standard page background."
+    },
+    {
+      "id": "collapse-on-mobile",
+      "name": "Collapse on mobile",
+      "element": "nav",
+      "classes": ["govuk-breadcrumbs", "govuk-breadcrumbs--collapse-on-mobile"],
+      "use": "A long path that should show only its first and last items on smaller screens."
+    },
+    {
+      "id": "inverse",
+      "name": "Inverse",
+      "element": "nav",
+      "classes": ["govuk-breadcrumbs", "govuk-breadcrumbs--inverse"],
+      "use": "A dark background with verified contrast."
+    }
+  ],
+  "behaviour": [
+    "Place breadcrumbs before main so the page skip link bypasses them.",
+    "Start at the site's home page and end at the parent of the current page; do not include the current page as a redundant final link.",
+    "The component requires no JavaScript and every link must have a usable href."
+  ],
+  "accessibility": [
+    "Use a nav landmark with aria-label=\"Breadcrumb\" or an equivalent localised label.",
+    "Retain the ordered-list structure and meaningful link text.",
+    "Verify inverse links and separators meet contrast requirements."
+  ],
+  "content": [
+    "Use the page or section name for each item and keep it concise.",
+    "Ensure adjacent items are distinguishable when announced as a list of links."
+  ],
+  "tokenRefs": [
+    "govuk.color.link",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.inverse-text",
+    "govuk.breakpoint.tablet"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Three-level breadcrumbs",
+      "html": "<nav class=\"govuk-breadcrumbs\" aria-label=\"Breadcrumb\">\n  <ol class=\"govuk-breadcrumbs__list\">\n    <li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"/\">Home</a></li>\n    <li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"/benefits\">Benefits</a></li>\n    <li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"/benefits/families\">Families</a></li>\n  </ol>\n</nav>"
+    }
+  ]
+}

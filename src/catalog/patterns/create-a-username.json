@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "create-a-username",
+  "name": "Create a username",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Help users create or use a memorable unique username only after establishing that the service needs accounts.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/create-a-username/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Prefer an email address as the username when users have one and the service already needs it.",
+    "Use a custom username only where user-generated content needs a public attribution that can protect the person’s identity."
+  ],
+  "whenNotToUse": [
+    "Do not ask users to invent a username merely because an account system supports one.",
+    "Do not exclude users without email; research and provide a supported alternative."
+  ],
+  "rules": [
+    "Check uniqueness, suggest an available alternative when useful and ignore letter case during sign-in.",
+    "Let users retrieve or reset a forgotten username and change their email address or username later.",
+    "Explain any permitted characters before entry and avoid arbitrary rules that make a username difficult to remember."
+  ],
+  "accessibility": [
+    "Use one visible labelled text field and announce availability results without relying on colour or client-side JavaScript.",
+    "Keep suggestions understandable and editable instead of silently assigning an identifier."
+  ],
+  "componentRefs": ["text-input", "error-message", "button"],
+  "relatedPatterns": ["create-accounts", "email-addresses"]
+}

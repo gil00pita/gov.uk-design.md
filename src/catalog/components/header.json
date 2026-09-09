@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "header",
+  "name": "GOV.UK header",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use the official GOV.UK header on authorised GOV.UK services to identify the site and link consistently to the GOV.UK homepage.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/header/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/header",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use the official component for services that are part of GOV.UK and authorised to display its crown and logotype.",
+    "Pair it with Service navigation when the service needs a service name or service-level links."
+  ],
+  "whenNotToUse": [
+    "Do not use the GOV.UK crown or logotype for a service outside the GOV.UK proposition or without identity approval.",
+    "Do not recreate, redraw or substitute the protected identity asset from these documentation records; use the official GOV.UK Frontend component and assets."
+  ],
+  "anatomy": [
+    {
+      "name": "Header",
+      "required": true,
+      "description": "The GOV.UK header component establishes the official site identity."
+    },
+    {
+      "name": "Width container",
+      "required": true,
+      "description": "The inner content aligns with the page grid."
+    },
+    {
+      "name": "GOV.UK homepage link",
+      "required": true,
+      "description": "The official crown and logotype link to the GOV.UK homepage with the supplied accessible name."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "header",
+      "classes": ["govuk-header"],
+      "use": "The standard GOV.UK site identity above Service navigation or main content."
+    }
+  ],
+  "behaviour": [
+    "The current GOV.UK header itself requires no component JavaScript; initialise any separate Service navigation beneath it.",
+    "Use the official template or macro so identity markup and assets stay aligned with the pinned GOV.UK Frontend release.",
+    "Do not inline an invented or extracted logo in framework adapters."
+  ],
+  "accessibility": [
+    "Preserve the official accessible name, link semantics and focus treatment supplied by GOV.UK Frontend.",
+    "Keep the header readable at high zoom and do not place application content over the identity.",
+    "Avoid duplicate GOV.UK homepage links with the same accessible name in the header."
+  ],
+  "content": [
+    "Do not alter the GOV.UK logotype text, crown or relationship between them.",
+    "Put the service name and service-level links in Service navigation, not inside a custom header imitation.",
+    "Follow the GOV.UK identity and domain guidance before publication."
+  ],
+  "tokenRefs": [
+    "govuk.color.brand",
+    "govuk.color.inverse-text",
+    "govuk.color.focus",
+    "govuk.layout.page-width"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Official macro required",
+      "html": "<!-- Render the GOV.UK Frontend header macro/component from the pinned release. -->\n<header class=\"govuk-header\">\n  <div class=\"govuk-header__container govuk-width-container\">\n    <div class=\"govuk-header__logo\"><!-- Official GOV.UK homepage link and supplied logotype asset go here. --></div>\n  </div>\n</header>"
+    }
+  ]
+}

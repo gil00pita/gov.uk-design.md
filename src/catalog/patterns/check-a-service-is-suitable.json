@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../schema/pattern.schema.json",
+  "schemaVersion": 1,
+  "id": "check-a-service-is-suitable",
+  "name": "Check a service is suitable",
+  "category": "pattern",
+  "group": "help-users-to",
+  "summary": "Ask a short sequence of simple questions so users can learn early whether a service is suitable, what it costs or what outcome they may receive.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/patterns/check-a-service-is-suitable/",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when eligibility, cost, timescale or likely outcome is too complicated to explain clearly on the start page.",
+    "Help users find out whether the service meets their need before collecting application details."
+  ],
+  "whenNotToUse": [
+    "Do not build a checker when concise start-page content can explain the criteria.",
+    "Do not disguise policy decisions or deny users a route to understand and challenge an outcome."
+  ],
+  "rules": [
+    "Begin with an introduction, ask one simple question per page and calculate the relevant result from the answers.",
+    "End every branch with a clear results page that explains suitability and what the user can do next.",
+    "Put fixed rules such as universal age limits or deadlines on the start page as well as in the checker."
+  ],
+  "accessibility": [
+    "Use semantic question pages with visible legends or labels and preserve answers when users go back.",
+    "Write result pages in plain language and provide an accessible alternative when the automated decision cannot cover a user’s situation."
+  ],
+  "componentRefs": ["radios", "checkboxes", "button", "back-link"],
+  "relatedPatterns": ["question-pages", "start-using-a-service"]
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "button",
+  "name": "Button",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a button to let a user perform a clear action, such as saving information or continuing to the next step.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/button/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/button",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use the default button for the primary action on a page or form.",
+    "Use a start button for the entry point to a transactional service.",
+    "Use secondary or warning variants only when the action hierarchy or destructive consequence requires them."
+  ],
+  "whenNotToUse": [
+    "Do not use a button for ordinary navigation; use a link unless the link is the explicit start of a service.",
+    "Do not place several visually primary buttons together when one action is the clear next step.",
+    "Do not use the warning variant for a reversible or low-risk action."
+  ],
+  "anatomy": [
+    {
+      "name": "Native action element",
+      "required": true,
+      "description": "Use a button element for actions and form submission. A start-page link may use button styling with link semantics made explicit."
+    },
+    {
+      "name": "Action label",
+      "required": true,
+      "description": "Short sentence-case text describes the action and its effect."
+    },
+    {
+      "name": "GOV.UK module hook",
+      "required": true,
+      "description": "The data-module attribute allows GOV.UK Frontend to attach its supported behaviour."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "button",
+      "classes": ["govuk-button"],
+      "use": "The page's main action, for example “Save and continue”."
+    },
+    {
+      "id": "secondary",
+      "name": "Secondary",
+      "element": "button",
+      "classes": ["govuk-button", "govuk-button--secondary"],
+      "use": "A less prominent action, for example “Find address” or “Save as draft”."
+    },
+    {
+      "id": "warning",
+      "name": "Warning",
+      "element": "button",
+      "classes": ["govuk-button", "govuk-button--warning"],
+      "use": "A destructive action with serious consequences, for example “Delete account”."
+    },
+    {
+      "id": "start",
+      "name": "Start",
+      "element": "a",
+      "classes": ["govuk-button", "govuk-button--start"],
+      "use": "The single entry point to a service, labelled “Start now”."
+    }
+  ],
+  "behaviour": [
+    "Initialise GOV.UK Frontend JavaScript when using data-module=\"govuk-button\".",
+    "Form buttons should declare an appropriate type; use type=\"submit\" for submission and type=\"button\" for client-side actions.",
+    "The interface must remain understandable if JavaScript does not run."
+  ],
+  "accessibility": [
+    "Prefer the native button element for actions so keyboard and assistive-technology behaviour is supplied by the browser.",
+    "If a service-start link is styled as a button, retain an href and use the official start-button markup.",
+    "Do not encode action meaning through colour alone; the label must describe the consequence.",
+    "Preserve the official focus treatment and do not remove the visible focus indicator."
+  ],
+  "content": [
+    "Write labels in sentence case.",
+    "Start with a verb and describe the action, such as “Continue”, “Save and continue”, or “Delete account”.",
+    "Avoid vague labels such as “Submit” when a more specific action can be named."
+  ],
+  "tokenRefs": [
+    "govuk.color.success",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Default submit button",
+      "html": "<button type=\"submit\" class=\"govuk-button\" data-module=\"govuk-button\">\n  Save and continue\n</button>"
+    },
+    {
+      "name": "Secondary button",
+      "html": "<button type=\"submit\" class=\"govuk-button govuk-button--secondary\" data-module=\"govuk-button\">\n  Find address\n</button>"
+    },
+    {
+      "name": "Warning button",
+      "html": "<button type=\"submit\" class=\"govuk-button govuk-button--warning\" data-module=\"govuk-button\">\n  Delete account\n</button>"
+    }
+  ]
+}
+

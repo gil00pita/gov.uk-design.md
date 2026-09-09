@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "service-navigation",
+  "name": "Service navigation",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use Service navigation beneath the GOV.UK header to show a service name and a small set of service-level navigation links.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/service-navigation/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/service-navigation",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for a GOV.UK service that needs a visible service name, service navigation links, or both beneath the GOV.UK header.",
+    "Keep navigation short and limited to persistent top-level destinations supported by user research."
+  ],
+  "whenNotToUse": [
+    "Do not use to reproduce the GOV.UK global header or for page-level tabs and task navigation.",
+    "Do not add a menu simply to fill the space when the service has no persistent top-level navigation."
+  ],
+  "anatomy": [
+    {
+      "name": "Service container",
+      "required": true,
+      "description": "A GOV.UK module and width container align the service bar with page content."
+    },
+    {
+      "name": "Service name",
+      "required": false,
+      "description": "A link identifies and returns to the service home page."
+    },
+    {
+      "name": "Navigation landmark",
+      "required": false,
+      "description": "A labelled nav contains a short list of service destinations."
+    },
+    {
+      "name": "Responsive menu toggle",
+      "required": false,
+      "description": "A hidden-by-default button controls the navigation list on narrow screens after enhancement."
+    }
+  ],
+  "variants": [
+    {
+      "id": "service-name",
+      "name": "Service name only",
+      "element": "div",
+      "classes": ["govuk-service-navigation"],
+      "use": "A service needs a clear name but no persistent navigation."
+    },
+    {
+      "id": "navigation",
+      "name": "Service name and navigation",
+      "element": "nav",
+      "classes": ["govuk-service-navigation__wrapper"],
+      "use": "A service has a small set of persistent top-level destinations."
+    }
+  ],
+  "behaviour": [
+    "Initialise govuk-service-navigation to reveal and operate the responsive menu toggle.",
+    "Without JavaScript, navigation links remain visible and usable and the toggle remains hidden.",
+    "Mark the current destination with the official current-item option and accessible current-page semantics."
+  ],
+  "accessibility": [
+    "Give the nav a concise aria-label that distinguishes it from other navigation landmarks.",
+    "Give the toggle an aria-controls value matching the navigation list id.",
+    "Do not communicate the current page through styling alone."
+  ],
+  "content": [
+    "Use the public service name consistently with the page title and service start page.",
+    "Use concise nouns for destinations and avoid duplicating links already provided by the browser or page content.",
+    "Do not include GOV.UK global navigation items in this service-level component."
+  ],
+  "tokenRefs": [
+    "govuk.color.brand",
+    "govuk.color.text",
+    "govuk.color.link",
+    "govuk.color.focus"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Service navigation links",
+      "html": "<section class=\"govuk-service-navigation\" aria-label=\"Service information\" data-module=\"govuk-service-navigation\">\n  <div class=\"govuk-width-container\"><div class=\"govuk-service-navigation__container\">\n    <span class=\"govuk-service-navigation__service-name\"><a class=\"govuk-service-navigation__link\" href=\"/\">Example service</a></span>\n    <nav aria-label=\"Menu\" class=\"govuk-service-navigation__wrapper\">\n      <button type=\"button\" class=\"govuk-service-navigation__toggle govuk-js-service-navigation-toggle\" aria-controls=\"service-navigation\" hidden aria-hidden=\"true\">Menu</button>\n      <ul class=\"govuk-service-navigation__list\" id=\"service-navigation\"><li class=\"govuk-service-navigation__item govuk-service-navigation__item--active\"><a class=\"govuk-service-navigation__link\" href=\"/account\" aria-current=\"true\"><strong class=\"govuk-service-navigation__active-fallback\">Your account</strong></a></li></ul>\n    </nav>\n  </div></div>\n</section>"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "checkboxes",
+  "name": "Checkboxes",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use checkboxes when users can select any number of options from a visible set, including none when allowed.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/checkboxes/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/checkboxes",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use when zero, one or several answers may be valid and the options can be shown together.",
+    "Use a divider and explicit exclusive “None” option only when users must state that no listed choice applies."
+  ],
+  "whenNotToUse": [
+    "Use radios or a select when exactly one answer is required.",
+    "Do not use checkboxes for acceptance of hidden terms or to trigger immediate navigation."
+  ],
+  "anatomy": [
+    {
+      "name": "Fieldset and legend",
+      "required": true,
+      "description": "A fieldset groups the question and every checkbox."
+    },
+    {
+      "name": "Checkbox group",
+      "required": true,
+      "description": "A govuk-checkboxes container carries the enhancement hook."
+    },
+    {
+      "name": "Checkbox items",
+      "required": true,
+      "description": "Each native input has a unique ID, shared name where appropriate, value and associated label."
+    },
+    {
+      "name": "Conditional content",
+      "required": false,
+      "description": "A checkbox may control a uniquely identified conditional region through the official module."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default",
+      "element": "div",
+      "classes": ["govuk-checkboxes"],
+      "use": "Most checkbox questions."
+    },
+    {
+      "id": "small",
+      "name": "Small",
+      "element": "div",
+      "classes": ["govuk-checkboxes", "govuk-checkboxes--small"],
+      "use": "A compact expert interface after confirming smaller controls remain usable."
+    },
+    {
+      "id": "conditional",
+      "name": "Conditional reveal",
+      "element": "input",
+      "classes": ["govuk-checkboxes__input"],
+      "use": "Reveal a small follow-up field directly related to a selected answer."
+    }
+  ],
+  "behaviour": [
+    "Initialise govuk-checkboxes when using conditional content or exclusive options.",
+    "Without JavaScript, conditional content remains available and the server validates whether it is required.",
+    "Do not conditionally reveal another set of checkboxes or complex content; take users to a new page instead.",
+    "Retain checked values after validation errors."
+  ],
+  "accessibility": [
+    "Use native checkbox inputs inside a fieldset with a visible legend.",
+    "Associate every label, hint, error and conditional region using unique IDs and official attributes.",
+    "Never make a preselected checkbox the default unless it represents a genuine, non-coercive default."
+  ],
+  "content": [
+    "Make it clear that users can select all that apply.",
+    "Write options as distinct, concise answers that make sense with the legend.",
+    "Use positive wording and avoid overlapping options."
+  ],
+  "tokenRefs": [
+    "govuk.color.input-border",
+    "govuk.color.focus",
+    "govuk.color.focus-text",
+    "govuk.color.error"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Nationality choices",
+      "html": "<div class=\"govuk-form-group\">\n  <fieldset class=\"govuk-fieldset\">\n    <legend class=\"govuk-fieldset__legend\">What is your nationality?</legend>\n    <div class=\"govuk-checkboxes\" data-module=\"govuk-checkboxes\">\n      <div class=\"govuk-checkboxes__item\"><input class=\"govuk-checkboxes__input\" id=\"nationality-british\" name=\"nationality\" type=\"checkbox\" value=\"british\"><label class=\"govuk-label govuk-checkboxes__label\" for=\"nationality-british\">British</label></div>\n      <div class=\"govuk-checkboxes__item\"><input class=\"govuk-checkboxes__input\" id=\"nationality-irish\" name=\"nationality\" type=\"checkbox\" value=\"irish\"><label class=\"govuk-label govuk-checkboxes__label\" for=\"nationality-irish\">Irish</label></div>\n    </div>\n  </fieldset>\n</div>"
+    }
+  ]
+}

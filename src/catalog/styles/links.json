@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "links",
+  "name": "Links",
+  "category": "style",
+  "group": "typography",
+  "summary": "Use descriptive, underlined GOV.UK links for navigation and preserve their visited, hover, active and focus states.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/links/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/core/_links.scss",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Links are blue and underlined by default; linked text at the end of a sentence must not include the full stop.",
+    "Write link text that describes the destination or result when read out of context.",
+    "Use govuk-link--no-visited-state only where visited history is not useful, such as frequently changing application navigation.",
+    "Use the official inverse or no-underline variants only in their documented contexts.",
+    "If a link opens a new tab, warn users in the link text and avoid doing so unless necessary."
+  ],
+  "accessibility": [
+    "Retain the visible underline and GOV.UK focus treatment; colour alone must not identify a link.",
+    "Avoid repeated vague labels such as click here or read more.",
+    "Keep the anchor href so links work with keyboards, assistive technology and without JavaScript."
+  ],
+  "restrictions": [
+    "Do not style ordinary navigation links as buttons.",
+    "Do not remove visited styling globally merely for visual uniformity."
+  ],
+  "tokenRefs": [
+    "govuk.color.link",
+    "govuk.color.link-visited",
+    "govuk.color.link-hover",
+    "govuk.color.link-active",
+    "govuk.color.focus",
+    "govuk.color.focus-text"
+  ],
+  "examples": [
+    {
+      "name": "Link in body content",
+      "language": "html",
+      "code": "<p class=\"govuk-body\">Read the <a class=\"govuk-link\" href=\"/eligibility\">eligibility guidance</a>.</p>"
+    }
+  ]
+}

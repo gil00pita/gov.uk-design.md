@@ -1,0 +1,81 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "fieldset",
+  "name": "Fieldset",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a fieldset and legend to group related form controls under one question or shared label.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/fieldset/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/fieldset",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use to group related controls such as a radio group, checkbox group, date input or multi-part address.",
+    "Use a legend as the page heading when the group is the page's main question."
+  ],
+  "whenNotToUse": [
+    "Do not use a fieldset around a single, independently labelled text input.",
+    "Do not use visual spacing alone to imply that controls belong to one question."
+  ],
+  "anatomy": [
+    {
+      "name": "Fieldset",
+      "required": true,
+      "description": "The native fieldset contains every control belonging to the group."
+    },
+    {
+      "name": "Legend",
+      "required": true,
+      "description": "The first child is a clear govuk-fieldset__legend that labels the entire group."
+    },
+    {
+      "name": "Grouped controls",
+      "required": true,
+      "description": "Each child control still has its own label where required."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default legend",
+      "element": "fieldset",
+      "classes": ["govuk-fieldset"],
+      "use": "A related group within a larger page."
+    },
+    {
+      "id": "page-heading",
+      "name": "Legend as page heading",
+      "element": "legend",
+      "classes": ["govuk-fieldset__legend", "govuk-fieldset__legend--l"],
+      "use": "The fieldset question is the page's primary heading and contains an h1 with govuk-fieldset__heading."
+    }
+  ],
+  "behaviour": [
+    "No GOV.UK JavaScript module is required for the fieldset itself.",
+    "Keep the legend as the first meaningful child so browsers announce it with each grouped control.",
+    "Place group hint and error content in the related form group and link it using the component's documented IDs."
+  ],
+  "accessibility": [
+    "Use native fieldset and legend rather than role=group when native grouping is available.",
+    "Do not leave the legend empty or hide it when users need the group question.",
+    "Avoid nested fieldsets unless the question hierarchy remains clear in tested assistive technologies."
+  ],
+  "content": [
+    "Write the legend as a direct question or concise group label.",
+    "Do not repeat the same wording in a separate heading and legend when the legend can be the heading."
+  ],
+  "tokenRefs": [
+    "govuk.color.text",
+    "govuk.spacing.static.3",
+    "govuk.typography.weight.bold"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Address group",
+      "html": "<fieldset class=\"govuk-fieldset\">\n  <legend class=\"govuk-fieldset__legend\">What is your address?</legend>\n  <label class=\"govuk-label\" for=\"address-line-1\">Address line 1</label>\n  <input class=\"govuk-input\" id=\"address-line-1\" name=\"addressLine1\" type=\"text\">\n</fieldset>"
+    }
+  ]
+}

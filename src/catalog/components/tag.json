@@ -1,0 +1,92 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "tag",
+  "name": "Tag",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use a tag to show a concise status or category that helps users scan related information.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/tag/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/tag",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use to label an item's current status in a list, table, task list or banner.",
+    "Use a documented colour variant only when a consistent status meaning exists across the service."
+  ],
+  "whenNotToUse": [
+    "Do not use tags as buttons, links or interactive filters.",
+    "Do not use a tag merely to decorate or emphasise ordinary text.",
+    "Do not create many colour meanings that users must memorise."
+  ],
+  "anatomy": [
+    {
+      "name": "Tag element",
+      "required": true,
+      "description": "A govuk-tag wraps a short status label; choose an element that fits the surrounding semantics."
+    },
+    {
+      "name": "Status label",
+      "required": true,
+      "description": "Brief text communicates the status without relying on the background colour."
+    }
+  ],
+  "variants": [
+    {
+      "id": "default",
+      "name": "Default blue",
+      "element": "strong",
+      "classes": ["govuk-tag"],
+      "use": "A status where no documented semantic colour variant is needed."
+    },
+    {
+      "id": "green",
+      "name": "Green",
+      "element": "strong",
+      "classes": ["govuk-tag", "govuk-tag--green"],
+      "use": "A positive or completed state, used consistently."
+    },
+    {
+      "id": "red",
+      "name": "Red",
+      "element": "strong",
+      "classes": ["govuk-tag", "govuk-tag--red"],
+      "use": "A stopped, rejected or urgent negative state, used consistently."
+    },
+    {
+      "id": "grey",
+      "name": "Grey",
+      "element": "strong",
+      "classes": ["govuk-tag", "govuk-tag--grey"],
+      "use": "An inactive, closed or neutral state."
+    }
+  ],
+  "behaviour": [
+    "Tags have no JavaScript behaviour and must not receive interactive roles or click handlers.",
+    "Keep status terminology and colour mapping consistent across the product."
+  ],
+  "accessibility": [
+    "The label text must communicate the full status independently of colour.",
+    "Make repeated tags meaningful in their row or item context.",
+    "Do not add tabindex to a non-interactive tag."
+  ],
+  "content": [
+    "Use one to three short words and sentence case unless the product's established status vocabulary requires otherwise.",
+    "Prefer specific labels such as “Completed” or “Needs review” over vague labels such as “Status 2”."
+  ],
+  "tokenRefs": [
+    "govuk.color.brand",
+    "govuk.color.success",
+    "govuk.color.error",
+    "govuk.color.text",
+    "govuk.color.inverse-text"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Completed status",
+      "html": "<strong class=\"govuk-tag govuk-tag--green\">Completed</strong>"
+    }
+  ]
+}

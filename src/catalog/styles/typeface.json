@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "typeface",
+  "name": "Typeface",
+  "category": "style",
+  "group": "typography",
+  "summary": "Use the approved GOV.UK typeface only for eligible services and configure an appropriate alternative for services outside the GOV.UK proposition.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/typeface/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/settings/_typography-font.scss",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "A service on the service.gov.uk subdomain must use GDS Transport through the official GOV.UK Frontend asset setup.",
+    "A publicly available service on another subdomain must configure an alternative typeface using the official unbranded GOV.UK Frontend guidance.",
+    "Use regular weight 400 for body text and bold weight 700 for emphasis and headings unless a component specifies otherwise.",
+    "Use system fonts for print output as configured by GOV.UK Frontend."
+  ],
+  "accessibility": [
+    "Do not prevent users from resizing text or substituting fonts through browser and assistive-technology settings.",
+    "Test fallback fonts for reflow, clipping and control sizing because their metrics differ from GDS Transport.",
+    "Use semantic emphasis and heading elements rather than font weight alone to communicate structure."
+  ],
+  "restrictions": [
+    "GDS Transport is restricted to services on the GOV.UK domain; this package names the typeface for guidance but does not distribute, embed or license the font files.",
+    "Do not copy font files from GOV.UK pages or from another service."
+  ],
+  "tokenRefs": [
+    "govuk.typography.weight.regular",
+    "govuk.typography.weight.bold"
+  ],
+  "examples": [
+    {
+      "name": "Unbranded font configuration",
+      "language": "scss",
+      "code": "@use \"govuk-frontend/dist/govuk\" as govuk with (\n  $govuk-font-family: (arial, sans-serif),\n  $govuk-include-default-font-face: false\n);"
+    }
+  ]
+}

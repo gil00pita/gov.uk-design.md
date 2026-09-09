@@ -1,0 +1,123 @@
+{
+  "$schema": "../schema/eval-task.schema.json",
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-09",
+  "cases": [
+    {
+      "id": "continue-action-selection",
+      "dimensions": ["record-selection", "markup-fidelity", "accessibility"],
+      "prompt": "Add a Continue action that submits the current GOV.UK question page in plain HTML.",
+      "expectedRecords": [
+        { "kind": "component", "id": "button" },
+        { "kind": "pattern", "id": "question-pages" }
+      ],
+      "rubric": {
+        "must": [
+          "Select the Button component and render a native type=submit button.",
+          "Retain the govuk-button class, data-module hook and visible focus behaviour."
+        ],
+        "mustNot": [
+          "Implement the action as a div, span or link without a navigation destination.",
+          "Invent a new button colour, size or interaction variant."
+        ]
+      }
+    },
+    {
+      "id": "validation-recovery",
+      "dimensions": ["record-selection", "markup-fidelity", "accessibility"],
+      "prompt": "Render a submitted email question with an empty-value error and help the user recover.",
+      "expectedRecords": [
+        { "kind": "component", "id": "text-input" },
+        { "kind": "component", "id": "error-message" },
+        { "kind": "component", "id": "error-summary" },
+        { "kind": "pattern", "id": "validation" }
+      ],
+      "rubric": {
+        "must": [
+          "Use novalidate, an Error summary link, a matching inline Error message and aria-describedby.",
+          "Preserve the submitted value and use a specific correction message."
+        ],
+        "mustNot": [
+          "Use browser-native validation as the only feedback.",
+          "Communicate the error through colour, placeholder text or focus alone."
+        ]
+      }
+    },
+    {
+      "id": "accordion-react-enhancement",
+      "dimensions": ["markup-fidelity", "progressive-enhancement", "accessibility"],
+      "prompt": "Implement GOV.UK Accordion sections in React and make them interactive.",
+      "expectedRecords": [
+        { "kind": "component", "id": "accordion" }
+      ],
+      "rubric": {
+        "must": [
+          "Server-render the official section structure and content before JavaScript enhancement.",
+          "Initialise the official GOV.UK Accordion module at the correct component lifecycle point."
+        ],
+        "mustNot": [
+          "Replace the component with an unrelated UI-library accordion whose DOM contract differs.",
+          "Hide all content in the unenhanced HTML."
+        ]
+      }
+    },
+    {
+      "id": "tailwind-theme-boundary",
+      "dimensions": ["record-selection", "non-invention"],
+      "prompt": "Make our Tailwind app GOV.UK compliant by copying the blue colour and font sizes into the theme.",
+      "expectedRecords": [
+        { "kind": "style", "id": "colour" },
+        { "kind": "style", "id": "type-scale" },
+        { "kind": "style", "id": "typeface" }
+      ],
+      "rubric": {
+        "must": [
+          "Explain that token mapping and visual similarity do not establish GOV.UK conformance.",
+          "Use only reviewed tokens and require component semantics, behaviour, content and service accessibility to be handled separately."
+        ],
+        "mustNot": [
+          "Claim that a Tailwind theme alone is GOV.UK compliant.",
+          "Bundle or substitute GDS Transport without confirming identity eligibility and the official asset route."
+        ]
+      }
+    },
+    {
+      "id": "non-govuk-header-identity",
+      "dimensions": ["record-selection", "markup-fidelity", "non-invention"],
+      "prompt": "Create a GOV.UK-looking header for a council microsite that is not hosted as part of GOV.UK.",
+      "expectedRecords": [
+        { "kind": "component", "id": "generic-header" },
+        { "kind": "component", "id": "header" }
+      ],
+      "rubric": {
+        "must": [
+          "Select Generic header and state the eligibility boundary for the GOV.UK header.",
+          "Use a text service or organisation identity with a real homepage link."
+        ],
+        "mustNot": [
+          "Copy, redraw or approximate the GOV.UK crown or logotype.",
+          "Imply that GOV.UK styling grants permission to use protected identity assets."
+        ]
+      }
+    },
+    {
+      "id": "international-address-entry",
+      "dimensions": ["record-selection", "accessibility", "non-invention"],
+      "prompt": "Collect addresses from users worldwide when the service does not need structured address parts.",
+      "expectedRecords": [
+        { "kind": "pattern", "id": "addresses" },
+        { "kind": "component", "id": "textarea" }
+      ],
+      "rubric": {
+        "must": [
+          "Choose free-form address entry and use autocomplete=street-address.",
+          "Explain why a UK-only lookup or rigid UK field structure does not meet the stated need."
+        ],
+        "mustNot": [
+          "Require a UK postcode, county or address lookup.",
+          "Invent country-specific validation rules without service evidence."
+        ]
+      }
+    }
+  ]
+}

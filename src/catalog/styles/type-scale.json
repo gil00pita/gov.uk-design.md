@@ -1,0 +1,47 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "type-scale",
+  "name": "Type scale",
+  "category": "style",
+  "group": "typography",
+  "summary": "Use the responsive GOV.UK type scale so text sizes and line heights retain the tested rhythm introduced in GOV.UK Frontend 6.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/type-scale/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/settings/_typography-responsive.scss",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Start with existing GOV.UK typography classes or the govuk-font mixin before creating any custom text style.",
+    "If a custom component needs a size, align it to one of the reviewed 80, 48, 36, 27, 24, 19 or 16 scale points.",
+    "Use the corresponding reviewed line height; scale points use multiples of 5px to preserve vertical rhythm.",
+    "Use responsive values above the tablet breakpoint and allow GOV.UK Frontend to output relative CSS units."
+  ],
+  "accessibility": [
+    "Do not set a root font size that prevents user font-size preferences from taking effect.",
+    "Prefer rem or em in rendered CSS so browser zoom and text magnification behave predictably.",
+    "Test every custom combination at 200% and 400% zoom and with long translated content."
+  ],
+  "restrictions": [
+    "Do not add intermediate font sizes merely to make a layout fit; change the layout or select the nearest tested scale point.",
+    "Do not use the 80 or 27 points for ordinary headings; the official guidance reserves them for exceptional cases."
+  ],
+  "tokenRefs": [
+    "govuk.typography.scale.16.mobile-font-size",
+    "govuk.typography.scale.19.mobile-font-size",
+    "govuk.typography.scale.24.mobile-font-size",
+    "govuk.typography.scale.27.mobile-font-size",
+    "govuk.typography.scale.36.mobile-font-size",
+    "govuk.typography.scale.48.mobile-font-size",
+    "govuk.typography.scale.80.mobile-font-size",
+    "govuk.breakpoint.tablet"
+  ],
+  "examples": [
+    {
+      "name": "Apply a reviewed type-scale point in Sass",
+      "language": "scss",
+      "code": ".app-summary {\n  @include govuk-font($size: 24);\n}"
+    }
+  ]
+}

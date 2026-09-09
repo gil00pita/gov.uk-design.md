@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "lists",
+  "name": "Lists",
+  "category": "style",
+  "group": "typography",
+  "summary": "Use semantic GOV.UK lists to break information into manageable chunks and communicate whether order matters.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/lists/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/core/_lists.scss",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Use ul when order does not matter and ol when sequence, rank or count matters.",
+    "Apply govuk-list and add govuk-list--bullet or govuk-list--number for visible markers.",
+    "Introduce a bulleted list with a lead-in line ending in a colon; normally start each item in lowercase without a final full stop.",
+    "Use govuk-list--spaced only when longer items need extra separation."
+  ],
+  "accessibility": [
+    "Keep native ul, ol and li elements so assistive technology announces list structure and item count.",
+    "Do not simulate list markers with text characters or CSS on unrelated elements.",
+    "Nested lists must reflect the actual content hierarchy."
+  ],
+  "restrictions": [
+    "Do not use a list merely to align controls or create columns.",
+    "Avoid long, deeply nested lists; split or restructure the content when scanning becomes difficult."
+  ],
+  "tokenRefs": [
+    "govuk.typography.scale.19.mobile-font-size",
+    "govuk.spacing.static.1",
+    "govuk.spacing.static.3"
+  ],
+  "examples": [
+    {
+      "name": "Bulleted list",
+      "language": "html",
+      "code": "<p class=\"govuk-body\">You will need:</p>\n<ul class=\"govuk-list govuk-list--bullet\">\n  <li>your licence number</li>\n  <li>a payment card</li>\n</ul>"
+    }
+  ]
+}

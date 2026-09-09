@@ -1,0 +1,47 @@
+{
+  "$schema": "../../../schema/style.schema.json",
+  "schemaVersion": 1,
+  "id": "layout",
+  "name": "Layout",
+  "category": "style",
+  "group": "page-structure",
+  "summary": "Use GOV.UK wrappers and grid classes to create mobile-first pages with readable line lengths and predictable responsive behaviour.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/styles/layout/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/objects",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "rules": [
+    "Design small screens first as a single column, then introduce columns at reviewed GOV.UK breakpoints.",
+    "Wrap page content with govuk-width-container and govuk-main-wrapper before using the grid.",
+    "For most pages use a two-thirds content column, or a two-thirds and one-third layout, to keep text to roughly 75 characters per line.",
+    "Use the GOV.UK grid classes and width overrides instead of inventing near-equivalent breakpoints or column percentages.",
+    "The standard width container is 960px of content plus gutters, producing a default maximum outer width of 1020px."
+  ],
+  "accessibility": [
+    "Keep DOM reading order meaningful when columns collapse or CSS is unavailable.",
+    "Do not use visual reordering to create a different keyboard or screen-reader sequence.",
+    "Use govuk-visually-hidden only for content that must remain available to assistive technology; do not use display:none for that purpose.",
+    "Test zoom, text resizing and narrow layouts without horizontal scrolling for ordinary content."
+  ],
+  "restrictions": [
+    "Do not select a breakpoint because it matches a named device; respond to available space and content needs.",
+    "Only widen the default container when the content has a demonstrated need, such as a data-heavy interface."
+  ],
+  "tokenRefs": [
+    "govuk.breakpoint.mobile",
+    "govuk.breakpoint.tablet",
+    "govuk.breakpoint.desktop",
+    "govuk.layout.page-width",
+    "govuk.layout.gutter",
+    "govuk.layout.gutter-half"
+  ],
+  "examples": [
+    {
+      "name": "Two-thirds content column",
+      "language": "html",
+      "code": "<div class=\"govuk-width-container\">\n  <main class=\"govuk-main-wrapper\" id=\"main-content\">\n    <div class=\"govuk-grid-row\">\n      <div class=\"govuk-grid-column-two-thirds\">\n        <h1 class=\"govuk-heading-xl\">Page title</h1>\n      </div>\n    </div>\n  </main>\n</div>"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schema/component.schema.json",
+  "schemaVersion": 1,
+  "id": "notification-banner",
+  "name": "Notification banner",
+  "category": "component",
+  "status": "stable",
+  "summary": "Use the Notification banner to tell users about an important change or the successful result of an action.",
+  "source": {
+    "guidanceUrl": "https://design-system.service.gov.uk/components/notification-banner/",
+    "implementationUrl": "https://github.com/alphagov/govuk-frontend/tree/v6.5.0/packages/govuk-frontend/src/govuk/components/notification-banner",
+    "govukFrontendVersion": "6.5.0",
+    "reviewedAt": "2026-09-09"
+  },
+  "whenToUse": [
+    "Use for important information that applies to the current page or for a success message after an action.",
+    "Put the banner after breadcrumbs or back link and before the main page heading."
+  ],
+  "whenNotToUse": [
+    "Do not use for validation errors; use the Error summary and inline Error message.",
+    "Do not use instead of a confirmation page when the completed transaction needs a reference or durable record."
+  ],
+  "anatomy": [
+    {
+      "name": "Labelled region",
+      "required": true,
+      "description": "A region references the banner title with aria-labelledby."
+    },
+    {
+      "name": "Banner title",
+      "required": true,
+      "description": "A compact heading identifies an important or successful notification."
+    },
+    {
+      "name": "Content",
+      "required": true,
+      "description": "The content states the message and can include a relevant link."
+    }
+  ],
+  "variants": [
+    {
+      "id": "important",
+      "name": "Important",
+      "element": "div",
+      "classes": ["govuk-notification-banner"],
+      "use": "Important information that is not a success confirmation."
+    },
+    {
+      "id": "success",
+      "name": "Success",
+      "element": "div",
+      "classes": ["govuk-notification-banner", "govuk-notification-banner--success"],
+      "use": "Confirm a successful action on the next page."
+    }
+  ],
+  "behaviour": [
+    "Initialise the govuk-notification-banner module; it manages focus for a success banner unless auto-focus is explicitly disabled.",
+    "Render important information as a region and success feedback as an alert using the official macro options.",
+    "The full message must remain available without client-side JavaScript."
+  ],
+  "accessibility": [
+    "Give every banner title a unique id and reference it from aria-labelledby.",
+    "Use the success role and automatic focus sparingly so screen-reader users are notified without repeated interruptions.",
+    "Keep links descriptive and make meaning independent of colour."
+  ],
+  "content": [
+    "Use “Important” for the default title and “Success” for a successful outcome unless a clearer short label is needed.",
+    "Lead with what changed or what the user completed.",
+    "Include only actions directly related to the notification."
+  ],
+  "tokenRefs": [
+    "govuk.color.brand",
+    "govuk.color.success",
+    "govuk.color.text",
+    "govuk.color.focus"
+  ],
+  "htmlExamples": [
+    {
+      "name": "Important notification",
+      "html": "<div class=\"govuk-notification-banner\" role=\"region\" aria-labelledby=\"notice-title\" data-module=\"govuk-notification-banner\">\n  <div class=\"govuk-notification-banner__header\"><h2 class=\"govuk-notification-banner__title\" id=\"notice-title\">Important</h2></div>\n  <div class=\"govuk-notification-banner__content\"><p class=\"govuk-notification-banner__heading\">Your application deadline has changed.</p></div>\n</div>"
+    }
+  ]
+}
