@@ -13,6 +13,8 @@ const reactGuidance = await readFile(resolve(projectRoot, 'frameworks/react/DESI
 const reactFixture = await readFile(resolve(projectRoot, 'fixtures/react/app.mjs'), 'utf8')
 const angularGuidance = await readFile(resolve(projectRoot, 'frameworks/angular/DESIGN.md'), 'utf8')
 const angularFixture = await readFile(resolve(projectRoot, 'fixtures/angular/client.mjs'), 'utf8')
+const svelteGuidance = await readFile(resolve(projectRoot, 'frameworks/svelte/DESIGN.md'), 'utf8')
+const svelteFixture = await readFile(resolve(projectRoot, 'fixtures/svelte/App.svelte'), 'utf8')
 
 test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
   assert.equal(source.govukFrontendVersion, '6.5.0')
@@ -23,7 +25,7 @@ test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
     'markup',
     'behaviour-tested'
   ])
-  assert.equal(manifest.adapters.length, 3)
+  assert.equal(manifest.adapters.length, 4)
   assert.deepEqual(manifest.adapters[0], {
     id: 'html-css',
     name: 'Plain HTML and CSS',
@@ -46,6 +48,14 @@ test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
     status: 'experimental',
     guidance: 'angular/DESIGN.md',
     fixture: 'fixtures/angular/app.mjs',
+    compatibility: ['guidance', 'token', 'markup', 'behaviour-tested']
+  })
+  assert.deepEqual(manifest.adapters[3], {
+    id: 'svelte',
+    name: 'Svelte',
+    status: 'experimental',
+    guidance: 'svelte/DESIGN.md',
+    fixture: 'fixtures/svelte/App.svelte',
     compatibility: ['guidance', 'token', 'markup', 'behaviour-tested']
   })
 })
@@ -103,4 +113,24 @@ test('Angular fixture delays its client-only GOV.UK import until after applicati
   assert.match(angularFixture, /requestAnimationFrame/)
   assert.match(angularFixture, /import\('govuk-frontend'\)/)
   assert.match(angularFixture, /scope,/)
+})
+
+test('Svelte guidance preserves SSR, hydration and externally managed DOM boundaries', () => {
+  assert.match(svelteGuidance, /Status:\*\* Experimental/)
+  assert.match(svelteGuidance, /render } from 'svelte\/server'/)
+  assert.match(svelteGuidance, /hydrate\(App, \{ target, recover: false \}\)/)
+  assert.match(svelteGuidance, /Svelte does not run that hook during server rendering/i)
+  assert.match(svelteGuidance, /const initialChildren = untrack\(\(\) => children\)/)
+  assert.match(svelteGuidance, /await tick\(\)/)
+  assert.match(svelteGuidance, /requestAnimationFrame/)
+  assert.match(svelteGuidance, /no general GOV\.UK Frontend destroy lifecycle/i)
+})
+
+test('Svelte fixture initialises GOV.UK Frontend only after its client mount boundary', () => {
+  assert.match(svelteFixture, /onMount\(\(\) =>/)
+  assert.match(svelteFixture, /await tick\(\)/)
+  assert.match(svelteFixture, /requestAnimationFrame/)
+  assert.match(svelteFixture, /import\('govuk-frontend'\)/)
+  assert.match(svelteFixture, /scope,/)
+  assert.match(svelteFixture, /connected = false/)
 })

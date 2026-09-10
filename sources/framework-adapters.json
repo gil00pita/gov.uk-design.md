@@ -262,6 +262,94 @@
           "url": "https://angular.dev/api/core/afterNextRender"
         }
       ]
+    },
+    {
+      "id": "svelte",
+      "name": "Svelte",
+      "status": "experimental",
+      "reviewedAt": "2026-09-10",
+      "description": "This adapter server-renders official GOV.UK markup with Svelte 5, hydrates that markup unchanged, and starts GOV.UK Frontend enhancement from a client-only onMount boundary. Enhanced descendants remain static because GOV.UK Frontend 6.5.0 mutates their DOM and exposes no general teardown API.",
+      "output": "svelte/DESIGN.md",
+      "fixture": "fixtures/svelte/App.svelte",
+      "fixtureDescription": "The development SSR and hydration fixture starts with `npm run fixture:serve:svelte` and renders `fixtures/svelte/App.svelte`. It exercises Button, Text input and Accordion with Svelte 5.57.0 and GOV.UK Frontend 6.5.0. The fixture is test evidence, not package payload or a starter application.",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "requirements": [
+        "Render complete GOV.UK page and component markup with Svelte SSR or prerendering. Do not make a client-only mount the only path to content, form controls or essential actions.",
+        "Translate official HTML into Svelte markup mechanically. Preserve elements, GOV.UK classes, IDs, for attributes, data-module attributes and ARIA relationships; Svelte uses the normal HTML class and for names.",
+        "Keep GOV.UK Frontend-enhanced descendants static after initialisation. Do not put reactive expressions, bindings, keyed or conditional blocks, transitions or Svelte event handlers inside markup that GOV.UK Frontend will mutate.",
+        "Use a small wrapper component as the enhancement boundary, capture its initial children, and keep stateful Svelte controls outside it. Replace the entire keyed boundary when new content is required.",
+        "Use the pinned govuk-frontend component CSS and JavaScript. Portable tokens remain for service-owned extensions and interoperability, not for recreating GOV.UK components.",
+        "Keep native form controls and server-rendered validation. Confirm separately that the service may use GDS Transport, the GOV.UK crown and other protected identity assets."
+      ],
+      "assetSetup": [
+        "Install the reviewed implementation with npm install govuk-frontend@6.5.0 --save-exact and use a Svelte version supported by the host application. The fixture pins svelte@5.57.0 only to make its evidence reproducible.",
+        "Use the SvelteKit adapter and SSR or prerender configuration appropriate to the deployment, or compile separate Svelte client and server entry points in a custom host.",
+        "Import GOV.UK Frontend Sass or CSS through the host build, or copy dist/govuk/govuk-frontend.min.css to a public path. Copy dist/govuk/assets to the URL expected by the compiled CSS.",
+        "Import govuk-frontend only inside onMount or other browser-only code. The package references browser globals and must not be eagerly evaluated by the server runtime.",
+        "Load GOV.UK Frontend styles before service styles. Do not replace component CSS with tokens or a Svelte component library, and do not hotlink Design System assets."
+      ],
+      "rendering": [
+        "Use the SvelteKit SSR or prerender pipeline for production. A custom renderer can call render from svelte/server with code compiled for the server, then place its head and body output into the page shell.",
+        "Hydrate server-rendered output with hydrate from svelte and the identical component tree and data. Set recover: false while developing and testing so a mismatch fails instead of discarding the server DOM.",
+        "Keep the early body support script outside the Svelte hydration target so its intentional class change cannot create a hydration mismatch.",
+        "Keep deterministic IDs and valid HTML between server and client. Svelte checks invalid element placement because browser HTML repair can break its structural assumptions.",
+        "Render Error summary, inline errors, safe submitted values, Accordion content and Tabs content on the server. GOV.UK Frontend applies disclosure state only after hydration."
+      ],
+      "progressiveEnhancement": [
+        "Place the official body-class detection snippet immediately after the opening body element in the server page shell, before the Svelte hydration target.",
+        "Hydrate the existing server markup with hydrate, not mount. A client-only mount replaces the progressive-enhancement baseline instead of adopting it.",
+        "Initialise GOV.UK Frontend from onMount because Svelte does not run that hook during server rendering. Wait for tick and the next animation frame, then initialise only the stable boundary scope.",
+        "Keep the onMount callback synchronous so it can return a cleanup function. Run asynchronous initialisation in a nested function and use the cleanup to prevent late initialisation after the boundary unmounts.",
+        "Every journey must remain usable without the client bundle. Apply the service Content Security Policy nonce or hash to the early inline body-class script."
+      ],
+      "lifecycle": [
+        "Initial render: server-render and hydrate first, then let the boundary's one-time onMount callback initialise GOV.UK Frontend after tick and the following animation frame.",
+        "Later insertion: render a fresh boundary containing complete unenhanced static markup and initialise only its wrapper. A keyed block can replace the whole boundary when its version changes.",
+        "Capture the initial children snippet and do not put reactive values inside enhanced descendants. Svelte's fine-grained updates are still unsafe when they target nodes or attributes already mutated by GOV.UK Frontend.",
+        "On removal, unmount the complete boundary. The synchronous onMount cleanup may cancel pending setup, but there is no general GOV.UK Frontend destroy lifecycle to call after initialisation.",
+        "Test server HTML with JavaScript disabled, hydration with recover disabled, retained DOM identity, mouse and keyboard behaviour, focus, whole-boundary replacement and a clean browser console."
+      ],
+      "pageTemplateIntro": "Keep the `<html class=\"govuk-template\">` shell and early body support script in the server template, outside the Svelte root. The following server and client entry points render and hydrate the same `App.svelte`; the app places complete static GOV.UK markup inside the boundary shown below.",
+      "pageTemplateLanguage": "js",
+      "pageTemplate": "// server.js\nimport { render } from 'svelte/server'\nimport App from './App.svelte'\n\nconst { body, head } = await render(App)\nconst document = `<!doctype html>\n<html class=\"govuk-template\" lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n    <link rel=\"stylesheet\" href=\"/govuk/govuk-frontend.min.css\">\n    ${head}\n  </head>\n  <body class=\"govuk-template__body\">\n    <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>\n    <div id=\"svelte-root\">${body}</div>\n    <script type=\"module\" src=\"/assets/client.js\"></script>\n  </body>\n</html>`\n\n// client.js — compile this as a separate browser entry\nimport { hydrate } from 'svelte'\nimport App from './App.svelte'\n\nconst target = document.querySelector('#svelte-root')\nif (!target) throw new Error('Svelte root was not found')\nhydrate(App, { target, recover: false })",
+      "dynamicExampleIntro": "Use a client-only boundary like this around complete static GOV.UK component markup. Capture the initial children so parent updates cannot substitute the snippet; when content must change, replace the complete boundary with a new keyed instance.",
+      "dynamicExampleLanguage": "svelte",
+      "dynamicExample": "<!-- GovukFrontendBoundary.svelte -->\n<script>\n  import { onMount, tick, untrack } from 'svelte'\n\n  let { children } = $props()\n  const initialChildren = untrack(() => children)\n  let scope\n\n  onMount(() => {\n    let connected = true\n\n    async function initialise() {\n      await tick()\n      await new Promise((resolve) => requestAnimationFrame(resolve))\n\n      const { initAll } = await import('govuk-frontend')\n      if (!connected || !scope?.isConnected) return\n      initAll({\n        scope,\n        onError(error) { throw error }\n      })\n    }\n\n    initialise().catch((error) => {\n      queueMicrotask(() => { throw error })\n    })\n\n    return () => { connected = false }\n  })\n</script>\n\n<div bind:this={scope}>\n  {@render initialChildren()}\n</div>\n\n<!-- Parent.svelte — replace the whole boundary, never its enhanced descendants -->\n{#key version}\n  <GovukFrontendBoundary>\n    <CompleteStaticGovukMarkup />\n  </GovukFrontendBoundary>\n{/key}",
+      "sourceUrls": [
+        {
+          "name": "Install GOV.UK Frontend with npm",
+          "url": "https://frontend.design-system.service.gov.uk/installing-with-npm/"
+        },
+        {
+          "name": "Import GOV.UK Frontend JavaScript",
+          "url": "https://frontend.design-system.service.gov.uk/import-javascript/"
+        },
+        {
+          "name": "GOV.UK Frontend JavaScript initialisation",
+          "url": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/init.mjs"
+        },
+        {
+          "name": "Svelte hydrate reference",
+          "url": "https://svelte.dev/docs/svelte/svelte#hydrate"
+        },
+        {
+          "name": "Svelte server render reference",
+          "url": "https://svelte.dev/docs/svelte/svelte-server#render"
+        },
+        {
+          "name": "Svelte lifecycle hooks",
+          "url": "https://svelte.dev/docs/svelte/lifecycle-hooks"
+        },
+        {
+          "name": "Svelte compiler reference",
+          "url": "https://svelte.dev/docs/svelte/svelte-compiler#compile"
+        }
+      ]
     }
   ]
 }

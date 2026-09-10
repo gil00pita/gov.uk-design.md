@@ -1,0 +1,137 @@
+#!/usr/bin/env node
+
+import { createReadStream } from 'node:fs'
+import { access, stat } from 'node:fs/promises'
+import { createServer } from 'node:http'
+import { extname, resolve, sep } from 'node:path'
+import { build } from 'esbuild'
+import { sveltePlugin } from '../fixtures/svelte/build.mjs'
+import { renderFixturePage } from '../fixtures/svelte/page.mjs'
+
+const repositoryRoot = resolve(import.meta.dirname, '..')
+const fixtureRoot = resolve(repositoryRoot, 'fixtures/svelte')
+const govukRoot = resolve(repositoryRoot, 'node_modules/govuk-frontend/dist/govuk')
+const port = Number.parseInt(process.env.GOVUK_SVELTE_FIXTURE_PORT ?? '4176', 10)
+
+const contentTypes = new Map([
+  ['.css', 'text/css; charset=utf-8'],
+  ['.gif', 'image/gif'],
+  ['.ico', 'image/x-icon'],
+  ['.js', 'text/javascript; charset=utf-8'],
+  ['.png', 'image/png'],
+  ['.svg', 'image/svg+xml'],
+  ['.woff', 'font/woff'],
+  ['.woff2', 'font/woff2']
+])
+
+function within(root, candidate) {
+  return candidate === root || candidate.startsWith(root + sep)
+}
+
+function resolveRequest(pathname) {
+  const routes = [
+    ['/vendor/govuk/', govukRoot],
+    ['/assets/', resolve(govukRoot, 'assets')]
+  ]
+
+  for (const [prefix, root] of routes) {
+    if (!pathname.startsWith(prefix)) continue
+
+    const decodedPath = decodeURIComponent(pathname.slice(prefix.length))
+    const candidate = resolve(root, decodedPath)
+    return within(root, candidate) ? candidate : null
+  }
+
+  return null
+}
+
+function sendBuffer(response, contents, contentType) {
+  const body = Buffer.from(contents)
+  response.writeHead(200, {
+    'Cache-Control': 'no-store',
+    'Content-Length': body.byteLength,
+    'Content-Type': contentType
+  })
+  response.end(body)
+}
+
+async function serveFile(path, response) {
+  try {
+    await access(path)
+    const fileStats = await stat(path)
+    if (!fileStats.isFile()) throw new Error('Not a file')
+
+    response.writeHead(200, {
+      'Cache-Control': 'no-store',
+      'Content-Length': fileStats.size,
+      'Content-Type': contentTypes.get(extname(path)) ?? 'application/octet-stream'
+    })
+    createReadStream(path).pipe(response)
+  } catch {
+    response.writeHead(404).end('Not found')
+  }
+}
+
+if (!Number.isInteger(port) || port < 1 || port > 65_535) {
+  throw new Error('GOVUK_SVELTE_FIXTURE_PORT must be an integer from 1 to 65535.')
+}
+
+await access(resolve(govukRoot, 'govuk-frontend.min.css'))
+
+const bundle = await build({
+  bundle: true,
+  entryPoints: [resolve(fixtureRoot, 'client.mjs')],
+  format: 'esm',
+  logLevel: 'silent',
+  platform: 'browser',
+  plugins: [sveltePlugin('client')],
+  sourcemap: 'inline',
+  target: ['es2022'],
+  write: false
+})
+const clientJavaScript = bundle.outputFiles[0].contents
+const fixturePage = await renderFixturePage()
+
+const server = createServer((request, response) => {
+  Promise.resolve().then(async () => {
+    let pathname
+
+    try {
+      pathname = new URL(request.url ?? '/', 'http://127.0.0.1').pathname
+    } catch {
+      response.writeHead(400).end('Bad request')
+      return
+    }
+
+    if (pathname === '/' || pathname === '/index.html') {
+      sendBuffer(response, fixturePage, 'text/html; charset=utf-8')
+      return
+    }
+
+    if (pathname === '/svelte/client.js') {
+      sendBuffer(response, clientJavaScript, 'text/javascript; charset=utf-8')
+      return
+    }
+
+    const file = resolveRequest(pathname)
+    if (!file) {
+      response.writeHead(404).end('Not found')
+      return
+    }
+    await serveFile(file, response)
+  }).catch((error) => {
+    console.error(error)
+    if (!response.headersSent) response.writeHead(500)
+    response.end('Internal server error')
+  })
+})
+
+server.listen(port, '127.0.0.1', () => {
+  console.log('Svelte fixture available at http://127.0.0.1:' + port)
+})
+
+for (const signal of ['SIGINT', 'SIGTERM']) {
+  process.on(signal, () => {
+    server.close(() => process.exit(0))
+  })
+}

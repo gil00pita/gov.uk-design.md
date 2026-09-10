@@ -35,7 +35,8 @@
     "release:archive": "node scripts/release-archive.mjs",
     "fixture:serve": "node scripts/serve-fixture.mjs",
     "fixture:serve:react": "node scripts/serve-react-fixture.mjs",
-    "fixture:serve:angular": "node scripts/serve-angular-fixture.mjs"
+    "fixture:serve:angular": "node scripts/serve-angular-fixture.mjs",
+    "fixture:serve:svelte": "node scripts/serve-svelte-fixture.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -66,6 +67,7 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "rxjs": "7.8.2",
+    "svelte": "5.57.0",
     "tslib": "2.8.1"
   }
 }

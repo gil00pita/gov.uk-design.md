@@ -38,7 +38,7 @@ Structured records are canonical. Generated files carry a warning and must not b
 - `tokens/`: reviewed portable token exports and CSS custom properties, never raw crawler output.
 - `agents/`: thin routing instructions.
 - `adapters/ai/`: generated tool-specific routers; shared instruction files use a package-owned managed block.
-- `frameworks/`: generated integration adapters that translate asset, rendering and lifecycle concerns without redefining canonical behaviour. Plain HTML/CSS is the tested reference contract. React uses immutable, scoped enhancement boundaries; Angular uses static OnPush leaf components and delays enhancement until after hydration stability. Both keep Angular or React from reconciling DOM that GOV.UK Frontend mutates.
+- `frameworks/`: generated integration adapters that translate asset, rendering and lifecycle concerns without redefining canonical behaviour. Plain HTML/CSS is the tested reference contract. React uses immutable, scoped enhancement boundaries; Angular uses static OnPush leaf components and delays enhancement until after hydration stability; Svelte uses static captured snippets and a client-only `onMount` boundary after hydration. Each keeps framework updates away from DOM that GOV.UK Frontend mutates.
 - `ui-frameworks/`: future mappings for utility and component libraries; compatibility must remain explicitly scoped.
 
 ## Compatibility terminology

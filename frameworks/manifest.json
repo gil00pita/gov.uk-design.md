@@ -47,6 +47,19 @@
         "markup",
         "behaviour-tested"
       ]
+    },
+    {
+      "id": "svelte",
+      "name": "Svelte",
+      "status": "experimental",
+      "guidance": "svelte/DESIGN.md",
+      "fixture": "fixtures/svelte/App.svelte",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ]
     }
   ]
 }

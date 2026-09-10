@@ -88,8 +88,8 @@ if (!Array.isArray(frameworkAdapterSource.adapters) || frameworkAdapterSource.ad
   const adapterOutputs = new Set()
   const adapterFixtures = new Set()
   const knownCompatibility = new Set(['guidance', 'token', 'markup', 'behaviour-tested'])
-  const pageTemplateLanguages = new Set(['html', 'jsx', 'js', 'ts', 'tsx'])
-  const dynamicExampleLanguages = new Set(['js', 'jsx', 'ts', 'tsx'])
+  const pageTemplateLanguages = new Set(['html', 'jsx', 'js', 'svelte', 'ts', 'tsx'])
+  const dynamicExampleLanguages = new Set(['js', 'jsx', 'svelte', 'ts', 'tsx'])
   for (const adapter of frameworkAdapterSource.adapters) {
     const label = `framework adapter ${adapter.id ?? '<missing id>'}`
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(adapter.id ?? '')) errors.push(`${label}: invalid id`)
