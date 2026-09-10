@@ -33,7 +33,8 @@
     "check": "npm run validate && npm run evals:validate && npm test",
     "pack:check": "node scripts/pack-check.mjs",
     "release:archive": "node scripts/release-archive.mjs",
-    "fixture:serve": "node scripts/serve-fixture.mjs"
+    "fixture:serve": "node scripts/serve-fixture.mjs",
+    "fixture:serve:react": "node scripts/serve-react-fixture.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -48,12 +49,15 @@
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gilalvaro/govuk-design-md.git"
+    "url": "https://github.com/gil00pita/gov.uk-design.md.git"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "govuk-frontend": "6.5.0"
+    "esbuild": "0.28.2",
+    "govuk-frontend": "6.5.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   }
 }

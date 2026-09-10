@@ -8,8 +8,11 @@
       "id": "html-css",
       "name": "Plain HTML and CSS",
       "status": "reference",
+      "reviewedAt": "2026-09-09",
+      "description": "This is the reference adapter for rendering GOV.UK interfaces without a component framework. Later framework adapters must preserve the same DOM, asset, server-rendering and enhancement contracts.",
       "output": "html-css/DESIGN.md",
       "fixture": "fixtures/vertical-slice/index.html",
+      "fixtureDescription": "The development fixture at \u0060fixtures/vertical-slice/index.html\u0060 exercises Button, Text input and Accordion against the exact reviewed dependency. It is test evidence, not package payload or a starter application.",
       "compatibility": [
         "guidance",
         "token",
@@ -51,7 +54,11 @@
         "If application code removes enhanced markup, discard references to that DOM. Re-render a complete unenhanced component before initialising its replacement.",
         "Treat console initialisation errors as test failures and verify keyboard, focus and no-JavaScript behaviour for every interactive component used."
       ],
+      "pageTemplateIntro": "Render the page shell on the server. Replace the comment with complete markup from the relevant focused component records.",
+      "pageTemplateLanguage": "html",
       "pageTemplate": "<!doctype html>\n<html class=\"govuk-template\" lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n    <meta name=\"theme-color\" content=\"#1d70b8\">\n    <title>Service name</title>\n    <link rel=\"stylesheet\" href=\"/govuk/govuk-frontend.min.css\">\n    <link rel=\"stylesheet\" href=\"/styles/service.css\">\n  </head>\n  <body class=\"govuk-template__body\">\n    <script>\n      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');\n    </script>\n    <a class=\"govuk-skip-link\" href=\"#main-content\" data-module=\"govuk-skip-link\">\n      Skip to main content\n    </a>\n    <div class=\"govuk-width-container\">\n      <main class=\"govuk-main-wrapper\" id=\"main-content\">\n        <!-- Render complete focused component markup here. -->\n      </main>\n    </div>\n    <script type=\"module\">\n      import { initAll } from '/govuk/govuk-frontend.min.js';\n      initAll();\n    </script>\n  </body>\n</html>",
+      "dynamicExampleIntro": "For a fragment inserted after initial page setup:",
+      "dynamicExampleLanguage": "js",
       "dynamicExample": "import { initAll } from '/govuk/govuk-frontend.min.js';\n\nconst container = document.querySelector('[data-dynamic-region]');\ncontainer.replaceChildren(renderCompleteServerOrTemplateFragment());\ninitAll(container);",
       "sourceUrls": [
         {
@@ -69,6 +76,94 @@
         {
           "name": "GOV.UK Frontend JavaScript initialisation",
           "url": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/init.mjs"
+        }
+      ]
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "status": "experimental",
+      "reviewedAt": "2026-09-10",
+      "description": "This adapter renders official GOV.UK markup through React while leaving GOV.UK Frontend responsible for its own progressive enhancement. Its boundary model is intentionally conservative because GOV.UK Frontend 6.5.0 mutates enhanced DOM and does not expose a general teardown API.",
+      "output": "react/DESIGN.md",
+      "fixture": "fixtures/react/app.mjs",
+      "fixtureDescription": "The development SSR and hydration fixture starts with \u0060npm run fixture:serve:react\u0060 and renders \u0060fixtures/react/app.mjs\u0060. It exercises Button, Text input and Accordion with React 19.3.0 and GOV.UK Frontend 6.5.0. The fixture is test evidence, not package payload or a starter application.",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "requirements": [
+        "Render complete GOV.UK page and component markup on the server or at build time, then hydrate it. Do not make client-only React rendering the only path to content, form controls or essential actions.",
+        "Translate official HTML to JSX mechanically: use className for class and htmlFor for label for, while preserving elements, GOV.UK classes, IDs, data-module attributes and ARIA relationships.",
+        "Treat a GOV.UK Frontend-enhanced subtree as externally managed after initialisation. Do not use React state or prop changes to reconcile descendants that GOV.UK Frontend has mutated.",
+        "Render only passive component markup inside an enhancement boundary. Keep React stateful controls outside it because descendant state updates can still reconcile DOM even when the boundary's incoming children are frozen.",
+        "Use the pinned govuk-frontend component CSS and JavaScript. Portable tokens remain for service-owned extensions and interoperability, not for recreating GOV.UK components.",
+        "Keep native form controls and server-render validation. Confirm separately that the service may use GDS Transport, the GOV.UK crown and other protected identity assets."
+      ],
+      "assetSetup": [
+        "Install the reviewed implementation with npm install govuk-frontend@6.5.0 --save-exact and use the React and React DOM versions supported by the host application. The fixture pins react@19.3.0 and react-dom@19.3.0 only to make its evidence reproducible.",
+        "Import GOV.UK Frontend Sass or CSS through the host build, or copy dist/govuk/govuk-frontend.min.css to a public path. Copy dist/govuk/assets to the URL expected by the compiled CSS.",
+        "Import govuk-frontend from client-only code or through a dynamic import. The package references browser globals when evaluated, so do not eagerly evaluate its JavaScript in the server runtime.",
+        "Load GOV.UK Frontend styles before service styles. Do not replace component CSS with tokens, CSS-in-JS or a React component library.",
+        "Do not hotlink Design System assets and do not distribute extraction screenshots or fonts from this repository."
+      ],
+      "rendering": [
+        "Use the host framework's server renderer or static renderer for production. The small fixture uses renderToString only because it has no asynchronous data; React recommends streaming server APIs where they fit the runtime.",
+        "Hydrate server-rendered output with hydrateRoot and pass the same initial React tree and data. Treat hydration mismatch warnings as defects rather than suppressing them, except for the body class intentionally changed by the early GOV.UK support snippet.",
+        "Keep deterministic IDs between server and client. When useId is used across multiple roots, keep identifierPrefix identical in the server and hydrateRoot options.",
+        "Render Error summary, inline errors and safe submitted values on the server after validation. Preserve for, aria-describedby and focus-target relationships exactly.",
+        "Keep Accordion and Tabs content in the server HTML. GOV.UK Frontend applies disclosure state only after React hydration has committed."
+      ],
+      "progressiveEnhancement": [
+        "Place the official body-class detection snippet immediately after the opening body element in the server-rendered page shell; do not wait for a React Effect to add support classes.",
+        "Hydrate the existing server markup. Do not call createRoot for content that was server-rendered, because that discards the progressive-enhancement baseline.",
+        "After hydration commits, initialise GOV.UK Frontend once within a stable boundary. Use a ref for the scope and surface initialisation errors to the application's error reporting.",
+        "Guard one-time initialisation because React Strict Mode runs an extra development Effect cycle. Never solve the duplicate by disabling useful React checks globally.",
+        "Every journey must remain usable without the client bundle. Apply the service Content Security Policy nonce or hash to the early inline body-class script."
+      ],
+      "lifecycle": [
+        "Initial render: hydrate first, then initialise each stable boundary once. The example WeakSet prevents a second initialisation of the same DOM scope during React Strict Mode checks.",
+        "Freeze the boundary's initial children so parent renders cannot make React reconcile DOM that GOV.UK Frontend has enhanced.",
+        "For genuinely new content, mount a fresh boundary with complete unenhanced markup and a new key. Never call initAll over an existing enhanced root.",
+        "To replace enhanced content, unmount the whole boundary instead of changing descendants in place. Prefer full-page navigation for frequently changing interactive regions because GOV.UK Frontend 6.5.0 has no general public destroy lifecycle.",
+        "Test server HTML with JavaScript disabled, hydration without mismatches, keyboard and focus behaviour, repeated Strict Mode Effects, whole-boundary replacement and a clean browser console."
+      ],
+      "pageTemplateIntro": "Render this page component and service tree on the server, emit the doctype, and hydrate the identical tree on the client. The early body script is static trusted source text, never user content.",
+      "pageTemplateLanguage": "jsx",
+      "pageTemplate": "const bodyClassScript = \"document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');\"\n\nexport function GovukPage({ children }) {\n  return (\n    <html className=\"govuk-template\" lang=\"en\">\n      <head>\n        <meta charSet=\"utf-8\" />\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\" />\n        <meta name=\"theme-color\" content=\"#1d70b8\" />\n        <title>Service name</title>\n        <link rel=\"stylesheet\" href=\"/govuk/govuk-frontend.min.css\" />\n        <link rel=\"stylesheet\" href=\"/styles/service.css\" />\n      </head>\n      <body className=\"govuk-template__body\" suppressHydrationWarning>\n        <script dangerouslySetInnerHTML={{ __html: bodyClassScript }} />\n        <a className=\"govuk-skip-link\" href=\"#main-content\" data-module=\"govuk-skip-link\">\n          Skip to main content\n        </a>\n        <div className=\"govuk-width-container\">\n          <main className=\"govuk-main-wrapper\" id=\"main-content\">\n            {children}\n          </main>\n        </div>\n        <script type=\"module\" src=\"/assets/client.js\" />\n      </body>\n    </html>\n  )\n}\n\nhydrateRoot(\n  document,\n  <GovukPage>\n    <GovukFrontendBoundary>\n      <Service />\n    </GovukFrontendBoundary>\n  </GovukPage>\n)",
+      "dynamicExampleIntro": "Use a client-side boundary like this around complete GOV.UK component markup. Changing its key replaces the whole boundary; do not update its descendants after enhancement.",
+      "dynamicExampleLanguage": "jsx",
+      "dynamicExample": "import { useEffect, useRef } from 'react'\n\nconst initialisedScopes = new WeakSet()\n\nexport function GovukFrontendBoundary({ children }) {\n  const containerRef = useRef(null)\n  const initialChildren = useRef(children)\n\n  useEffect(() => {\n    const container = containerRef.current\n    if (!container || initialisedScopes.has(container)) return\n    initialisedScopes.add(container)\n\n    import('govuk-frontend')\n      .then(({ initAll }) => {\n        if (!container.isConnected) return\n        initAll({\n          scope: container,\n          onError(error) {\n            throw error\n          }\n        })\n      })\n      .catch((error) => {\n        initialisedScopes.delete(container)\n        queueMicrotask(() => { throw error })\n      })\n  }, [])\n\n  return <div ref={containerRef}>{initialChildren.current}</div>\n}\n\nexport function ReplaceablePanel({ version }) {\n  return (\n    <GovukFrontendBoundary key={version}>\n      <CompleteGovukMarkup />\n    </GovukFrontendBoundary>\n  )\n}",
+      "sourceUrls": [
+        {
+          "name": "Install GOV.UK Frontend with npm",
+          "url": "https://frontend.design-system.service.gov.uk/installing-with-npm/"
+        },
+        {
+          "name": "Import GOV.UK Frontend JavaScript",
+          "url": "https://frontend.design-system.service.gov.uk/import-javascript/"
+        },
+        {
+          "name": "GOV.UK Frontend JavaScript initialisation",
+          "url": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/init.mjs"
+        },
+        {
+          "name": "React hydrateRoot reference",
+          "url": "https://react.dev/reference/react-dom/client/hydrateRoot"
+        },
+        {
+          "name": "React server rendering APIs",
+          "url": "https://react.dev/reference/react-dom/server"
+        },
+        {
+          "name": "React Effect reference",
+          "url": "https://react.dev/reference/react/useEffect"
+        },
+        {
+          "name": "React Strict Mode reference",
+          "url": "https://react.dev/reference/react/StrictMode"
         }
       ]
     }

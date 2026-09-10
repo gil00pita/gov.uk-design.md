@@ -267,10 +267,11 @@ export function renderFrameworkAdapter(adapter, source) {
 
 # ${adapter.name} adapter
 
-**Status:** ${adapter.status[0].toUpperCase()}${adapter.status.slice(1)}  
-**Reviewed against:** GOV.UK Frontend ${source.govukFrontendVersion} on ${source.reviewedAt}
+**Status:** ${adapter.status[0].toUpperCase()}${adapter.status.slice(1)}
+**Reviewed against:** GOV.UK Frontend ${source.govukFrontendVersion}
+**Integration reviewed:** ${adapter.reviewedAt}
 
-This is the reference adapter for rendering GOV.UK interfaces without a component framework. Later framework adapters must preserve the same DOM, asset, server-rendering and enhancement contracts.
+${adapter.description}
 
 ## Compatibility level
 
@@ -288,9 +289,9 @@ ${bullets(adapter.assetSetup)}
 
 ## Page shell
 
-Render the page shell on the server. Replace the comment with complete markup from the relevant focused component records.
+${adapter.pageTemplateIntro}
 
-\`\`\`html
+\`\`\`${adapter.pageTemplateLanguage}
 ${adapter.pageTemplate}
 \`\`\`
 
@@ -306,15 +307,15 @@ ${bullets(adapter.progressiveEnhancement)}
 
 ${bullets(adapter.lifecycle)}
 
-For a fragment inserted after initial page setup:
+${adapter.dynamicExampleIntro}
 
-\`\`\`js
+\`\`\`${adapter.dynamicExampleLanguage}
 ${adapter.dynamicExample}
 \`\`\`
 
 ## Reference fixture
 
-The development fixture at \`${adapter.fixture}\` exercises Button, Text input and Accordion against the exact reviewed dependency. It is test evidence, not package payload or a starter application.
+${adapter.fixtureDescription}
 
 ## Authoritative sources
 

@@ -39,6 +39,7 @@
 Framework adapters translate integration and lifecycle details without redefining canonical GOV.UK guidance. Compatibility labels are scoped according to [frameworks/manifest.json](frameworks/manifest.json).
 
 - [Plain HTML and CSS](frameworks/html-css/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
+- [React](frameworks/react/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
 
 ## Foundations and styles
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/gilalvaro/govuk-design-md/blob/main/schema/framework-adapters.schema.json",
+  "$id": "https://github.com/gil00pita/gov.uk-design.md/blob/main/schema/framework-adapters.schema.json",
   "title": "GOV.UK framework adapter source",
   "type": "object",
   "additionalProperties": false,
@@ -32,15 +32,22 @@
         "id",
         "name",
         "status",
+        "reviewedAt",
+        "description",
         "output",
         "fixture",
+        "fixtureDescription",
         "compatibility",
         "requirements",
         "assetSetup",
         "rendering",
         "progressiveEnhancement",
         "lifecycle",
+        "pageTemplateIntro",
+        "pageTemplateLanguage",
         "pageTemplate",
+        "dynamicExampleIntro",
+        "dynamicExampleLanguage",
         "dynamicExample",
         "sourceUrls"
       ],
@@ -51,8 +58,11 @@
         },
         "name": { "type": "string", "minLength": 1 },
         "status": { "enum": ["reference", "experimental", "stable"] },
+        "reviewedAt": { "type": "string", "format": "date" },
+        "description": { "type": "string", "minLength": 1 },
         "output": { "type": "string", "minLength": 1 },
         "fixture": { "type": "string", "minLength": 1 },
+        "fixtureDescription": { "type": "string", "minLength": 1 },
         "compatibility": {
           "type": "array",
           "minItems": 1,
@@ -66,7 +76,15 @@
         "rendering": { "$ref": "#/$defs/nonEmptyStrings" },
         "progressiveEnhancement": { "$ref": "#/$defs/nonEmptyStrings" },
         "lifecycle": { "$ref": "#/$defs/nonEmptyStrings" },
+        "pageTemplateIntro": { "type": "string", "minLength": 1 },
+        "pageTemplateLanguage": {
+          "enum": ["html", "jsx", "js", "ts", "tsx"]
+        },
         "pageTemplate": { "type": "string", "minLength": 1 },
+        "dynamicExampleIntro": { "type": "string", "minLength": 1 },
+        "dynamicExampleLanguage": {
+          "enum": ["js", "jsx", "ts", "tsx"]
+        },
         "dynamicExample": { "type": "string", "minLength": 1 },
         "sourceUrls": {
           "type": "array",

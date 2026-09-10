@@ -19,7 +19,7 @@ if (result.status !== 0) {
 
 const report = JSON.parse(result.stdout)[0]
 const paths = report.files.map((file) => file.path)
-const forbiddenPrefixes = ['output/', 'src/', 'scripts/', 'test/']
+const forbiddenPrefixes = ['fixtures/', 'output/', 'src/', 'scripts/', 'test/']
 const forbidden = paths.filter((path) => forbiddenPrefixes.some((prefix) => path.startsWith(prefix)))
 const required = [
   'DESIGN.md',
@@ -29,6 +29,7 @@ const required = [
   'adapters/ai/AGENTS.md',
   'frameworks/manifest.json',
   'frameworks/html-css/DESIGN.md',
+  'frameworks/react/DESIGN.md',
   'design/govuk/catalog.json',
   'design/govuk/NOTICE.md',
   'design/govuk/LICENSE-CONTENT.md',

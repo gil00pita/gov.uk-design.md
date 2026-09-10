@@ -7,8 +7,10 @@ import { fileURLToPath } from 'node:url'
 const projectRoot = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const source = JSON.parse(await readFile(resolve(projectRoot, 'sources/framework-adapters.json'), 'utf8'))
 const manifest = JSON.parse(await readFile(resolve(projectRoot, 'frameworks/manifest.json'), 'utf8'))
-const guidance = await readFile(resolve(projectRoot, 'frameworks/html-css/DESIGN.md'), 'utf8')
-const fixture = await readFile(resolve(projectRoot, 'fixtures/vertical-slice/index.html'), 'utf8')
+const htmlGuidance = await readFile(resolve(projectRoot, 'frameworks/html-css/DESIGN.md'), 'utf8')
+const htmlFixture = await readFile(resolve(projectRoot, 'fixtures/vertical-slice/index.html'), 'utf8')
+const reactGuidance = await readFile(resolve(projectRoot, 'frameworks/react/DESIGN.md'), 'utf8')
+const reactFixture = await readFile(resolve(projectRoot, 'fixtures/react/app.mjs'), 'utf8')
 
 test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
   assert.equal(source.govukFrontendVersion, '6.5.0')
@@ -19,7 +21,7 @@ test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
     'markup',
     'behaviour-tested'
   ])
-  assert.equal(manifest.adapters.length, 1)
+  assert.equal(manifest.adapters.length, 2)
   assert.deepEqual(manifest.adapters[0], {
     id: 'html-css',
     name: 'Plain HTML and CSS',
@@ -28,20 +30,47 @@ test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
     fixture: 'fixtures/vertical-slice/index.html',
     compatibility: ['guidance', 'token', 'markup', 'behaviour-tested']
   })
+  assert.deepEqual(manifest.adapters[1], {
+    id: 'react',
+    name: 'React',
+    status: 'experimental',
+    guidance: 'react/DESIGN.md',
+    fixture: 'fixtures/react/app.mjs',
+    compatibility: ['guidance', 'token', 'markup', 'behaviour-tested']
+  })
 })
 
 test('Plain HTML/CSS guidance carries the page and enhancement contracts', () => {
-  assert.match(guidance, /<html class="govuk-template" lang="en">/)
-  assert.match(guidance, /govuk-frontend-supported/)
-  assert.match(guidance, /import \{ initAll \} from '\/govuk\/govuk-frontend\.min\.js'/)
-  assert.match(guidance, /initAll\(container\)/)
-  assert.match(guidance, /portable CSS variables are for project extensions/i)
-  assert.match(guidance, /Do not repeatedly call initAll\(\) over the whole document/)
+  assert.match(htmlGuidance, /<html class="govuk-template" lang="en">/)
+  assert.match(htmlGuidance, /govuk-frontend-supported/)
+  assert.match(htmlGuidance, /import \{ initAll \} from '\/govuk\/govuk-frontend\.min\.js'/)
+  assert.match(htmlGuidance, /initAll\(container\)/)
+  assert.match(htmlGuidance, /portable CSS variables are for project extensions/i)
+  assert.match(htmlGuidance, /Do not repeatedly call initAll\(\) over the whole document/)
 })
 
 test('Plain HTML/CSS fixture uses the adapter asset and markup model', () => {
-  assert.match(fixture, /href="\/vendor\/govuk\/govuk-frontend\.min\.css"/)
-  assert.match(fixture, /from '\/vendor\/govuk\/govuk-frontend\.min\.js'/)
-  assert.match(fixture, /class="govuk-button" data-module="govuk-button"/)
-  assert.match(fixture, /class="govuk-accordion" data-module="govuk-accordion"/)
+  assert.match(htmlFixture, /href="\/vendor\/govuk\/govuk-frontend\.min\.css"/)
+  assert.match(htmlFixture, /from '\/vendor\/govuk\/govuk-frontend\.min\.js'/)
+  assert.match(htmlFixture, /class="govuk-button" data-module="govuk-button"/)
+  assert.match(htmlFixture, /class="govuk-accordion" data-module="govuk-accordion"/)
+})
+
+test('React guidance preserves SSR, hydration and externally managed DOM boundaries', () => {
+  assert.match(reactGuidance, /Status:\*\* Experimental/)
+  assert.match(reactGuidance, /hydrateRoot\(\s*document/)
+  assert.match(reactGuidance, /suppressHydrationWarning/)
+  assert.match(reactGuidance, /const initialisedScopes = new WeakSet\(\)/)
+  assert.match(reactGuidance, /scope: container/)
+  assert.match(reactGuidance, /initialChildren = useRef\(children\)/)
+  assert.match(reactGuidance, /no general public destroy lifecycle/i)
+  assert.match(reactGuidance, /React Strict Mode runs an extra development Effect cycle/)
+})
+
+test('React fixture implements the reviewed boundary and client-only GOV.UK import', () => {
+  assert.match(reactFixture, /export function GovukFrontendBoundary/)
+  assert.match(reactFixture, /import\('govuk-frontend'\)/)
+  assert.match(reactFixture, /initialisedScopes\.has\(container\)/)
+  assert.match(reactFixture, /scope: container/)
+  assert.match(reactFixture, /initialChildren\.current/)
 })

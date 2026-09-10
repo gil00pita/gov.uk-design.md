@@ -48,6 +48,7 @@ test('init installs the generated guidance and check verifies it', async () => {
     'design/govuk/patterns/question-pages.md',
     'frameworks/manifest.json',
     'frameworks/html-css/DESIGN.md',
+    'frameworks/react/DESIGN.md',
     'AGENTS.md',
     'CLAUDE.md',
     'GEMINI.md',
@@ -63,7 +64,11 @@ test('init installs the generated guidance and check verifies it', async () => {
   assert.match(check.stdout, /installation is intact/)
 
   const manifest = JSON.parse(await readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
-  assert.equal(manifest.schemaVersion, 2)
+  assert.equal(manifest.schemaVersion, 3)
+  assert.deepEqual(manifest.selections, {
+    frameworks: ['html-css', 'react'],
+    ai: ['codex', 'claude-code', 'gemini-cli', 'github-copilot', 'cursor']
+  })
   assert.equal(manifest.managedFiles['AGENTS.md'].mode, 'managed-block')
   assert.equal(manifest.managedFiles['AGENTS.md'].created, true)
   assert.equal(manifest.managedFiles['.cursor/rules/govuk-design-system.mdc'].mode, 'file')
@@ -84,6 +89,88 @@ test('add is an alias for init', async () => {
   const result = run('add', '--target', target)
   assert.equal(result.status, 0, result.stderr)
   assert.match(result.stdout, /entry point: DESIGN\.md/)
+})
+
+test('init installs only explicitly selected framework and AI adapters', async () => {
+  const target = await temporaryProject()
+  const result = run(
+    'init',
+    '--target',
+    target,
+    '--framework',
+    'react',
+    '--ai=codex,cursor'
+  )
+  assert.equal(result.status, 0, result.stderr)
+
+  assert.ok(await readFile(resolve(target, 'design/govuk/catalog.json'), 'utf8'))
+  assert.ok(await readFile(resolve(target, 'frameworks/react/DESIGN.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'frameworks/html-css/DESIGN.md'), 'utf8'))
+  assert.ok(await readFile(resolve(target, 'AGENTS.md'), 'utf8'))
+  assert.ok(await readFile(resolve(target, '.cursor/rules/govuk-design-system.mdc'), 'utf8'))
+  assert.ok(await readFile(resolve(target, '.agents/skills/govuk-design-system/SKILL.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'CLAUDE.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'GEMINI.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, '.github/copilot-instructions.md'), 'utf8'))
+
+  const frameworkManifest = JSON.parse(await readFile(resolve(target, 'frameworks/manifest.json'), 'utf8'))
+  assert.deepEqual(frameworkManifest.adapters.map(({ id }) => id), ['react'])
+
+  const entryPoint = await readFile(resolve(target, 'DESIGN.md'), 'utf8')
+  assert.match(entryPoint, /\[React\]\(frameworks\/react\/DESIGN\.md\)/)
+  assert.doesNotMatch(entryPoint, /\[Plain HTML and CSS\]/)
+
+  const manifest = JSON.parse(await readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
+  assert.deepEqual(manifest.selections, { frameworks: ['react'], ai: ['codex', 'cursor'] })
+  assert.equal(run('check', '--target', target).status, 0)
+})
+
+test('init supports explicit none selections without touching AI instruction files', async () => {
+  const target = await temporaryProject()
+  const result = run('init', '--target', target, '--framework', 'none', '--ai', 'none')
+  assert.equal(result.status, 0, result.stderr)
+
+  assert.ok(await readFile(resolve(target, 'design/govuk/catalog.json'), 'utf8'))
+  const frameworkManifest = JSON.parse(await readFile(resolve(target, 'frameworks/manifest.json'), 'utf8'))
+  assert.deepEqual(frameworkManifest.adapters, [])
+  assert.match(
+    await readFile(resolve(target, 'DESIGN.md'), 'utf8'),
+    /No framework adapter was selected during installation/
+  )
+
+  for (const path of [
+    'frameworks/html-css/DESIGN.md',
+    'frameworks/react/DESIGN.md',
+    '.agents/skills/govuk-design-system/SKILL.md',
+    'AGENTS.md',
+    'CLAUDE.md',
+    'GEMINI.md',
+    '.github/copilot-instructions.md',
+    '.cursor/rules/govuk-design-system.mdc'
+  ]) {
+    await assert.rejects(readFile(resolve(target, path), 'utf8'))
+  }
+
+  const manifest = JSON.parse(await readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
+  assert.deepEqual(manifest.selections, { frameworks: [], ai: [] })
+  assert.equal(run('check', '--target', target).status, 0)
+})
+
+test('adapter selection rejects unknown IDs before installation', async () => {
+  const target = await temporaryProject()
+  const result = run('init', '--target', target, '--framework', 'react,vue')
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /unknown framework adapter: vue/)
+  assert.match(result.stderr, /available: html-css, react, all, none/)
+  await assert.rejects(readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
+})
+
+test('adapter selection options are limited to init and add', async () => {
+  const target = await temporaryProject()
+  assert.equal(run('init', '--target', target).status, 0)
+  const result = run('check', '--target', target, '--framework', 'react')
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /can only be used with init or add/)
 })
 
 test('check reports a modified managed file', async () => {
@@ -189,6 +276,37 @@ test('update changes only an unmodified managed block and preserves local instru
   assert.match(updated, /^# Local instructions/m)
   assert.match(updated, /- Preserve this\./)
   assert.equal(extractManagedBlock(updated), currentBlock)
+})
+
+test('update preserves the installed framework and AI selections', async () => {
+  const target = await temporaryProject()
+  assert.equal(
+    run('init', '--target', target, '--framework', 'react', '--ai', 'cursor').status,
+    0
+  )
+
+  const guidancePath = resolve(target, 'frameworks/react/DESIGN.md')
+  const oldContents = '# Older React guidance\n'
+  await writeFile(guidancePath, oldContents, 'utf8')
+
+  const manifestPath = resolve(target, '.govuk-design-md.json')
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
+  manifest.packageVersion = '0.3.0'
+  manifest.managedFiles['frameworks/react/DESIGN.md'].hash = hash(oldContents)
+  await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8')
+
+  const update = run('update', '--target', target)
+  assert.equal(update.status, 0, update.stderr)
+  assert.equal(
+    await readFile(guidancePath, 'utf8'),
+    await readFile(resolve(projectRoot, 'frameworks/react/DESIGN.md'), 'utf8')
+  )
+  await assert.rejects(readFile(resolve(target, 'frameworks/html-css/DESIGN.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'AGENTS.md'), 'utf8'))
+  assert.ok(await readFile(resolve(target, '.cursor/rules/govuk-design-system.mdc'), 'utf8'))
+
+  const updatedManifest = JSON.parse(await readFile(manifestPath, 'utf8'))
+  assert.deepEqual(updatedManifest.selections, { frameworks: ['react'], ai: ['cursor'] })
 })
 
 test('update never overwrites a locally modified managed file and emits a conflict file', async () => {

@@ -40,8 +40,8 @@ Keep `design/govuk/NOTICE.md`, `design/govuk/LICENSE-CONTENT.md`, and `design/go
 When Node.js is available, use:
 
 ```bash
-npx govuk-design-md@X.Y.Z init
+npx govuk-design-md@X.Y.Z init --framework react --ai codex,cursor
 npx govuk-design-md@X.Y.Z check
 ```
 
-Pinning `X.Y.Z` makes the installation reproducible. Read the release notes and run `diff` before moving to a newer package version.
+Omit `--framework` and `--ai` to choose interactively in a terminal. In automation, omitted selections default to `all`; pass explicit IDs or `none` for a reproducible subset. Pinning `X.Y.Z` makes the installation reproducible. Read the release notes and run `diff` before moving to a newer package version.

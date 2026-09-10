@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash, randomUUID } from 'node:crypto'
-import { access, copyFile, mkdir, readFile, readdir, rename, rmdir, stat, unlink, writeFile } from 'node:fs/promises'
+import { access, mkdir, readFile, readdir, rename, rmdir, stat, unlink, writeFile } from 'node:fs/promises'
 import { constants } from 'node:fs'
 import { dirname, isAbsolute, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -24,14 +24,24 @@ Commands:
 
 Options:
   --target <directory> Repository to inspect or modify (default: current directory)
-  --dry-run            Preview init or update operations without writing files
+  --dry-run            Preview init, add, update, or uninstall without writing files
+  --framework <ids>    Framework adapters for init/add: comma-separated IDs, all, or none
+  --ai <ids>           AI adapters for init/add: comma-separated IDs, all, or none
   --help               Show this help
   --version            Show the package version
 `
 }
 
 function parseArguments(argv) {
-  const args = { command: null, target: process.cwd(), dryRun: false, help: false, version: false }
+  const args = {
+    command: null,
+    target: process.cwd(),
+    dryRun: false,
+    frameworks: null,
+    ai: null,
+    help: false,
+    version: false
+  }
   const remaining = [...argv]
 
   while (remaining.length > 0) {
@@ -42,6 +52,16 @@ function parseArguments(argv) {
       args.target = target
     } else if (value === '--dry-run') {
       args.dryRun = true
+    } else if (value === '--framework' || value.startsWith('--framework=')) {
+      const selection = value === '--framework' ? remaining.shift() : value.slice('--framework='.length)
+      if (!selection) throw new Error('--framework requires one or more IDs, all, or none')
+      args.frameworks ??= []
+      args.frameworks.push(selection)
+    } else if (value === '--ai' || value.startsWith('--ai=')) {
+      const selection = value === '--ai' ? remaining.shift() : value.slice('--ai='.length)
+      if (!selection) throw new Error('--ai requires one or more IDs, all, or none')
+      args.ai ??= []
+      args.ai.push(selection)
     } else if (value === '--help' || value === '-h') {
       args.help = true
     } else if (value === '--version' || value === '-v') {
@@ -116,13 +136,108 @@ async function filesIn(directory) {
   return files
 }
 
-async function installPlan(target, existingEntryPoint = null) {
+function parseAdapterSelection(values, adapters, label) {
+  const availableIds = adapters.map(({ id }) => id)
+  const tokens = (values ?? ['all'])
+    .flatMap((value) => value.split(','))
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean)
+
+  if (tokens.length === 0) return availableIds
+  const special = tokens.filter((token) => token === 'all' || token === 'none')
+  if (special.length > 0) {
+    if (tokens.length !== 1) throw new Error(`${label} selection ${special[0]} cannot be combined with adapter IDs`)
+    return special[0] === 'all' ? availableIds : []
+  }
+
+  const unknown = tokens.filter((token) => !availableIds.includes(token))
+  if (unknown.length > 0) {
+    throw new Error(`unknown ${label} adapter: ${unknown.join(', ')}; available: ${[...availableIds, 'all', 'none'].join(', ')}`)
+  }
+
+  const selected = new Set(tokens)
+  return availableIds.filter((id) => selected.has(id))
+}
+
+async function resolveInitialSelections(args) {
+  const [frameworkManifest, aiManifest] = await Promise.all([
+    readFile(resolve(packageRoot, 'frameworks', 'manifest.json'), 'utf8').then((contents) => JSON.parse(contents)),
+    readFile(resolve(packageRoot, 'adapters', 'manifest.json'), 'utf8').then((contents) => JSON.parse(contents))
+  ])
+  let frameworkValues = args.frameworks
+  let aiValues = args.ai
+
+  if (process.stdin.isTTY && process.stdout.isTTY && (frameworkValues === null || aiValues === null)) {
+    const { createInterface } = await import('node:readline/promises')
+    const prompt = createInterface({ input: process.stdin, output: process.stdout })
+    try {
+      if (frameworkValues === null) {
+        const choices = frameworkManifest.adapters.map(({ id, name }) => `${id} (${name})`).join(', ')
+        const answer = await prompt.question(`Framework adapters: ${choices}\nSelect comma-separated IDs, all, or none [all]: `)
+        frameworkValues = [answer || 'all']
+      }
+      if (aiValues === null) {
+        const choices = aiManifest.adapters.map(({ id, name }) => `${id} (${name})`).join(', ')
+        const answer = await prompt.question(`AI adapters: ${choices}\nSelect comma-separated IDs, all, or none [all]: `)
+        aiValues = [answer || 'all']
+      }
+    } finally {
+      prompt.close()
+    }
+  }
+
+  return {
+    frameworks: parseAdapterSelection(frameworkValues, frameworkManifest.adapters, 'framework'),
+    ai: parseAdapterSelection(aiValues, aiManifest.adapters, 'AI')
+  }
+}
+
+function filterEntryPointFrameworks(contents, selectedAdapters) {
+  const sectionStart = contents.indexOf('## Framework adapters\n')
+  const sectionEnd = contents.indexOf('\n## Foundations and styles', sectionStart)
+  if (sectionStart === -1 || sectionEnd === -1) throw new Error('package entry point has no framework adapter section')
+
+  const selectedGuidance = new Set(selectedAdapters.map(({ guidance }) => `frameworks/${guidance}`))
+  let insertedEmptyState = false
+  const section = contents.slice(sectionStart, sectionEnd)
+  const filteredSection = section
+    .split('\n')
+    .flatMap((line) => {
+      const match = line.match(/^- \[[^\]]+\]\((frameworks\/[^)]+)\)/)
+      if (!match) return [line]
+      if (selectedGuidance.has(match[1])) return [line]
+      if (selectedAdapters.length === 0 && !insertedEmptyState) {
+        insertedEmptyState = true
+        return ['No framework adapter was selected during installation. Preserve the canonical DOM and progressive-enhancement contract when translating syntax.']
+      }
+      return []
+    })
+    .join('\n')
+
+  return contents.slice(0, sectionStart) + filteredSection + contents.slice(sectionEnd)
+}
+
+async function mappingContents(mapping) {
+  if (mapping.contents !== undefined) return Buffer.from(mapping.contents)
+  return readFile(mapping.source)
+}
+
+async function installPlan(target, existingEntryPoint = null, selections = null) {
   const mappings = []
-  const directories = [
-    ['design/govuk', 'design/govuk'],
-    ['agents/govuk-design-system', '.agents/skills/govuk-design-system'],
-    ['frameworks', 'frameworks']
-  ]
+  const frameworkManifest = JSON.parse(await readFile(resolve(packageRoot, 'frameworks', 'manifest.json'), 'utf8'))
+  const adapterManifest = JSON.parse(await readFile(resolve(packageRoot, 'adapters', 'manifest.json'), 'utf8'))
+  const selectedFrameworkIds = new Set(selections?.frameworks ?? frameworkManifest.adapters.map(({ id }) => id))
+  const selectedAiIds = new Set(selections?.ai ?? adapterManifest.adapters.map(({ id }) => id))
+  const selectedFrameworks = frameworkManifest.adapters.filter(({ id }) => selectedFrameworkIds.has(id))
+  const selectedAiAdapters = adapterManifest.adapters.filter(({ id }) => selectedAiIds.has(id))
+  const resolvedSelections = {
+    frameworks: selectedFrameworks.map(({ id }) => id),
+    ai: selectedAiAdapters.map(({ id }) => id)
+  }
+  const directories = [['design/govuk', 'design/govuk']]
+  if (selectedAiAdapters.length > 0) {
+    directories.push(['agents/govuk-design-system', '.agents/skills/govuk-design-system'])
+  }
 
   for (const [sourceDirectory, targetDirectory] of directories) {
     const absoluteSourceDirectory = resolve(packageRoot, sourceDirectory)
@@ -135,14 +250,32 @@ async function installPlan(target, existingEntryPoint = null) {
     }
   }
 
+  const selectedFrameworkManifest = { ...frameworkManifest, adapters: selectedFrameworks }
+  mappings.push({
+    contents: `${JSON.stringify(selectedFrameworkManifest, null, 2)}\n`,
+    target: resolve(target, 'frameworks', 'manifest.json'),
+    mode: 'file'
+  })
+  for (const adapter of selectedFrameworks) {
+    mappings.push({
+      source: resolveManagedPath(resolve(packageRoot, 'frameworks'), adapter.guidance),
+      target: resolveManagedPath(resolve(target, 'frameworks'), adapter.guidance),
+      mode: 'file'
+    })
+  }
+
   const entryName = existingEntryPoint ?? (await exists(resolve(target, 'DESIGN.md')) ? 'GOVUK-DESIGN.md' : 'DESIGN.md')
   if (!['DESIGN.md', 'GOVUK-DESIGN.md'].includes(entryName)) {
     throw new Error(`manifest contains an unsupported entry point: ${entryName}`)
   }
-  mappings.push({ source: resolve(packageRoot, 'DESIGN.md'), target: resolve(target, entryName), mode: 'file' })
+  const entryContents = await readFile(resolve(packageRoot, 'DESIGN.md'), 'utf8')
+  mappings.push({
+    contents: filterEntryPointFrameworks(entryContents, selectedFrameworks),
+    target: resolve(target, entryName),
+    mode: 'file'
+  })
 
-  const adapterManifest = JSON.parse(await readFile(resolve(packageRoot, 'adapters', 'manifest.json'), 'utf8'))
-  for (const adapter of adapterManifest.adapters ?? []) {
+  for (const adapter of selectedAiAdapters) {
     if (!['file', 'managed-block'].includes(adapter.mode)) {
       throw new Error(`adapter ${adapter.id ?? '<unknown>'} has an unsupported install mode`)
     }
@@ -153,7 +286,7 @@ async function installPlan(target, existingEntryPoint = null) {
     })
   }
 
-  return { mappings, entryName }
+  return { mappings, entryName, selections: resolvedSelections }
 }
 
 async function assertTarget(target) {
@@ -161,14 +294,14 @@ async function assertTarget(target) {
   if (!targetStat?.isDirectory()) throw new Error(`target is not an existing directory: ${target}`)
 }
 
-async function initialise(target, dryRun) {
+async function initialise(target, dryRun, selections) {
   await assertTarget(target)
   const manifestPath = resolve(target, manifestFilename)
   if (await exists(manifestPath)) {
     throw new Error(`${manifestFilename} already exists; use check to inspect this installation`)
   }
 
-  const { mappings, entryName } = await installPlan(target)
+  const { mappings, entryName, selections: resolvedSelections } = await installPlan(target, null, selections)
   const conflicts = []
   for (const mapping of mappings) {
     if (!await exists(mapping.target)) continue
@@ -221,16 +354,17 @@ async function initialise(target, dryRun) {
         created: !targetExisted
       }
     } else {
-      await copyFile(mapping.source, mapping.target, constants.COPYFILE_EXCL)
+      await writeFile(mapping.target, await mappingContents(mapping), { flag: 'wx' })
       managedFiles[path] = { mode: 'file', hash: await sha256(mapping.target) }
     }
   }
 
   const manifest = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     packageVersion: packageMetadata.version,
     govukFrontendVersion: catalog.govukFrontendVersion,
     entryPoint: entryName,
+    selections: resolvedSelections,
     managedFiles
   }
   await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, { encoding: 'utf8', flag: 'wx' })
@@ -255,14 +389,14 @@ async function desiredMappingState(mapping) {
     if (!block) throw new Error(`adapter source does not contain one valid managed block: ${mapping.source}`)
     return { hash: sha256Contents(block), contents: block }
   }
-  const contents = await readFile(mapping.source)
+  const contents = await mappingContents(mapping)
   return { hash: sha256Contents(contents), contents }
 }
 
 async function inspectUpdate(target) {
   await assertTarget(target)
   const manifest = await loadInstallationManifest(target)
-  const { mappings, entryName } = await installPlan(target, manifest.entryPoint)
+  const { mappings, entryName, selections } = await installPlan(target, manifest.entryPoint, manifest.selections)
   const currentPaths = new Set()
   const changes = []
 
@@ -340,7 +474,7 @@ async function inspectUpdate(target) {
     if (!currentPaths.has(path)) changes.push({ path, status: 'retired', reason: 'not present in this package release' })
   }
 
-  return { manifest, mappings, entryName, changes }
+  return { manifest, mappings, entryName, selections, changes }
 }
 
 function describeChange(change, future = false) {
@@ -423,7 +557,7 @@ async function diff(target) {
 }
 
 async function update(target, dryRun) {
-  const { manifest, mappings, entryName, changes } = await inspectUpdate(target)
+  const { manifest, mappings, entryName, selections, changes } = await inspectUpdate(target)
   const conflicts = changes.filter(({ status }) => status === 'conflict')
 
   if (conflicts.length > 0) {
@@ -476,10 +610,11 @@ async function update(target, dryRun) {
       : { mode: 'file', hash: desired.hash }
   }
   const nextManifest = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     packageVersion: packageMetadata.version,
     govukFrontendVersion: catalog.govukFrontendVersion,
     entryPoint: entryName,
+    selections,
     managedFiles
   }
   if (retired.length > 0) {
@@ -642,7 +777,15 @@ async function main() {
   }
 
   const target = resolve(args.target)
-  if (args.command === 'init' || args.command === 'add') return initialise(target, args.dryRun)
+  const hasSelectionOptions = args.frameworks !== null || args.ai !== null
+  if (hasSelectionOptions && !['init', 'add'].includes(args.command)) {
+    throw new Error('--framework and --ai can only be used with init or add')
+  }
+  if (args.command === 'init' || args.command === 'add') {
+    await assertTarget(target)
+    const selections = await resolveInitialSelections(args)
+    return initialise(target, args.dryRun, selections)
+  }
   if (args.command === 'check') return check(target)
   if (args.command === 'diff') return diff(target)
   if (args.command === 'update') return update(target, args.dryRun)

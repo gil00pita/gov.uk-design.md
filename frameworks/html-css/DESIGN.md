@@ -2,8 +2,9 @@
 
 # Plain HTML and CSS adapter
 
-**Status:** Reference  
-**Reviewed against:** GOV.UK Frontend 6.5.0 on 2026-09-09
+**Status:** Reference
+**Reviewed against:** GOV.UK Frontend 6.5.0
+**Integration reviewed:** 2026-09-09
 
 This is the reference adapter for rendering GOV.UK interfaces without a component framework. Later framework adapters must preserve the same DOM, asset, server-rendering and enhancement contracts.
 

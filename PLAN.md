@@ -33,9 +33,10 @@ Exit gate: decisions and upstream provenance are committed as repository files.
 
 - [x] Add package metadata and npm allow-list.
 - [x] Add mixed-license notice and non-official disclaimer.
-- [x] Preserve `output/` as historical evidence while excluding it from package publication.
+- [x] Preserve reviewed source manifests and compact smoke evidence while excluding the raw extraction bundle from package publication.
 - [x] Add contributor-facing architecture and restart documentation.
-- [ ] Rename the remote repository/directory separately; local code must not assume the current misspelled directory name.
+- [x] Rename the GitHub repository to `gil00pita/gov.uk-design.md`, update repository metadata, and keep local code independent of the checkout directory name.
+- [ ] Optionally rename the local checkout directory from `gov.uk-desing.md` to `gov.uk-design.md` outside the active workspace session.
 
 Exit gate: `npm pack --dry-run` excludes extraction evidence and the repository can be understood without chat history.
 
@@ -76,7 +77,7 @@ Exit gate: adapters route to canonical content without copying substantive guida
 ### Phase 5 — Installer and updater (`v0.5`)
 
 - [x] Add `add`, `diff`, `update`, and `uninstall` commands.
-- [ ] Add interactive framework and AI selection.
+- [x] Add interactive framework and AI selection.
 - [x] Add atomic updates and hash-based conflict files.
 - [x] Add `DESIGN.local.md` conventions.
 - [x] Add a verified curated ZIP builder and GitHub Release attachment workflow.
@@ -87,7 +88,7 @@ Exit gate: upgrade tests prove that local modifications cannot be lost silently.
 ### Phase 6 — Framework adapters (`v0.7`)
 
 - [x] Plain HTML/CSS reference adapter.
-- [ ] React adapter and fixture.
+- [x] React adapter and fixture.
 - [ ] Angular adapter and fixture.
 - [ ] Svelte adapter and fixture.
 - [ ] Astro adapter and fixture.
@@ -114,23 +115,23 @@ Exit gate: all current official content is represented, safe install/update path
 
 ## Current state
 
-- Last updated: 2026-09-09.
+- Last updated: 2026-09-10.
 - Branch at implementation start: `main`.
 - Pinned upstream: `govuk-frontend@6.5.0`.
-- Extraction evidence: 101 crawled pages, committed under `output/design-system.service.gov.uk/`.
+- Extraction evidence: the original 101-page raw bundle was removed from the maintained tree after review; source manifests, canonical derivatives and compact browser smoke evidence remain.
 - Known extraction issues:
   - only five generic component groups were inferred rather than the official component inventory;
   - dark mode is marked supported even though `variableDiff` is empty;
   - the colour reference page is reported as an anomaly because it intentionally demonstrates many palette values.
-- Implemented milestone: Phases 0, 2, 3 and 4 plus the local Phase 1 baseline are complete in the working tree; most of Phase 5 and the first Phase 6 adapter are implemented. Publishing and the external repository rename remain separate maintainer actions.
+- Implemented milestone: Phases 0, 2, 3 and 4 plus the local Phase 1 baseline are complete. Phase 5 is complete locally except for maintainer-owned publication, and two Phase 6 adapters are implemented. Publishing and the external repository rename remain separate maintainer actions.
 - Canonical catalog: all 13 reviewed styles, 37 components and 30 patterns plus 151 portable tokens. Feedback and Language navigation retain their reviewed Trial status.
-- CLI baseline: safe `init`/`add`, `diff`, `update`, `check`, and `uninstall` flows with dry-run support; existing root `DESIGN.md` and user-authored instruction content are preserved.
-- Browser fixture: rendered with the exact `govuk-frontend@6.5.0` compiled module; mouse and Enter-key Accordion disclosure were verified with zero browser console errors or warnings on 2026-09-09.
+- CLI baseline: safe `init`/`add`, `diff`, `update`, `check`, and `uninstall` flows with dry-run support; non-interactive and TTY framework/AI selection; existing root `DESIGN.md` and user-authored instruction content are preserved.
+- Browser fixtures: Plain HTML/CSS and React SSR/hydration render the exact `govuk-frontend@6.5.0` implementation. The React fixture pins React 19.3.0, guards Strict Mode effects, retains visible no-JavaScript content, and passed mouse and Enter-key Accordion disclosure with zero page errors, warnings, hydration mismatches or failed requests on 2026-09-10.
 - AI adapter slice: generated routers for five reviewed repository instruction formats; existing shared files use hash-tracked managed blocks and Cursor uses a dedicated package-owned rule.
-- Installer/update slice: `add`, `diff`, `update`, `uninstall`, dry runs, atomic update replacement and side-by-side conflict files are implemented without silent replacement of local edits.
-- Framework slice: generated Plain HTML/CSS reference guidance records `guidance`, `token`, `markup`, and `behaviour-tested` compatibility and is installed by the CLI with its manifest.
-- Manual distribution slice: a clean-install repository overlay, manual merge guidance, release metadata, SHA-256 checksums and automated GitHub Release upload are implemented. Local archive evidence is `release/govuk-design-md-v0.4.0.zip` (161,317 bytes) and is ignored by Git.
-- Verification at this checkpoint: `npm run check` passes with 80 inventory entries, 151 tokens, 1 framework adapter, 6 agent evaluation cases, and 24 tests; `npm run pack:check` passes with 120 files and 474,526 bytes unpacked; ZIP integrity and `git diff --check` pass.
+- Installer/update slice: `add`, `diff`, `update`, `uninstall`, dry runs, atomic update replacement, side-by-side conflict files and selection-preserving schema-v3 manifests are implemented without silent replacement of local edits.
+- Framework slice: generated Plain HTML/CSS reference and experimental React guidance record `guidance`, `token`, `markup`, and `behaviour-tested` compatibility. Selected installs filter the framework manifest and entry-point links together.
+- Manual distribution slice: a clean-install repository overlay, manual merge guidance, release metadata, SHA-256 checksums and automated GitHub Release upload are implemented. A temporary clean build produced a verified 166,241-byte `govuk-design-md-v0.4.0.zip`; release artifacts remain ignored by Git.
+- Verification at this checkpoint: `npm run check` passes with 80 inventory entries, 151 tokens, 2 framework adapters, 6 agent evaluation cases, and 35 tests; `npm run pack:check` passes with 121 files and 505,446 bytes unpacked; the temporary ZIP integrity check and `git diff --check` pass.
 
 ## Completed
 
@@ -148,19 +149,22 @@ Exit gate: all current official content is represented, safe install/update path
 - Added all 30 reviewed pattern records with journey rules, safeguards, component relationships and related-pattern links.
 - Added generated pattern Markdown, complete machine-readable coverage and catalog parity tests.
 - Added a reviewed AI-adapter manifest and generated thin routers for Codex/AGENTS.md, Claude Code, Gemini CLI, GitHub Copilot and Cursor.
-- Upgraded the install manifest to schema v2 so `check` distinguishes complete package files from package-owned blocks inside existing user instruction files.
+- Upgraded the install manifest to schema v2 so `check` distinguishes complete package files from package-owned blocks inside existing user instruction files, then to schema v3 to retain framework and AI selections across updates.
 - Added tests proving existing AI instructions survive installation, outside-block edits remain user-owned, managed-block edits are detected and orphaned markers are not silently adopted.
 - Added six agent evaluation cases spanning record selection, markup fidelity, progressive enhancement, accessibility and non-invention.
 - Added safe add/diff/update/uninstall flows. Updates replace only content still matching its recorded hash, preserve user content around managed blocks and emit `*.govuk-design-md.new` on conflicts.
 - Added `DESIGN.local.md` conventions and a user-owned example file; generated AI routers read it when present without adding it to package ownership.
 - Added the Plain HTML/CSS reference adapter, schema, manifest, generated page shell, asset/rendering/enhancement/lifecycle contracts, CLI installation and fixture tests.
 - Re-verified the reference fixture in a real browser after switching to the official compiled module entry point; pointer and keyboard disclosure behaviour passed with a clean console.
+- Added the experimental React adapter with server rendering, hydration, JSX translation, asset setup, progressive enhancement, Strict Mode guards and an immutable boundary for GOV.UK Frontend-mutated DOM.
+- Added the React 19.3.0 SSR/hydration fixture, semantic tests and `output/playwright/react-vertical-slice.png`; verified pointer, Enter-key, focus and no-JavaScript Accordion behaviour with no browser errors, warnings, hydration mismatches or failed requests.
+- Added non-interactive `--framework` and `--ai` selection plus TTY-only prompts. Selection tests cover filtered adapter payloads, `none`, unknown IDs, command scoping and update persistence.
 - Installed the attribution notice and both applicable licences inside the namespaced guidance tree so repository installs retain their legal context.
 - Added a curated manual-install ZIP builder and release workflow. The builder creates and checks an actual CLI overlay before archiving it, rejects release-tag/package-version mismatches, and includes manual instructions, release metadata and SHA-256 checksums.
 
 ## Next action
 
-Continue Phase 6 with the React adapter and fixture, preserving the Plain HTML/CSS DOM and lifecycle contract. Once React is installable, add non-interactive `--framework`/`--ai` selection first and layer prompts only onto interactive terminals. Publishing the npm package, attaching the first ZIP, and renaming the remote remain explicit maintainer actions.
+Continue Phase 6 with the Angular adapter and fixture, preserving the same server-rendered DOM, progressive-enhancement and externally managed lifecycle contract proven by the React slice. Publishing the npm package, attaching the first ZIP, and renaming the remote remain explicit maintainer actions.
 
 ## Resume procedure
 

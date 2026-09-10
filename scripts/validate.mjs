@@ -86,14 +86,30 @@ if (!Array.isArray(frameworkAdapterSource.adapters) || frameworkAdapterSource.ad
 } else {
   const adapterIds = new Set()
   const adapterOutputs = new Set()
+  const adapterFixtures = new Set()
   const knownCompatibility = new Set(['guidance', 'token', 'markup', 'behaviour-tested'])
+  const pageTemplateLanguages = new Set(['html', 'jsx', 'js', 'ts', 'tsx'])
+  const dynamicExampleLanguages = new Set(['js', 'jsx', 'ts', 'tsx'])
   for (const adapter of frameworkAdapterSource.adapters) {
     const label = `framework adapter ${adapter.id ?? '<missing id>'}`
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(adapter.id ?? '')) errors.push(`${label}: invalid id`)
     if (adapterIds.has(adapter.id)) errors.push(`${label}: duplicate id`)
     adapterIds.add(adapter.id)
-    if (typeof adapter.name !== 'string' || adapter.name.length === 0) errors.push(`${label}: name must be a non-empty string`)
+    for (const field of ['name', 'description', 'fixtureDescription', 'pageTemplateIntro', 'dynamicExampleIntro']) {
+      if (typeof adapter[field] !== 'string' || adapter[field].length === 0) {
+        errors.push(`${label}: ${field} must be a non-empty string`)
+      }
+    }
     if (!['reference', 'experimental', 'stable'].includes(adapter.status)) errors.push(`${label}: unsupported status ${adapter.status}`)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(adapter.reviewedAt ?? '') || Number.isNaN(Date.parse(`${adapter.reviewedAt}T00:00:00Z`))) {
+      errors.push(`${label}: reviewedAt must be a valid date`)
+    }
+    if (!pageTemplateLanguages.has(adapter.pageTemplateLanguage)) {
+      errors.push(`${label}: unsupported pageTemplateLanguage ${adapter.pageTemplateLanguage}`)
+    }
+    if (!dynamicExampleLanguages.has(adapter.dynamicExampleLanguage)) {
+      errors.push(`${label}: unsupported dynamicExampleLanguage ${adapter.dynamicExampleLanguage}`)
+    }
 
     const output = adapter.output ?? ''
     const resolvedOutput = resolve(projectRoot, '.framework-path-check', output)
@@ -126,10 +142,10 @@ if (!Array.isArray(frameworkAdapterSource.adapters) || frameworkAdapterSource.ad
     for (const field of ['pageTemplate', 'dynamicExample']) {
       if (typeof adapter[field] !== 'string' || adapter[field].length === 0) errors.push(`${label}: ${field} must be a non-empty string`)
     }
-    if (!adapter.pageTemplate?.includes('govuk-template') || !adapter.pageTemplate?.includes('initAll()')) {
-      errors.push(`${label}: pageTemplate must include the GOV.UK page shell and initialisation`)
+    if (!adapter.pageTemplate?.includes('govuk-template')) {
+      errors.push(`${label}: pageTemplate must include the GOV.UK page shell`)
     }
-    if (!adapter.dynamicExample?.includes('initAll(container)')) {
+    if (!adapter.dynamicExample?.includes('initAll(') || !adapter.dynamicExample?.includes('container')) {
       errors.push(`${label}: dynamicExample must scope initialisation to inserted content`)
     }
 
@@ -140,6 +156,8 @@ if (!Array.isArray(frameworkAdapterSource.adapters) || frameworkAdapterSource.ad
     } else {
       await access(fixturePath).catch(() => errors.push(`${label}: fixture does not exist: ${adapter.fixture}`))
     }
+    if (adapterFixtures.has(adapter.fixture)) errors.push(`${label}: duplicate fixture ${adapter.fixture}`)
+    adapterFixtures.add(adapter.fixture)
     if (!Array.isArray(adapter.sourceUrls) || adapter.sourceUrls.length === 0) {
       errors.push(`${label}: sourceUrls must be a non-empty array`)
     } else {
@@ -455,5 +473,6 @@ if (errors.length > 0) {
   process.exitCode = 1
 } else {
   const inventoryEntryCount = Object.values(reviewedInventoryCounts).reduce((total, count) => total + count, 0)
-  process.stdout.write(`validated ${inventoryEntryCount} inventory entries, ${styles.length} style records, ${components.length} component records, ${patterns.length} pattern records, ${knownTokens.size} tokens, and ${frameworkAdapterSource.adapters.length} framework adapter\n`)
+  const frameworkAdapterLabel = frameworkAdapterSource.adapters.length === 1 ? 'framework adapter' : 'framework adapters'
+  process.stdout.write(`validated ${inventoryEntryCount} inventory entries, ${styles.length} style records, ${components.length} component records, ${patterns.length} pattern records, ${knownTokens.size} tokens, and ${frameworkAdapterSource.adapters.length} ${frameworkAdapterLabel}\n`)
 }

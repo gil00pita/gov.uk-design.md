@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/gilalvaro/govuk-design-md/blob/main/schema/eval-task.schema.json",
+  "$id": "https://github.com/gil00pita/gov.uk-design.md/blob/main/schema/eval-task.schema.json",
   "title": "GOV.UK agent evaluation suite",
   "type": "object",
   "additionalProperties": false,

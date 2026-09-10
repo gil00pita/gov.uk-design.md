@@ -21,6 +21,19 @@
         "markup",
         "behaviour-tested"
       ]
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "status": "experimental",
+      "guidance": "react/DESIGN.md",
+      "fixture": "fixtures/react/app.mjs",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ]
     }
   ]
 }
