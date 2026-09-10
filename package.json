@@ -34,7 +34,8 @@
     "pack:check": "node scripts/pack-check.mjs",
     "release:archive": "node scripts/release-archive.mjs",
     "fixture:serve": "node scripts/serve-fixture.mjs",
-    "fixture:serve:react": "node scripts/serve-react-fixture.mjs"
+    "fixture:serve:react": "node scripts/serve-react-fixture.mjs",
+    "fixture:serve:angular": "node scripts/serve-angular-fixture.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -55,9 +56,16 @@
     "access": "public"
   },
   "devDependencies": {
+    "@angular/common": "22.1.6",
+    "@angular/compiler": "22.1.6",
+    "@angular/core": "22.1.6",
+    "@angular/platform-browser": "22.1.6",
+    "@angular/platform-server": "22.1.6",
     "esbuild": "0.28.2",
     "govuk-frontend": "6.5.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "rxjs": "7.8.2",
+    "tslib": "2.8.1"
   }
 }

@@ -11,6 +11,8 @@ const htmlGuidance = await readFile(resolve(projectRoot, 'frameworks/html-css/DE
 const htmlFixture = await readFile(resolve(projectRoot, 'fixtures/vertical-slice/index.html'), 'utf8')
 const reactGuidance = await readFile(resolve(projectRoot, 'frameworks/react/DESIGN.md'), 'utf8')
 const reactFixture = await readFile(resolve(projectRoot, 'fixtures/react/app.mjs'), 'utf8')
+const angularGuidance = await readFile(resolve(projectRoot, 'frameworks/angular/DESIGN.md'), 'utf8')
+const angularFixture = await readFile(resolve(projectRoot, 'fixtures/angular/client.mjs'), 'utf8')
 
 test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
   assert.equal(source.govukFrontendVersion, '6.5.0')
@@ -21,7 +23,7 @@ test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
     'markup',
     'behaviour-tested'
   ])
-  assert.equal(manifest.adapters.length, 2)
+  assert.equal(manifest.adapters.length, 3)
   assert.deepEqual(manifest.adapters[0], {
     id: 'html-css',
     name: 'Plain HTML and CSS',
@@ -36,6 +38,14 @@ test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
     status: 'experimental',
     guidance: 'react/DESIGN.md',
     fixture: 'fixtures/react/app.mjs',
+    compatibility: ['guidance', 'token', 'markup', 'behaviour-tested']
+  })
+  assert.deepEqual(manifest.adapters[2], {
+    id: 'angular',
+    name: 'Angular',
+    status: 'experimental',
+    guidance: 'angular/DESIGN.md',
+    fixture: 'fixtures/angular/app.mjs',
     compatibility: ['guidance', 'token', 'markup', 'behaviour-tested']
   })
 })
@@ -73,4 +83,24 @@ test('React fixture implements the reviewed boundary and client-only GOV.UK impo
   assert.match(reactFixture, /initialisedScopes\.has\(container\)/)
   assert.match(reactFixture, /scope: container/)
   assert.match(reactFixture, /initialChildren\.current/)
+})
+
+test('Angular guidance preserves SSR, hydration and externally managed DOM boundaries', () => {
+  assert.match(angularGuidance, /Status:\*\* Experimental/)
+  assert.match(angularGuidance, /provideClientHydration\(withNoIncrementalHydration\(\)\)/)
+  assert.match(angularGuidance, /await app\.whenStable\(\)/)
+  assert.match(angularGuidance, /requestAnimationFrame/)
+  assert.match(angularGuidance, /ChangeDetectionStrategy\.OnPush/)
+  assert.match(angularGuidance, /afterNextRender/)
+  assert.match(angularGuidance, /provideServerRendering\(\)/)
+  assert.match(angularGuidance, /ngSkipHydration as the default integration strategy/)
+  assert.match(angularGuidance, /no general public destroy lifecycle/i)
+})
+
+test('Angular fixture delays its client-only GOV.UK import until after application stability', () => {
+  assert.match(angularFixture, /bootstrapApplication\(GovukFixtureComponent, appConfig\)/)
+  assert.match(angularFixture, /await application\.whenStable\(\)/)
+  assert.match(angularFixture, /requestAnimationFrame/)
+  assert.match(angularFixture, /import\('govuk-frontend'\)/)
+  assert.match(angularFixture, /scope,/)
 })

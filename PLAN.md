@@ -89,7 +89,7 @@ Exit gate: upgrade tests prove that local modifications cannot be lost silently.
 
 - [x] Plain HTML/CSS reference adapter.
 - [x] React adapter and fixture.
-- [ ] Angular adapter and fixture.
+- [x] Angular adapter and fixture.
 - [ ] Svelte adapter and fixture.
 - [ ] Astro adapter and fixture.
 
@@ -123,15 +123,15 @@ Exit gate: all current official content is represented, safe install/update path
   - only five generic component groups were inferred rather than the official component inventory;
   - dark mode is marked supported even though `variableDiff` is empty;
   - the colour reference page is reported as an anomaly because it intentionally demonstrates many palette values.
-- Implemented milestone: Phases 0, 2, 3 and 4 plus the local Phase 1 baseline are complete. Phase 5 is complete locally except for maintainer-owned publication, and two Phase 6 adapters are implemented. Publishing and the external repository rename remain separate maintainer actions.
+- Implemented milestone: Phases 0, 2, 3 and 4 plus the local Phase 1 baseline are complete. Phase 5 is complete locally except for maintainer-owned publication, and three Phase 6 adapters are implemented. The GitHub repository rename is complete; publishing and the optional local checkout rename remain separate maintainer actions.
 - Canonical catalog: all 13 reviewed styles, 37 components and 30 patterns plus 151 portable tokens. Feedback and Language navigation retain their reviewed Trial status.
 - CLI baseline: safe `init`/`add`, `diff`, `update`, `check`, and `uninstall` flows with dry-run support; non-interactive and TTY framework/AI selection; existing root `DESIGN.md` and user-authored instruction content are preserved.
-- Browser fixtures: Plain HTML/CSS and React SSR/hydration render the exact `govuk-frontend@6.5.0` implementation. The React fixture pins React 19.3.0, guards Strict Mode effects, retains visible no-JavaScript content, and passed mouse and Enter-key Accordion disclosure with zero page errors, warnings, hydration mismatches or failed requests on 2026-09-10.
+- Browser fixtures: Plain HTML/CSS, React and Angular SSR/hydration render the exact `govuk-frontend@6.5.0` implementation. React 19.3.0 guards Strict Mode effects. Angular 22.1.6 hydrates its static OnPush boundary before enhancement. Both retain visible no-JavaScript content and passed mouse and Enter-key Accordion disclosure with zero page errors, warnings, hydration mismatches or failed requests on 2026-09-10.
 - AI adapter slice: generated routers for five reviewed repository instruction formats; existing shared files use hash-tracked managed blocks and Cursor uses a dedicated package-owned rule.
 - Installer/update slice: `add`, `diff`, `update`, `uninstall`, dry runs, atomic update replacement, side-by-side conflict files and selection-preserving schema-v3 manifests are implemented without silent replacement of local edits.
-- Framework slice: generated Plain HTML/CSS reference and experimental React guidance record `guidance`, `token`, `markup`, and `behaviour-tested` compatibility. Selected installs filter the framework manifest and entry-point links together.
-- Manual distribution slice: a clean-install repository overlay, manual merge guidance, release metadata, SHA-256 checksums and automated GitHub Release upload are implemented. A temporary clean build produced a verified 166,241-byte `govuk-design-md-v0.4.0.zip`; release artifacts remain ignored by Git.
-- Verification at this checkpoint: `npm run check` passes with 80 inventory entries, 151 tokens, 2 framework adapters, 6 agent evaluation cases, and 35 tests; `npm run pack:check` passes with 121 files and 505,446 bytes unpacked; the temporary ZIP integrity check and `git diff --check` pass.
+- Framework slice: generated Plain HTML/CSS reference plus experimental React and Angular guidance record `guidance`, `token`, `markup`, and `behaviour-tested` compatibility. Selected installs filter the framework manifest and entry-point links together.
+- Manual distribution slice: a clean-install repository overlay, manual merge guidance, release metadata, SHA-256 checksums and automated GitHub Release upload are implemented. A temporary clean build produced a verified `govuk-design-md-v0.4.0.zip`; release artifacts remain ignored by Git.
+- Verification at this checkpoint: `npm run check` passes with 80 inventory entries, 151 tokens, 3 framework adapters, 6 agent evaluation cases, and 41 tests; `npm run pack:check` passes with 122 files; the temporary ZIP integrity check and `git diff --check` pass.
 
 ## Completed
 
@@ -158,13 +158,14 @@ Exit gate: all current official content is represented, safe install/update path
 - Re-verified the reference fixture in a real browser after switching to the official compiled module entry point; pointer and keyboard disclosure behaviour passed with a clean console.
 - Added the experimental React adapter with server rendering, hydration, JSX translation, asset setup, progressive enhancement, Strict Mode guards and an immutable boundary for GOV.UK Frontend-mutated DOM.
 - Added the React 19.3.0 SSR/hydration fixture, semantic tests and `output/playwright/react-vertical-slice.png`; verified pointer, Enter-key, focus and no-JavaScript Accordion behaviour with no browser errors, warnings, hydration mismatches or failed requests.
+- Added the Angular 22.1.6 SSR/hydration adapter and fixture with shared hydration providers, server transfer state, a static OnPush boundary, post-stability GOV.UK initialisation, semantic tests and `output/playwright/angular-vertical-slice.png`. Real-browser verification hydrated 1 component and 43 nodes before clean mouse, Enter-key, focus and no-JavaScript Accordion checks.
 - Added non-interactive `--framework` and `--ai` selection plus TTY-only prompts. Selection tests cover filtered adapter payloads, `none`, unknown IDs, command scoping and update persistence.
 - Installed the attribution notice and both applicable licences inside the namespaced guidance tree so repository installs retain their legal context.
 - Added a curated manual-install ZIP builder and release workflow. The builder creates and checks an actual CLI overlay before archiving it, rejects release-tag/package-version mismatches, and includes manual instructions, release metadata and SHA-256 checksums.
 
 ## Next action
 
-Continue Phase 6 with the Angular adapter and fixture, preserving the same server-rendered DOM, progressive-enhancement and externally managed lifecycle contract proven by the React slice. Publishing the npm package, attaching the first ZIP, and renaming the remote remain explicit maintainer actions.
+Continue Phase 6 with the Svelte adapter and fixture, preserving the server-rendered DOM, progressive-enhancement and externally managed lifecycle contract proven by the React and Angular slices. Publishing the npm package and attaching the first ZIP remain explicit maintainer actions; renaming the local checkout directory is optional housekeeping outside the active workspace session.
 
 ## Resume procedure
 

@@ -30,6 +30,7 @@ const required = [
   'frameworks/manifest.json',
   'frameworks/html-css/DESIGN.md',
   'frameworks/react/DESIGN.md',
+  'frameworks/angular/DESIGN.md',
   'design/govuk/catalog.json',
   'design/govuk/NOTICE.md',
   'design/govuk/LICENSE-CONTENT.md',

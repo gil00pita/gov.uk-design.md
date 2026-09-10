@@ -142,10 +142,17 @@ if (!Array.isArray(frameworkAdapterSource.adapters) || frameworkAdapterSource.ad
     for (const field of ['pageTemplate', 'dynamicExample']) {
       if (typeof adapter[field] !== 'string' || adapter[field].length === 0) errors.push(`${label}: ${field} must be a non-empty string`)
     }
-    if (!adapter.pageTemplate?.includes('govuk-template')) {
+    if (!`${adapter.pageTemplateIntro ?? ''}\n${adapter.pageTemplate ?? ''}`.includes('govuk-template')) {
       errors.push(`${label}: pageTemplate must include the GOV.UK page shell`)
     }
-    if (!adapter.dynamicExample?.includes('initAll(') || !adapter.dynamicExample?.includes('container')) {
+    if (
+      !adapter.dynamicExample?.includes('initAll(') ||
+      (
+        !adapter.dynamicExample?.includes('initAll(container)') &&
+        !adapter.dynamicExample?.includes('scope:') &&
+        !/\bscope\s*,/.test(adapter.dynamicExample ?? '')
+      )
+    ) {
       errors.push(`${label}: dynamicExample must scope initialisation to inserted content`)
     }
 

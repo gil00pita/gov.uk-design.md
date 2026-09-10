@@ -34,6 +34,19 @@
         "markup",
         "behaviour-tested"
       ]
+    },
+    {
+      "id": "angular",
+      "name": "Angular",
+      "status": "experimental",
+      "guidance": "angular/DESIGN.md",
+      "fixture": "fixtures/angular/app.mjs",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ]
     }
   ]
 }

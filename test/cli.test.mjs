@@ -49,6 +49,7 @@ test('init installs the generated guidance and check verifies it', async () => {
     'frameworks/manifest.json',
     'frameworks/html-css/DESIGN.md',
     'frameworks/react/DESIGN.md',
+    'frameworks/angular/DESIGN.md',
     'AGENTS.md',
     'CLAUDE.md',
     'GEMINI.md',
@@ -66,7 +67,7 @@ test('init installs the generated guidance and check verifies it', async () => {
   const manifest = JSON.parse(await readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
   assert.equal(manifest.schemaVersion, 3)
   assert.deepEqual(manifest.selections, {
-    frameworks: ['html-css', 'react'],
+    frameworks: ['html-css', 'react', 'angular'],
     ai: ['codex', 'claude-code', 'gemini-cli', 'github-copilot', 'cursor']
   })
   assert.equal(manifest.managedFiles['AGENTS.md'].mode, 'managed-block')
@@ -98,14 +99,15 @@ test('init installs only explicitly selected framework and AI adapters', async (
     '--target',
     target,
     '--framework',
-    'react',
+    'angular',
     '--ai=codex,cursor'
   )
   assert.equal(result.status, 0, result.stderr)
 
   assert.ok(await readFile(resolve(target, 'design/govuk/catalog.json'), 'utf8'))
-  assert.ok(await readFile(resolve(target, 'frameworks/react/DESIGN.md'), 'utf8'))
+  assert.ok(await readFile(resolve(target, 'frameworks/angular/DESIGN.md'), 'utf8'))
   await assert.rejects(readFile(resolve(target, 'frameworks/html-css/DESIGN.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'frameworks/react/DESIGN.md'), 'utf8'))
   assert.ok(await readFile(resolve(target, 'AGENTS.md'), 'utf8'))
   assert.ok(await readFile(resolve(target, '.cursor/rules/govuk-design-system.mdc'), 'utf8'))
   assert.ok(await readFile(resolve(target, '.agents/skills/govuk-design-system/SKILL.md'), 'utf8'))
@@ -114,14 +116,15 @@ test('init installs only explicitly selected framework and AI adapters', async (
   await assert.rejects(readFile(resolve(target, '.github/copilot-instructions.md'), 'utf8'))
 
   const frameworkManifest = JSON.parse(await readFile(resolve(target, 'frameworks/manifest.json'), 'utf8'))
-  assert.deepEqual(frameworkManifest.adapters.map(({ id }) => id), ['react'])
+  assert.deepEqual(frameworkManifest.adapters.map(({ id }) => id), ['angular'])
 
   const entryPoint = await readFile(resolve(target, 'DESIGN.md'), 'utf8')
-  assert.match(entryPoint, /\[React\]\(frameworks\/react\/DESIGN\.md\)/)
+  assert.match(entryPoint, /\[Angular\]\(frameworks\/angular\/DESIGN\.md\)/)
   assert.doesNotMatch(entryPoint, /\[Plain HTML and CSS\]/)
+  assert.doesNotMatch(entryPoint, /\[React\]/)
 
   const manifest = JSON.parse(await readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
-  assert.deepEqual(manifest.selections, { frameworks: ['react'], ai: ['codex', 'cursor'] })
+  assert.deepEqual(manifest.selections, { frameworks: ['angular'], ai: ['codex', 'cursor'] })
   assert.equal(run('check', '--target', target).status, 0)
 })
 
@@ -141,6 +144,7 @@ test('init supports explicit none selections without touching AI instruction fil
   for (const path of [
     'frameworks/html-css/DESIGN.md',
     'frameworks/react/DESIGN.md',
+    'frameworks/angular/DESIGN.md',
     '.agents/skills/govuk-design-system/SKILL.md',
     'AGENTS.md',
     'CLAUDE.md',
@@ -161,7 +165,7 @@ test('adapter selection rejects unknown IDs before installation', async () => {
   const result = run('init', '--target', target, '--framework', 'react,vue')
   assert.equal(result.status, 1)
   assert.match(result.stderr, /unknown framework adapter: vue/)
-  assert.match(result.stderr, /available: html-css, react, all, none/)
+  assert.match(result.stderr, /available: html-css, react, angular, all, none/)
   await assert.rejects(readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
 })
 
@@ -302,6 +306,7 @@ test('update preserves the installed framework and AI selections', async () => {
     await readFile(resolve(projectRoot, 'frameworks/react/DESIGN.md'), 'utf8')
   )
   await assert.rejects(readFile(resolve(target, 'frameworks/html-css/DESIGN.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'frameworks/angular/DESIGN.md'), 'utf8'))
   await assert.rejects(readFile(resolve(target, 'AGENTS.md'), 'utf8'))
   assert.ok(await readFile(resolve(target, '.cursor/rules/govuk-design-system.mdc'), 'utf8'))
 
