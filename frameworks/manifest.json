@@ -60,6 +60,19 @@
         "markup",
         "behaviour-tested"
       ]
+    },
+    {
+      "id": "astro",
+      "name": "Astro",
+      "status": "experimental",
+      "guidance": "astro/DESIGN.md",
+      "fixture": "fixtures/astro/src/pages/index.astro",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ]
     }
   ]
 }

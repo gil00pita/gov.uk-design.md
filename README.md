@@ -13,7 +13,7 @@ The framework-neutral canonical catalog is complete for the reviewed GOV.UK Desi
 - 30 of 30 user-centred patterns
 - 151 portable design tokens
 
-Generated instruction adapters cover Codex and other `AGENTS.md` consumers, Claude Code, Gemini CLI, GitHub Copilot and Cursor. The package also includes task-based agent evaluations, conflict-safe install/update flows, a behaviour-tested Plain HTML/CSS reference adapter, and experimental behaviour-tested React, Angular and Svelte adapters. Astro and UI-framework adapters remain planned. See [PLAN.md](PLAN.md) for delivery status and restart instructions.
+Generated instruction adapters cover Codex and other `AGENTS.md` consumers, Claude Code, Gemini CLI, GitHub Copilot and Cursor. The package also includes task-based agent evaluations, conflict-safe install/update flows, a behaviour-tested Plain HTML/CSS reference adapter, and experimental behaviour-tested React, Angular, Svelte and Astro adapters. UI-framework adapters remain planned. See [PLAN.md](PLAN.md) for delivery status and restart instructions.
 
 ## Why this exists
 
@@ -62,9 +62,10 @@ npm run fixture:serve        # Plain HTML/CSS at http://127.0.0.1:4173
 npm run fixture:serve:react  # React SSR/hydration at http://127.0.0.1:4174
 npm run fixture:serve:angular # Angular SSR/hydration at http://127.0.0.1:4175
 npm run fixture:serve:svelte # Svelte SSR/hydration at http://127.0.0.1:4176
+npm run fixture:serve:astro  # Astro static rendering at http://127.0.0.1:4177
 ```
 
-The fixtures are development-only and are not included in the npm package. The Angular 22 fixture requires a Node version supported by Angular 22 (`^22.22.3`, `^24.15.0`, or `>=26.0.0`).
+The fixtures are development-only and are not included in the npm package. The Angular 22 fixture requires a Node version supported by Angular 22 (`^22.22.3`, `^24.15.0`, or `>=26.0.0`), and the Astro 7 fixture requires Node `>=22.12.0`.
 
 The installer CLI can be exercised directly from this checkout. It always installs the canonical records and portable tokens, then installs the selected framework and AI adapters:
 
@@ -103,7 +104,7 @@ npm run release:archive
 - Initial installation refuses to overwrite package-owned file destinations.
 - Existing `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and Copilot instruction files are preserved; the CLI appends one hash-tracked managed block.
 - Cursor receives a dedicated `.cursor/rules/govuk-design-system.mdc` rule and installation refuses an existing file at that package-owned path.
-- Selected framework guidance is installed under `frameworks/`; Plain HTML/CSS remains the reference contract, while React, Angular and Svelte use SSR/hydration boundaries around externally enhanced DOM.
+- Selected framework guidance is installed under `frameworks/`; Plain HTML/CSS remains the reference contract. React, Angular and Svelte use SSR/hydration boundaries around externally enhanced DOM, while native Astro templates render stable HTML without a client runtime and add GOV.UK Frontend as a processed client script.
 - `.govuk-design-md.json` records every managed path, SHA-256 hash, and selected framework and AI adapter IDs.
 - `check` reports missing or locally modified package files and managed blocks while allowing edits outside an AI adapter block.
 - `diff` previews package changes; `update` replaces only content whose hash still matches the previous installation.

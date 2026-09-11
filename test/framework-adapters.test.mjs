@@ -15,6 +15,8 @@ const angularGuidance = await readFile(resolve(projectRoot, 'frameworks/angular/
 const angularFixture = await readFile(resolve(projectRoot, 'fixtures/angular/client.mjs'), 'utf8')
 const svelteGuidance = await readFile(resolve(projectRoot, 'frameworks/svelte/DESIGN.md'), 'utf8')
 const svelteFixture = await readFile(resolve(projectRoot, 'fixtures/svelte/App.svelte'), 'utf8')
+const astroGuidance = await readFile(resolve(projectRoot, 'frameworks/astro/DESIGN.md'), 'utf8')
+const astroFixture = await readFile(resolve(projectRoot, 'fixtures/astro/src/pages/index.astro'), 'utf8')
 
 test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
   assert.equal(source.govukFrontendVersion, '6.5.0')
@@ -25,7 +27,7 @@ test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
     'markup',
     'behaviour-tested'
   ])
-  assert.equal(manifest.adapters.length, 4)
+  assert.equal(manifest.adapters.length, 5)
   assert.deepEqual(manifest.adapters[0], {
     id: 'html-css',
     name: 'Plain HTML and CSS',
@@ -56,6 +58,14 @@ test('Plain HTML/CSS is the behaviour-tested reference adapter', () => {
     status: 'experimental',
     guidance: 'svelte/DESIGN.md',
     fixture: 'fixtures/svelte/App.svelte',
+    compatibility: ['guidance', 'token', 'markup', 'behaviour-tested']
+  })
+  assert.deepEqual(manifest.adapters[4], {
+    id: 'astro',
+    name: 'Astro',
+    status: 'experimental',
+    guidance: 'astro/DESIGN.md',
+    fixture: 'fixtures/astro/src/pages/index.astro',
     compatibility: ['guidance', 'token', 'markup', 'behaviour-tested']
   })
 })
@@ -133,4 +143,24 @@ test('Svelte fixture initialises GOV.UK Frontend only after its client mount bou
   assert.match(svelteFixture, /import\('govuk-frontend'\)/)
   assert.match(svelteFixture, /scope,/)
   assert.match(svelteFixture, /connected = false/)
+})
+
+test('Astro guidance preserves static rendering and scoped enhancement boundaries', () => {
+  assert.match(astroGuidance, /Status:\*\* Experimental/)
+  assert.match(astroGuidance, /native `\.astro` components have no client runtime/i)
+  assert.match(astroGuidance, /vite\.build\.cssMinify.*esbuild/i)
+  assert.match(astroGuidance, /document\.addEventListener\('astro:page-load', initialiseGovuk\)/)
+  assert.match(astroGuidance, /Never use client:only for essential GOV\.UK content/)
+  assert.match(astroGuidance, /Do not apply transition:persist/)
+  assert.match(astroGuidance, /connectedCallback\(\)/)
+  assert.match(astroGuidance, /scope: this/)
+})
+
+test('Astro fixture emits native markup and guards ClientRouter reinitialisation', () => {
+  assert.match(astroFixture, /data-govuk-astro-boundary/)
+  assert.match(astroFixture, /const initialisedScopes = new WeakSet<Element>\(\)/)
+  assert.match(astroFixture, /import\('govuk-frontend'\)/)
+  assert.match(astroFixture, /document\.addEventListener\('astro:page-load', initialiseGovuk\)/)
+  assert.doesNotMatch(astroFixture, /client:only/)
+  assert.doesNotMatch(astroFixture, /transition:persist/)
 })

@@ -350,6 +350,106 @@
           "url": "https://svelte.dev/docs/svelte/svelte-compiler#compile"
         }
       ]
+    },
+    {
+      "id": "astro",
+      "name": "Astro",
+      "status": "experimental",
+      "reviewedAt": "2026-09-10",
+      "description": "This adapter renders official GOV.UK markup as Astro's build-time or on-demand HTML, then adds only the GOV.UK Frontend client script needed for progressive enhancement. Native `.astro` components have no client runtime, so stable server output is the default rather than a hydration exception.",
+      "output": "astro/DESIGN.md",
+      "fixture": "fixtures/astro/src/pages/index.astro",
+      "fixtureDescription": "The development static-rendering fixture starts with `npm run fixture:serve:astro` and renders `fixtures/astro/src/pages/index.astro`. It exercises Button, Text input and Accordion with Astro 7.3.2 and GOV.UK Frontend 6.5.0. The fixture is test evidence, not package payload or a starter application, and requires Node 22.12 or newer as required by Astro 7.",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "requirements": [
+        "Render complete GOV.UK page and component markup with native `.astro` components at build time or on demand. Do not make a client island or server-island replacement the only path to content, form controls or essential actions.",
+        "Translate official HTML into Astro templates mechanically. Preserve elements, GOV.UK classes, IDs, for attributes, data-module attributes and ARIA relationships; native `.astro` templates use normal HTML class and for names.",
+        "Prefer native Astro components for GOV.UK markup because they render to HTML without a client runtime. Do not add a UI-framework island only to reproduce an official component that GOV.UK Frontend already enhances.",
+        "Never use client:only for essential GOV.UK content. If a React, Svelte or other framework island is genuinely required, use a server-rendering client directive and follow that framework adapter's externally managed DOM boundary rules.",
+        "Use the pinned govuk-frontend component CSS and JavaScript. Portable tokens remain for service-owned extensions and interoperability, not for recreating GOV.UK components.",
+        "Keep native form controls and server-rendered validation. Confirm separately that the service may use GDS Transport, the GOV.UK crown and other protected identity assets."
+      ],
+      "assetSetup": [
+        "Install the reviewed implementation with npm install govuk-frontend@6.5.0 --save-exact and use an Astro version supported by the host application. The fixture pins astro@7.3.2 only to make its evidence reproducible.",
+        "Import the explicit compiled stylesheet from `govuk-frontend/dist/govuk/govuk-frontend.min.css` in Astro frontmatter, or copy that file and `dist/govuk/assets` to stable public URLs and load it with a link element.",
+        "Astro 7's Vite toolchain uses Lightning CSS minification by default, which rejects the legacy `@media (min-width: 0\\0)` compatibility syntax in GOV.UK Frontend 6.5.0's compiled CSS. When importing that CSS, set `vite.build.cssMinify` to `esbuild` and keep esbuild installed, or serve the official compiled file without rebundling it.",
+        "Put `import('govuk-frontend')` in an attribute-free processed Astro script so npm imports are bundled, emitted as modules and deduplicated. Never evaluate GOV.UK Frontend in component frontmatter because frontmatter runs on the server.",
+        "Load GOV.UK Frontend styles before service styles. Do not replace component CSS with tokens or another component library, and do not hotlink Design System assets."
+      ],
+      "rendering": [
+        "Use Astro's default prerendering for static routes or an official deployment adapter for on-demand rendering. Both paths must return complete semantic HTML before client JavaScript runs.",
+        "Keep GOV.UK page and component markup in native `.astro` templates wherever possible. Component frontmatter is server-only and is stripped from the browser response; a client directive is neither needed nor valid on a native Astro component.",
+        "Keep deterministic IDs and valid HTML across shared layouts and components. Do not duplicate IDs when a reusable component appears more than once on a page.",
+        "Render Error summary, inline errors, safe submitted values, Accordion content and Tabs content into the initial response. GOV.UK Frontend applies disclosure state only after its processed client script runs.",
+        "Do not put essential enhanced controls behind server:defer unless the fallback remains usable and application code initialises the completed island exactly once after its replacement markup is connected."
+      ],
+      "progressiveEnhancement": [
+        "Place the official body-class detection snippet in an `is:inline` script immediately after the opening body element so support classes exist before the processed enhancement bundle runs.",
+        "Place complete markup before an attribute-free processed script. Astro bundles npm imports, emits the script as a module and deduplicates it when its component is reused.",
+        "Import GOV.UK Frontend only in browser code and call initAll once with a stable Astro page or component boundary as scope. Surface initialisation errors to application monitoring and tests.",
+        "For ordinary multi-page navigation, initialise once on each new document. When ClientRouter is enabled, retain a single module listener and initialise each replacement boundary on astro:page-load, which fires after the new page and blocking assets have loaded.",
+        "Every journey must remain usable without the enhancement bundle. Apply the service Content Security Policy nonce or hash to the early inline support script."
+      ],
+      "lifecycle": [
+        "Initial document: render complete native Astro HTML, run the early support snippet, then let the processed module script initialise the connected boundary once.",
+        "ClientRouter navigation: bundled module scripts execute only once, so listen for astro:page-load and use a WeakSet to initialise the new boundary without reinitialising retained DOM.",
+        "Do not apply transition:persist to a GOV.UK Frontend-enhanced boundary or its descendants. Astro can move persisted nodes into a new document, but GOV.UK Frontend 6.5.0 has no general public destroy or reconcile lifecycle for page-specific changes.",
+        "Later insertion: wrap complete unenhanced markup in a fresh boundary and initialise only that connected element. For a reusable insertion primitive, use a custom element whose connectedCallback performs guarded scoped initialisation.",
+        "Test built or on-demand HTML with JavaScript disabled, scoped initialisation, ClientRouter navigation when enabled, mouse and keyboard behaviour, focus, replacement boundaries and a clean browser console."
+      ],
+      "pageTemplateIntro": "Use a native Astro layout or page so the `<html class=\"govuk-template\">` shell and complete GOV.UK markup are emitted at build time or on demand. Import the official component CSS in frontmatter, keep the early support script inline, and put the processed enhancement script after the boundary.",
+      "pageTemplateLanguage": "astro",
+      "pageTemplate": "---\nimport 'govuk-frontend/dist/govuk/govuk-frontend.min.css'\n---\n\n<!doctype html>\n<html class=\"govuk-template\" lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\" />\n    <title>Service name</title>\n  </head>\n  <body class=\"govuk-template__body\">\n    <script is:inline>\n      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');\n    </script>\n\n    <div data-govuk-page-boundary>\n      <a class=\"govuk-skip-link\" href=\"#main-content\" data-module=\"govuk-skip-link\">\n        Skip to main content\n      </a>\n      <main class=\"govuk-main-wrapper\" id=\"main-content\">\n        <!-- Complete static markup from the focused GOV.UK records. -->\n      </main>\n    </div>\n\n    <script>\n      const initialisedScopes = new WeakSet<Element>()\n\n      async function initialiseGovuk() {\n        const scope = document.querySelector('[data-govuk-page-boundary]')\n        if (!scope || initialisedScopes.has(scope)) return\n        initialisedScopes.add(scope)\n\n        try {\n          const { initAll } = await import('govuk-frontend')\n          if (!scope.isConnected) {\n            initialisedScopes.delete(scope)\n            return\n          }\n          initAll({ scope, onError(error) { throw error } })\n        } catch (error) {\n          initialisedScopes.delete(scope)\n          queueMicrotask(() => { throw error })\n        }\n      }\n\n      void initialiseGovuk()\n      document.addEventListener('astro:page-load', initialiseGovuk)\n    </script>\n  </body>\n</html>",
+      "dynamicExampleIntro": "For independently inserted native Astro fragments, use a custom-element boundary like this. Astro deduplicates the processed definition script, while the browser runs connectedCallback for every new boundary instance.",
+      "dynamicExampleLanguage": "astro",
+      "dynamicExample": "<!-- GovukFrontendBoundary.astro -->\n<govuk-frontend-boundary>\n  <slot />\n</govuk-frontend-boundary>\n\n<script>\n  const initialisedScopes = new WeakSet<Element>()\n\n  class GovukFrontendBoundary extends HTMLElement {\n    connectedCallback() {\n      if (initialisedScopes.has(this)) return\n      initialisedScopes.add(this)\n      void this.initialise()\n    }\n\n    private async initialise() {\n      try {\n        const { initAll } = await import('govuk-frontend')\n        if (!this.isConnected) {\n          initialisedScopes.delete(this)\n          return\n        }\n        initAll({\n          scope: this,\n          onError(error) { throw error }\n        })\n      } catch (error) {\n        initialisedScopes.delete(this)\n        queueMicrotask(() => { throw error })\n      }\n    }\n  }\n\n  if (!customElements.get('govuk-frontend-boundary')) {\n    customElements.define('govuk-frontend-boundary', GovukFrontendBoundary)\n  }\n</script>",
+      "sourceUrls": [
+        {
+          "name": "Install GOV.UK Frontend with npm",
+          "url": "https://frontend.design-system.service.gov.uk/installing-with-npm/"
+        },
+        {
+          "name": "Import GOV.UK Frontend JavaScript",
+          "url": "https://frontend.design-system.service.gov.uk/import-javascript/"
+        },
+        {
+          "name": "GOV.UK Frontend JavaScript initialisation",
+          "url": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/init.mjs"
+        },
+        {
+          "name": "Astro components",
+          "url": "https://docs.astro.build/en/basics/astro-components/"
+        },
+        {
+          "name": "Astro scripts and event handling",
+          "url": "https://docs.astro.build/en/guides/client-side-scripts/"
+        },
+        {
+          "name": "Astro front-end framework islands",
+          "url": "https://docs.astro.build/en/guides/framework-components/"
+        },
+        {
+          "name": "Astro on-demand rendering",
+          "url": "https://docs.astro.build/en/guides/on-demand-rendering/"
+        },
+        {
+          "name": "Astro View Transitions lifecycle",
+          "url": "https://docs.astro.build/en/guides/view-transitions/#astro-page-load"
+        },
+        {
+          "name": "Astro npm stylesheet imports",
+          "url": "https://docs.astro.build/en/guides/styling/#import-a-stylesheet-from-an-npm-package"
+        },
+        {
+          "name": "Vite CSS minification",
+          "url": "https://vite.dev/config/build-options#build-cssminify"
+        }
+      ]
     }
   ]
 }

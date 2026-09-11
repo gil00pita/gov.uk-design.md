@@ -32,6 +32,7 @@ const required = [
   'frameworks/react/DESIGN.md',
   'frameworks/angular/DESIGN.md',
   'frameworks/svelte/DESIGN.md',
+  'frameworks/astro/DESIGN.md',
   'design/govuk/catalog.json',
   'design/govuk/NOTICE.md',
   'design/govuk/LICENSE-CONTENT.md',

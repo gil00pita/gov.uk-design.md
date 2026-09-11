@@ -42,6 +42,7 @@ Framework adapters translate integration and lifecycle details without redefinin
 - [React](frameworks/react/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
 - [Angular](frameworks/angular/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
 - [Svelte](frameworks/svelte/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
+- [Astro](frameworks/astro/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
 
 ## Foundations and styles
 

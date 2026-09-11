@@ -36,7 +36,8 @@
     "fixture:serve": "node scripts/serve-fixture.mjs",
     "fixture:serve:react": "node scripts/serve-react-fixture.mjs",
     "fixture:serve:angular": "node scripts/serve-angular-fixture.mjs",
-    "fixture:serve:svelte": "node scripts/serve-svelte-fixture.mjs"
+    "fixture:serve:svelte": "node scripts/serve-svelte-fixture.mjs",
+    "fixture:serve:astro": "node scripts/serve-astro-fixture.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -62,6 +63,7 @@
     "@angular/core": "22.1.6",
     "@angular/platform-browser": "22.1.6",
     "@angular/platform-server": "22.1.6",
+    "astro": "7.3.2",
     "esbuild": "0.28.2",
     "govuk-frontend": "6.5.0",
     "react": "19.3.0",
