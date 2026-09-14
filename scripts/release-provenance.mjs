@@ -211,7 +211,9 @@ export async function run(argv = process.argv.slice(2), environment = process.en
 
   const treeStatus = command('git', ['status', '--porcelain=v1', '--untracked-files=all']).stdout.trim()
   const treeState = treeStatus ? 'dirty' : 'clean'
-  if (!options.allowDirty && treeState !== 'clean') throw new Error('release provenance requires a clean worktree')
+  if (!options.allowDirty && treeState !== 'clean') {
+    throw new Error(`release provenance requires a clean worktree:\n${treeStatus}`)
+  }
   const commit = environment.GITHUB_SHA || command('git', ['rev-parse', 'HEAD']).stdout.trim()
   if (!/^[0-9a-f]{40}$/i.test(commit)) throw new Error('could not resolve a full Git commit SHA')
 
