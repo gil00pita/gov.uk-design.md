@@ -954,6 +954,94 @@ export function buildCatalog({ components, styles, patterns, packageMetadata, so
   }
 }
 
+export function renderOpenDesign({ components, styles, patterns, packageMetadata, sourceManifest, tokens, tokenCss, notice }) {
+  // Keep the export independent of sibling files and preserve fenced examples.
+  const embed = (markdown) => {
+    let fenced = false
+    return markdown.replace(`${generatedNotice}\n\n`, '').trim().split('\n').map((line) => {
+      if (line.startsWith('```')) fenced = !fenced
+      return !fenced && /^#{1,3} /.test(line) ? `##${line}` : line
+    }).join('\n')
+  }
+  const foundations = (ids) => styles.filter((style) => ids.includes(style.id)).map((style) => embed(renderStyle(style))).join('\n\n')
+  const typography = styles.filter((style) => style.group === 'typography').map((style) => embed(renderStyle(style))).join('\n\n')
+  const patternGuidance = patterns.map((pattern) => embed(renderPattern(pattern))
+    .replace(/\]\(\.\.\/components\/([a-z-]+)\.md\)/g, '](https://design-system.service.gov.uk/components/$1/)')
+    .replace(/\]\(\.\/([a-z-]+)\.md\)/g, '](https://design-system.service.gov.uk/patterns/$1/)')).join('\n\n')
+  const color = tokens.govuk.color
+  return `---
+name: GOV.UK Design System
+description: Reviewed GOV.UK service design guidance, portable tokens and accessible component contracts.
+category: Government & Public Services
+surface: web
+colors:
+  primary: "${color.link.$value}"
+  background: "${color['body-background'].$value}"
+  text: "${color.text.$value}"
+  accent: "${color.focus.$value}"
+---
+
+# GOV.UK Design System
+
+> Category: Government & Public Services
+> Clear, accessible public services built from reviewed GOV.UK guidance.
+
+${generatedNotice}
+
+## 1. Visual Theme & Atmosphere
+
+This standalone OpenDesign import is generated from govuk-design-md@${packageMetadata.version}, reviewed against GOV.UK Frontend ${sourceManifest.upstreams.govukFrontend.version} on ${sourceManifest.reviewedAt}. It includes ${styles.length} foundations, ${components.length} components and ${patterns.length} patterns. Guidance and examples are embedded; no repository-relative files are required.
+
+Start from the official GOV.UK components and preserve their semantic HTML, classes, keyboard behaviour, focus states and progressive enhancement. Visual similarity and token mappings alone do not establish GOV.UK conformance. Use the linked official guidance to check for changes after the review date.
+
+${notice.replace(/^# .+\n/, '').trim()}
+
+## 2. Color Palette & Roles
+
+${foundations(['colour'])}
+
+### Portable token CSS
+
+The following reviewed CSS custom properties include colour roles, typography, spacing and breakpoints. These are portable values, not replacement component styles. Install govuk-frontend@${sourceManifest.upstreams.govukFrontend.version} for the component implementation; obtain eligible fonts and identity assets through the official distribution.
+
+\`\`\`css
+${tokenCss.trim()}
+\`\`\`
+
+## 3. Typography
+
+${typography}
+
+## 4. Layout & Spacing
+
+${foundations(['layout', 'spacing', 'page-template', 'section-break'])}
+
+## 5. Components
+
+${components.map((component) => embed(renderComponent(component))).join('\n\n')}
+
+## 6. Motion & Interaction
+
+Use the component-specific behaviour and progressive-enhancement contracts above. Preserve visible keyboard focus and native control semantics. Essential content and service actions must remain available without JavaScript; initialise GOV.UK Frontend modules for supported enhancements.
+
+## 7. Iconography & Imagery
+
+${foundations(['images'])}
+
+Use the documented component markup for icons. GOV.UK identity assets and GDS Transport have eligibility requirements and are not embedded in this file.
+
+## 8. Voice & Tone
+
+Follow the content rules in each component and the journey rules below. Use clear sentence-case action labels that describe the outcome, meaningful labels and specific error messages. Preserve the distinction between links for navigation and buttons for actions.
+
+## 9. Edge Cases & Variations
+
+Apply the following patterns to the full service journey, including validation, errors, confirmation and accessibility. Treat accessibility as a service-level responsibility and test the implemented service with users and assistive technology.
+
+${patternGuidance}
+`
+}
+
 export async function expectedGeneratedFiles(root = projectRoot) {
   const [components, styles, patterns, packageMetadata, sourceManifest, aiAdapterSource, frameworkAdapterSource, uiFrameworkAdapterSource, tokenJson, notice, contentLicense, codeLicense] = await Promise.all([
     loadComponents(root),
@@ -971,6 +1059,10 @@ export async function expectedGeneratedFiles(root = projectRoot) {
   ])
   const files = new Map()
   const tokenCss = renderTokenCss(JSON.parse(tokenJson))
+  files.set(resolve(root, 'adapters/open-design/DESIGN.md'), renderOpenDesign({
+    components, styles, patterns, packageMetadata, sourceManifest,
+    tokens: JSON.parse(tokenJson), tokenCss, notice
+  }))
 
   for (const component of components) {
     files.set(

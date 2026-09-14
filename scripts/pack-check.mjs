@@ -27,6 +27,7 @@ const required = [
   'catalog.json',
   'bin/govuk-design-md.js',
   'adapters/manifest.json',
+  'adapters/open-design/DESIGN.md',
   'adapters/ai/AGENTS.md',
   'frameworks/manifest.json',
   'frameworks/html-css/DESIGN.md',

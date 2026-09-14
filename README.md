@@ -93,6 +93,14 @@ node bin/govuk-design-md.js update --target /path/to/project
 node bin/govuk-design-md.js uninstall --target /path/to/project
 ```
 
+For OpenDesign, export one self-contained file with embedded guidance and tokens:
+
+```sh
+node bin/govuk-design-md.js export-open-design --target ./release/open-design/govuk
+```
+
+Import the resulting `DESIGN.md`; see [OpenDesign import instructions](docs/open-design.md) for supported library and app integration paths.
+
 Use comma-separated or repeated `--framework`, `--ui` and `--ai` options with `init` or `add`; each also accepts `all` and `none`. Interactive terminals prompt for missing selections, while non-interactive runs default them to `all` for backwards-compatible automation. Use `--dry-run` with `init`, `add`, `update`, or `uninstall` to preview operations before files are changed. `add` is an alias for `init`.
 
 After publication, the intended installation command is:

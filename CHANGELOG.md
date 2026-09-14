@@ -6,6 +6,7 @@ All notable changes to this project are documented here. This project follows [S
 
 ### Added
 
+- Standalone OpenDesign-compatible DESIGN.md export with embedded reviewed guidance and tokens, available through `export-open-design`.
 - shadcn/Radix mapping with a protected service-owned Alert Dialog and explicit official GOV.UK markup fallbacks.
 - Reset-free Chakra UI token system and SSR/hydration fixture for service-owned wrappers.
 - Generated, selection-aware UI-framework compatibility matrix.

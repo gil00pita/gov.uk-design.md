@@ -21,10 +21,11 @@ Commands:
   diff                 Preview differences from this package release
   update               Update unmodified managed content; emit conflict files for local edits
   uninstall            Remove unmodified package content and managed blocks
+  export-open-design   Export a standalone DESIGN.md for OpenDesign
 
 Options:
   --target <directory> Repository to inspect or modify (default: current directory)
-  --dry-run            Preview init, add, update, or uninstall without writing files
+  --dry-run            Preview init, add, update, uninstall, or export without writing files
   --framework <ids>    Framework adapters for init/add: comma-separated IDs, all, or none
   --ui <ids>           UI-framework adapters for init/add: comma-separated IDs, all, or none
   --ai <ids>           AI adapters for init/add: comma-separated IDs, all, or none
@@ -880,6 +881,19 @@ async function main() {
   const hasSelectionOptions = args.frameworks !== null || args.ui !== null || args.ai !== null
   if (hasSelectionOptions && !['init', 'add'].includes(args.command)) {
     throw new Error('--framework, --ui and --ai can only be used with init or add')
+  }
+  if (args.command === 'export-open-design') {
+    const destination = resolve(target, 'DESIGN.md')
+    if (await exists(destination)) throw new Error(`refusing to overwrite existing file: ${destination}`)
+    const contents = await readFile(resolve(packageRoot, 'adapters/open-design/DESIGN.md'), 'utf8')
+    if (args.dryRun) {
+      process.stdout.write(`would export OpenDesign guidance to ${destination}\n`)
+      return
+    }
+    await mkdir(target, { recursive: true })
+    await writeFile(destination, contents, { encoding: 'utf8', flag: 'wx' })
+    process.stdout.write(`exported OpenDesign guidance to ${destination}\n`)
+    return
   }
   if (args.command === 'init' || args.command === 'add') {
     await assertTarget(target)
