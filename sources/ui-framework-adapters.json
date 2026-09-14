@@ -1,0 +1,362 @@
+{
+  "$schema": "../schema/ui-framework-adapters.schema.json",
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-11",
+  "govukFrontendVersion": "6.5.0",
+  "adapters": [
+    {
+      "id": "tailwind",
+      "name": "Tailwind CSS",
+      "status": "experimental",
+      "reviewedAt": "2026-09-11",
+      "implementation": {
+        "name": "Tailwind CSS",
+        "package": "tailwindcss",
+        "version": "4.3.3"
+      },
+      "description": "This adapter exposes reviewed GOV.UK values to Tailwind CSS 4 utilities for service-owned extensions while keeping GOV.UK Frontend responsible for page, component and behaviour CSS. It does not recreate GOV.UK components from utilities or treat a Tailwind theme as evidence of conformance.",
+      "output": "tailwind/DESIGN.md",
+      "tokenOutput": "tailwind/govuk-theme.css",
+      "fixture": "fixtures/tailwind/index.html",
+      "fixtureDescription": "The development fixture starts with `npm run fixture:serve:tailwind` and renders `fixtures/tailwind/index.html`. It compiles the generated GOV.UK theme bridge with Tailwind CSS 4.3.3, loads that layered output before unlayered GOV.UK Frontend 6.5.0 CSS, and exercises Button, Text input and Accordion plus a service-owned token example. The fixture is test evidence, not package payload or a starter application.",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "compatibilityBoundary": "Token utilities are limited to service-owned extensions. Markup and behaviour evidence comes from retaining official GOV.UK Frontend component HTML, classes and JavaScript rather than reconstructing components with Tailwind utilities.",
+      "requirements": [
+        "Use GOV.UK Frontend CSS, JavaScript and official component markup for GOV.UK components. Tailwind utilities are for service-owned extensions and layout around those components, not replacements for their classes or behaviour.",
+        "Treat the generated `govuk-theme.css` as a reviewed Tailwind token bridge. Its utility names expose values; they do not carry GOV.UK usage rules, semantics, responsive component behaviour or accessibility by themselves.",
+        "Keep every service journey usable without Tailwind-generated enhancement or GOV.UK Frontend JavaScript. Render native controls, error messages and disclosure content in the initial HTML.",
+        "Confirm separately that the service may use GDS Transport, the GOV.UK crown and other protected identity assets. This adapter maps neither a font family nor identity artwork."
+      ],
+      "installation": [
+        "Install the reviewed implementation with `npm install --save-dev --save-exact tailwindcss@4.3.3 @tailwindcss/cli@4.3.3` and install `govuk-frontend@6.5.0 --save-exact`. Use the Tailwind integration appropriate to the host build; the fixture uses the official CLI for reproducible evidence.",
+        "Keep `ui-frameworks/tailwind/govuk-theme.css` beside the installed `design/govuk/tokens/govuk.css`, or update its relative import if the files are moved. The bridge consumes the canonical custom properties rather than maintaining a second value source.",
+        "Build Tailwind from explicit theme and utilities imports, then load the generated layered stylesheet before the unlayered GOV.UK Frontend stylesheet. Do not use `important` to make utilities override GOV.UK component rules.",
+        "Copy GOV.UK Frontend fonts, images and JavaScript to stable application asset URLs. Never hotlink assets from the GOV.UK Design System website or rely on Tailwind to supply them."
+      ],
+      "preflight": [
+        "Do not use the one-line `@import \"tailwindcss\"` in a GOV.UK Frontend stylesheet: it automatically injects Tailwind Preflight, including opinionated margin, heading, list, image and border resets.",
+        "Import `tailwindcss/theme.css` and `tailwindcss/utilities.css` individually and omit `tailwindcss/preflight.css`. GOV.UK Frontend supplies its own explicit page, typography, form and component styles.",
+        "Keep Tailwind theme and utilities in named cascade layers and GOV.UK Frontend CSS unlayered. Unlayered normal author styles outrank layered normal styles, which prevents an incidental utility from silently winning over an official component selector.",
+        "Audit any other reset, normalize stylesheet, CSS-in-JS baseline or application-wide element rule separately. Disabling Tailwind Preflight cannot neutralise resets from another source."
+      ],
+      "tokens": [
+        "The generated bridge uses Tailwind 4's CSS-first `@theme static` syntax. It publishes the mapped theme variables even when a particular utility is not detected, which keeps the token surface inspectable and shareable.",
+        "Functional colours use names such as `bg-govuk-brand`, `text-govuk-text`, `border-govuk-border` and `outline-govuk-focus`. The reviewed palette is also namespaced under `govuk-`; unprefixed Tailwind colours are not GOV.UK values.",
+        "Static spacing uses utilities such as `p-govuk-4`; responsive GOV.UK spacing uses names such as `p-govuk-responsive-6` and follows the canonical custom property at the 641px GOV.UK tablet breakpoint.",
+        "The bridge exposes `govuk-mobile:`, `govuk-tablet:` and `govuk-desktop:` variants, `max-w-govuk-page`, responsive `text-govuk-*` type-scale utilities and reviewed regular and bold weights. Breakpoints are emitted in rem using a 16px root so Tailwind sorts them consistently.",
+        "Do not construct utility class names dynamically. Keep complete class names in source or register an explicit `@source` so Tailwind can detect and generate them."
+      ],
+      "components": [
+        "Copy the official component HTML or framework translation exactly, including elements, `govuk-*` classes, IDs, `for`, `data-module` and ARIA relationships. A visually similar utility composition is not markup compatible.",
+        "Keep Tailwind utilities off the internal DOM of GOV.UK Frontend components. Apply them to clearly service-owned wrapper elements only when the canonical GOV.UK layout and spacing helpers do not meet the service need.",
+        "Load and initialise GOV.UK Frontend JavaScript according to the selected application-framework adapter. Tailwind has no runtime lifecycle and does not replace scoped `initAll` handling.",
+        "Keep Accordion and Tabs content visible in initial HTML, retain visible focus indicators and test mouse, keyboard, focus, validation and no-JavaScript behaviour after the complete CSS build is assembled."
+      ],
+      "browserSupport": [
+        "Tailwind CSS 4 targets Safari 16.4, Chrome 111 and Firefox 128 or newer and depends on modern CSS features. That baseline is narrower than GOV.UK Frontend's Grade C progressive-enhancement range.",
+        "Check service analytics, user research and the required GOV.UK browser-support grade before adopting Tailwind 4. Do not make an essential task depend on a Tailwind 4 utility in browsers the service must support but Tailwind does not.",
+        "Where older-browser presentation is required, keep essential layout and component styling in GOV.UK Frontend, or maintain a separately reviewed Tailwind 3.4 mapping and test it against the service's actual support matrix. Do not assume this Tailwind 4 bridge is source-compatible with Tailwind 3."
+      ],
+      "buildExampleIntro": "Import the Tailwind pieces explicitly, omit Preflight, import the generated bridge, and constrain source detection to the application paths that contain complete class names:",
+      "buildExampleLanguage": "css",
+      "buildExample": "@layer theme, base, components, utilities;\n\n@import \"tailwindcss/theme.css\" layer(theme);\n@import \"./ui-frameworks/tailwind/govuk-theme.css\";\n@import \"tailwindcss/utilities.css\" layer(utilities) source(none);\n\n@source \"./src\";",
+      "markupExampleIntro": "Use mapped utilities on a service-owned wrapper while the official component keeps its complete GOV.UK class and JavaScript contract:",
+      "markupExampleLanguage": "html",
+      "markupExample": "<section class=\"bg-govuk-surface p-govuk-responsive-6 text-govuk-text\">\n  <h2 class=\"govuk-heading-m\">Application details</h2>\n  <button class=\"govuk-button\" data-module=\"govuk-button\" type=\"submit\">\n    Save and continue\n  </button>\n</section>",
+      "sourceUrls": [
+        {
+          "name": "Tailwind CSS CLI installation",
+          "url": "https://tailwindcss.com/docs/installation/tailwind-cli"
+        },
+        {
+          "name": "Tailwind CSS theme variables",
+          "url": "https://tailwindcss.com/docs/theme"
+        },
+        {
+          "name": "Tailwind CSS Preflight",
+          "url": "https://tailwindcss.com/docs/preflight"
+        },
+        {
+          "name": "Tailwind CSS source detection",
+          "url": "https://tailwindcss.com/docs/detecting-classes-in-source-files"
+        },
+        {
+          "name": "Tailwind CSS 4 browser requirements",
+          "url": "https://tailwindcss.com/docs/upgrade-guide#browser-requirements"
+        },
+        {
+          "name": "GOV.UK Design System production setup",
+          "url": "https://design-system.service.gov.uk/get-started/production/"
+        },
+        {
+          "name": "GOV.UK Frontend browser support",
+          "url": "https://frontend.design-system.service.gov.uk/browser-support/"
+        },
+        {
+          "name": "GOV.UK Frontend JavaScript initialisation",
+          "url": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/init.mjs"
+        }
+      ]
+    },
+    {
+      "id": "chakra",
+      "name": "Chakra UI",
+      "status": "experimental",
+      "reviewedAt": "2026-09-11",
+      "implementation": {
+        "name": "Chakra UI",
+        "package": "@chakra-ui/react",
+        "version": "3.37.0"
+      },
+      "description": "This adapter exposes reviewed GOV.UK values through a reset-free Chakra UI 3 system for service-owned extensions. It does not recreate GOV.UK components, make Chakra recipes markup-compatible, or treat a Chakra theme as evidence of GOV.UK conformance.",
+      "output": "chakra/DESIGN.md",
+      "tokenOutput": "chakra/govuk-system.mjs",
+      "fixture": "fixtures/chakra/app.mjs",
+      "fixtureDescription": "The development SSR and hydration fixture starts with `npm run fixture:serve:chakra` and renders `fixtures/chakra/app.mjs`. It uses Chakra UI 3.37.0 and Emotion 11.14.0 for one service-owned token surface, while Button, Text input and Accordion retain official GOV.UK Frontend 6.5.0 markup, CSS and behaviour. The fixture includes a static CSS fallback, renders essential content on the server and is test evidence rather than package payload or a starter application. Chakra UI 3 requires Node 20 or newer.",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "compatibilityBoundary": "Token and runtime evidence is limited to service-owned Chakra wrappers. Markup and behaviour evidence comes from retaining official GOV.UK Frontend component elements, classes and JavaScript; Chakra primitives, recipes and snippets are not GOV.UK component implementations.",
+      "requirements": [
+        "Use GOV.UK Frontend CSS, JavaScript and official component markup for GOV.UK components. Chakra primitives, style props, recipes and snippets are for clearly service-owned extensions, not substitutes for `govuk-*` classes, component DOM or progressive enhancement.",
+        "Treat the generated `govuk-system.mjs` as a reviewed token bridge. Token availability does not include GOV.UK usage rules, semantics, responsive component behaviour, accessibility or permission to use identity assets.",
+        "Render native controls, validation, disclosure content and essential actions in the initial HTML. Server-render and hydrate Chakra where the host supports it, but keep the journey usable if Chakra styles or client JavaScript do not run.",
+        "Keep Chakra-managed state outside GOV.UK Frontend-enhanced subtrees. After `initAll`, do not ask React or Chakra to reconcile descendants that GOV.UK Frontend has mutated.",
+        "Confirm separately that the service may use GDS Transport, the GOV.UK crown and other protected identity assets. This bridge deliberately maps no font family and includes no identity artwork."
+      ],
+      "installation": [
+        "Install the reviewed implementation with `npm install --save-dev --save-exact @chakra-ui/react@3.37.0 @emotion/react@11.14.0`. Chakra UI 3 requires Node 20 or newer and declares React and React DOM 18 or newer as peers; use versions supported by the host application. The fixture uses the repository's pinned React 19.3.0 and React DOM 19.3.0.",
+        "Import `govuk-system.mjs` into a client-capable React boundary and pass it to `<ChakraProvider value={govukChakraSystem}>`. A colour-mode provider is optional and is intentionally omitted from this fixed GOV.UK light presentation.",
+        "Load the canonical `design/govuk/tokens/govuk.css`, then any narrowly scoped service fallback CSS, and keep GOV.UK Frontend CSS authoritative for `govuk-*` components. Copy GOV.UK Frontend fonts, images and JavaScript to stable application asset URLs rather than hotlinking them.",
+        "Run Chakra type generation against the generated system module if the host uses strict TypeScript token checking. Regenerate types whenever the reviewed bridge changes and do not hand-edit generated token output."
+      ],
+      "preflight": [
+        "Create the bridge from Chakra's `defaultBaseConfig`, set `preflight: false`, keep `globalCss` empty and set `disableLayers: true`. This retains supported style-property machinery without applying Chakra's element reset or application-wide base styles over GOV.UK Frontend, and avoids emitting empty layer declarations around the token variables.",
+        "Do not switch the bridge to `defaultConfig` or enable a scoped reset without reviewing every resulting token, recipe, global rule and cascade interaction. Chakra's default design language is not the GOV.UK Design System.",
+        "Chakra can use cascade layers for resets, base rules, tokens and recipes, but this bounded bridge disables them because it has no reset, global CSS or recipes. Layer order alone is not a component-compatibility guarantee: keep Chakra style props off the internal DOM of official GOV.UK components and never use `!important` to force an override.",
+        "Keep the service-owned fallback selector narrow and load it without hiding or disabling content. It may preserve basic layout and colour when Emotion or client JavaScript is unavailable, but it must not style internal `govuk-*` component classes."
+      ],
+      "tokens": [
+        "The generated ES module creates a namespaced Chakra system with `cssVarsPrefix: \"govuk-chakra\"`. Reviewed values reference canonical `--govuk-*` custom properties so the portable GOV.UK token file remains the value source.",
+        "Functional colours use names such as `govuk-brand`, `govuk-text`, `govuk-surface`, `govuk-surface-border`, `govuk-focus`, `govuk-error` and `govuk-success`. Palette values remain under a `govuk-` prefix; unprefixed Chakra colours are not GOV.UK values.",
+        "Static spacing uses values such as `govuk-4`; responsive spacing uses names such as `govuk-responsive-6` and follows the canonical custom property at the 641px GOV.UK tablet breakpoint. `govuk-page` exposes the reviewed maximum page width.",
+        "The system exposes `govuk-mobile`, `govuk-tablet` and `govuk-desktop` breakpoints plus reviewed typography sizes, line heights and regular and bold weights. It deliberately omits a font-family token.",
+        "Use complete token names in Chakra style props and run Chakra type generation in typed projects. Do not add local aliases that obscure whether a value came from GOV.UK, Chakra defaults or the service's own design decisions."
+      ],
+      "components": [
+        "Translate official component HTML to JSX mechanically, including elements, `className`, `htmlFor`, IDs, `data-module` and ARIA relationships. Chakra components that render similar-looking controls are neither DOM nor behaviour compatible with GOV.UK Frontend.",
+        "Use Chakra `Box` and other primitives only for service-owned wrappers whose ownership is explicit in code. Keep GOV.UK components as native JSX elements with their complete `govuk-*` class contract.",
+        "Hydrate the server-rendered tree before dynamically importing and initialising GOV.UK Frontend. Initialise each stable scope once, keep enhanced descendants passive, and replace a whole enhancement boundary rather than reconciling inside it.",
+        "Keep Accordion and Tabs content visible in initial HTML. Test mouse, keyboard, focus, validation, hydration diagnostics and JavaScript-disabled behaviour with the assembled GOV.UK, Chakra and fallback styles."
+      ],
+      "browserSupport": [
+        "Use the intersection of the browser support policies for the host React version, Chakra UI, Emotion and GOV.UK Frontend. Chakra's Node 20 minimum is a build and server-runtime requirement, not a statement of browser support.",
+        "GOV.UK Frontend's graded browser model still governs official components. Do not make an essential task depend on Chakra-generated presentation in a browser the service must support unless that exact assembled application has been tested.",
+        "Because the initial HTML contains native controls and visible disclosure content, a missing Chakra client bundle must not block the journey. Keep a small static fallback only where service-owned layout or meaning would otherwise be lost.",
+        "Re-check framework, runtime and browser requirements when upgrading any pinned dependency. A passing Chakra theme migration does not prove that GOV.UK Frontend hydration, cascade or accessibility contracts remain intact."
+      ],
+      "buildExampleIntro": "Create a reset-free system from the base Chakra configuration and reference the canonical GOV.UK custom properties from namespaced tokens:",
+      "buildExampleLanguage": "js",
+      "buildExample": "import { createSystem, defaultBaseConfig, defineConfig } from '@chakra-ui/react'\n\nconst config = defineConfig({\n  cssVarsPrefix: 'govuk-chakra',\n  disableLayers: true,\n  preflight: false,\n  globalCss: {},\n  theme: {\n    breakpoints: {\n      'govuk-mobile': '320px',\n      'govuk-tablet': '641px',\n      'govuk-desktop': '769px'\n    },\n    tokens: {\n      colors: {\n        'govuk-text': { value: 'var(--govuk-color-text)' },\n        'govuk-surface': { value: 'var(--govuk-color-surface-background)' },\n        'govuk-surface-border': { value: 'var(--govuk-color-surface-border)' }\n      },\n      spacing: {\n        'govuk-responsive-6': { value: 'var(--govuk-spacing-responsive-6)' }\n      },\n      sizes: {\n        'govuk-page': { value: 'var(--govuk-layout-page-width)' }\n      }\n    }\n  }\n})\n\nexport const govukChakraSystem = createSystem(defaultBaseConfig, config)",
+      "markupExampleIntro": "Use Chakra style props on an explicitly service-owned wrapper while official component elements retain their complete GOV.UK contract:",
+      "markupExampleLanguage": "jsx",
+      "markupExample": "<ChakraProvider value={govukChakraSystem}>\n  <Box\n    as=\"section\"\n    data-chakra-service-wrapper\n    bg=\"govuk-surface\"\n    color=\"govuk-text\"\n    p=\"govuk-responsive-6\"\n    maxW=\"govuk-page\"\n  >\n    <h2 className=\"govuk-heading-m\">Application details</h2>\n    <button className=\"govuk-button\" data-module=\"govuk-button\" type=\"submit\">\n      Save and continue\n    </button>\n  </Box>\n</ChakraProvider>",
+      "sourceUrls": [
+        {
+          "name": "Chakra UI 3.37.0 package metadata",
+          "url": "https://registry.npmjs.org/@chakra-ui/react/3.37.0"
+        },
+        {
+          "name": "Emotion React 11.14.0 package metadata",
+          "url": "https://registry.npmjs.org/@emotion/react/11.14.0"
+        },
+        {
+          "name": "Chakra UI installation",
+          "url": "https://chakra-ui.com/docs/get-started/installation"
+        },
+        {
+          "name": "Chakra UI theming overview and preflight",
+          "url": "https://chakra-ui.com/docs/theming/overview"
+        },
+        {
+          "name": "Chakra UI customization configuration",
+          "url": "https://chakra-ui.com/docs/theming/customization/overview"
+        },
+        {
+          "name": "Chakra UI tokens",
+          "url": "https://chakra-ui.com/docs/theming/tokens"
+        },
+        {
+          "name": "Chakra UI custom breakpoints",
+          "url": "https://chakra-ui.com/docs/theming/customization/breakpoints"
+        },
+        {
+          "name": "Chakra UI cascade layers",
+          "url": "https://chakra-ui.com/docs/styling/cascade-layers"
+        },
+        {
+          "name": "React hydrateRoot reference",
+          "url": "https://react.dev/reference/react-dom/client/hydrateRoot"
+        },
+        {
+          "name": "GOV.UK Design System production setup",
+          "url": "https://design-system.service.gov.uk/get-started/production/"
+        },
+        {
+          "name": "GOV.UK Frontend browser support",
+          "url": "https://frontend.design-system.service.gov.uk/browser-support/"
+        },
+        {
+          "name": "GOV.UK Frontend JavaScript initialisation",
+          "url": "https://github.com/alphagov/govuk-frontend/blob/v6.5.0/packages/govuk-frontend/src/govuk/init.mjs"
+        }
+      ]
+    },
+    {
+      "id": "shadcn",
+      "name": "shadcn/ui (Radix)",
+      "status": "experimental",
+      "reviewedAt": "2026-09-11",
+      "implementation": {
+        "name": "shadcn CLI",
+        "package": "shadcn",
+        "version": "4.21.0"
+      },
+      "description": "This adapter maps the source-distributed shadcn/ui model to GOV.UK services with an explicitly selected Radix base. Locally owned shadcn-style primitives may support supplementary service-owned interactions, while GOV.UK Frontend CSS, JavaScript and official markup remain mandatory fallbacks whenever a shadcn component cannot preserve the GOV.UK DOM, state or behaviour contract. A copied component or themed primitive is not evidence of GOV.UK conformance.",
+      "output": "shadcn/DESIGN.md",
+      "tokenOutput": "shadcn/govuk-theme.css",
+      "fixture": "fixtures/shadcn/page.mjs",
+      "fixtureDescription": "The development fixture starts with `npm run fixture:serve:shadcn` and renders a React 19.3.0 server page on port 4179. It bundles a locally owned shadcn-style Alert Dialog wrapper over `radix-ui@1.6.7`, compiles the independently installable GOV.UK Tailwind bridge without Preflight, and loads that layered CSS before unlayered GOV.UK Frontend 6.5.0 CSS. The protected confirmation interrupts cancellation before fixture answers are lost and has an equivalent no-JavaScript confirmation route; it does not claim to be a live service. Button, Text input and Accordion are explicit official-markup fallbacks. Browser evidence must cover Alert Dialog pointer, Enter, Escape, initial cancel focus, focus containment and focus return plus the retained GOV.UK Accordion pointer, keyboard, focus and no-JavaScript contract. The fixture is test evidence, not package payload or a starter application.",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "compatibilityBoundary": "Token compatibility is limited to a generated namespaced Tailwind bridge for locally owned service extensions. Markup and GOV.UK behaviour evidence comes from explicit official Button, Text input and Accordion fallbacks; the shadcn-style Radix Alert Dialog evidence applies only to the protected fixture-cancellation interaction and does not transfer to similarly named GOV.UK components.",
+      "requirements": [
+        "Treat shadcn/ui as source code that the service owns and reviews, not a sealed component dependency or a GOV.UK component library. Registry output can change independently of the CLI version, so inspect and commit every generated file and dependency change.",
+        "Use GOV.UK Frontend CSS, JavaScript and official markup for GOV.UK components. If a shadcn or Radix primitive changes the documented elements, `govuk-*` classes, IDs, ARIA relationships, state model or progressive-enhancement behaviour, use the official GOV.UK markup instead of adapting the primitive.",
+        "Limit shadcn-style primitives to clearly service-owned interactions with no applicable GOV.UK component or to composition around an untouched official component. Essential service tasks and content must remain available when the primitive JavaScript does not run.",
+        "Use the applicable React adapter's server-rendering, hydration and immutable GOV.UK Frontend boundary. A Radix portal can manage its own subtree, but React must not reconcile DOM that GOV.UK Frontend has enhanced.",
+        "Confirm separately that the service may use GDS Transport, the GOV.UK crown and other protected identity assets. This adapter maps neither a font family nor identity artwork."
+      ],
+      "installation": [
+        "Pin the reviewed toolchain with `npm install --save-dev --save-exact shadcn@4.21.0` and the fixture runtime with `npm install --save-dev --save-exact radix-ui@1.6.7 cn@0.2.6`. The fixture also uses the repository's exact React 19.3.0, React DOM 19.3.0, Tailwind CSS 4.3.3, Tailwind CLI 4.3.3 and GOV.UK Frontend 6.5.0 versions.",
+        "New shadcn projects default to Base UI as of July 2026. Select the still-supported Radix base explicitly with `npx shadcn@4.21.0 init --base radix`; do not rely on the changing default. Existing projects should keep their reviewed base unless a separate migration is planned and tested.",
+        "Add only the primitive needed for the service-owned interaction, review the generated registry source and dependency diff, and keep the result in application source control. Do not bulk-add a parallel shadcn implementation of the GOV.UK component inventory.",
+        "Copy GOV.UK Frontend assets to stable local application URLs and load the layered shadcn/Tailwind stylesheet before unlayered GOV.UK Frontend CSS. Never hotlink registry, Tailwind or GOV.UK Design System assets in production."
+      ],
+      "preflight": [
+        "A standard shadcn Tailwind setup may use `@import \"tailwindcss\"`, which injects Tailwind Preflight. Do not keep that one-line import beside GOV.UK Frontend; import Tailwind theme and utilities individually and omit `tailwindcss/preflight.css`. Declare `box-border` explicitly on locally owned overlays whose measured width includes padding and borders.",
+        "Keep copied shadcn utility rules in named cascade layers and GOV.UK Frontend CSS unlayered. Keep Tailwind utilities off the internal DOM of official components and do not use `important` to force a shadcn style over a GOV.UK selector.",
+        "Review registry updates for global CSS variables, element rules, reset imports, animation plugins and semantic token changes before accepting them. Disabling Tailwind Preflight does not neutralise a reset or baseline introduced by copied registry code or another library."
+      ],
+      "tokens": [
+        "The generated `shadcn/govuk-theme.css` is an independently installable copy of the reviewed GOV.UK Tailwind token bridge, produced from the canonical token JSON rather than hand-maintained values. It exists separately so selecting shadcn does not silently select the Tailwind adapter.",
+        "Use namespaced utilities such as `bg-govuk-surface`, `border-govuk-text`, `outline-govuk-focus`, `gap-govuk-4` and `p-govuk-responsive-6` only in locally owned shadcn-style source. These utilities expose values, not GOV.UK semantics or component rules.",
+        "Do not alias generic shadcn theme names such as `primary`, `destructive`, `muted` or `radius` to GOV.UK values and infer equivalent meaning. Make each service-owned mapping explicit, and do not map a font family or rounded-corner scale that the reviewed GOV.UK tokens do not provide.",
+        "Keep complete utility class names in copied source or register explicit `@source` paths. Audit every regenerated class list when the shadcn registry source changes."
+      ],
+      "components": [
+        "Use the official GOV.UK Button, Text input, Accordion and every other documented GOV.UK component when the shadcn equivalent cannot retain the exact GOV.UK contract. A matching component name or appearance is never enough to claim markup compatibility.",
+        "A locally owned Radix Alert Dialog can be considered when an important service-owned decision genuinely requires interruption and protected focus and no applicable GOV.UK component exists. Supply a visible title and description, clearly distinguished keep and destructive actions, Escape dismissal, focus containment and focus return; provide a normal no-JavaScript route for the same decision.",
+        "The reference fixture composes Radix Alert Dialog Trigger, Cancel and Action around explicit controls with `asChild`, but does not replace Button, Text input or Accordion with registry components. Its three fallback sections are deliberately labelled so the boundary is visible in code and in the rendered evidence.",
+        "Initialise GOV.UK Frontend only inside the stable React boundary. Test Alert Dialog pointer, Enter, Escape, initial cancel focus, tab containment and focus return separately from GOV.UK Accordion pointer, Enter, focus, validation relationships and no-JavaScript content."
+      ],
+      "browserSupport": [
+        "Use the intersection of the host React, Radix, Tailwind and GOV.UK Frontend support ranges. Radix documents testing across modern browsers and assistive technologies, while Tailwind CSS 4 requires Safari 16.4, Chrome 111 or Firefox 128 or newer; that presentation baseline is narrower than GOV.UK Frontend's progressive-enhancement range.",
+        "Keep essential task structure, content and official component styling in GOV.UK Frontend so users outside the shadcn/Tailwind enhancement baseline can still complete the service. Do not promote this fixture's successful browser run into a general browser-support claim.",
+        "Re-run keyboard, screen-reader and browser tests whenever shadcn registry source, `radix-ui`, React, Tailwind or GOV.UK Frontend changes. Source ownership means upstream accessibility fixes are not received until the copied component is reviewed and updated."
+      ],
+      "buildExampleIntro": "Import Tailwind theme and utilities explicitly, omit Preflight, load the generated shadcn bridge, and scan only locally owned application source containing complete class names:",
+      "buildExampleLanguage": "css",
+      "buildExample": "@layer theme, base, components, utilities;\n\n@import \"tailwindcss/theme.css\" layer(theme);\n@import \"./ui-frameworks/shadcn/govuk-theme.css\";\n@import \"tailwindcss/utilities.css\" layer(utilities) source(none);\n\n@source \"./src/components/ui\";\n@source \"./src/features\";",
+      "markupExampleIntro": "Use a locally owned Radix primitive only for a protected cancellation decision that genuinely requires interruption, then fall back to untouched official GOV.UK markup when the similarly named shadcn component cannot preserve the GOV.UK contract:",
+      "markupExampleLanguage": "jsx",
+      "markupExample": "<AlertDialog>\n  <AlertDialogTrigger asChild>\n    <button className=\"govuk-button govuk-button--secondary\" type=\"button\">\n      Cancel this form\n    </button>\n  </AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogTitle>Cancel and lose your answers?</AlertDialogTitle>\n    <AlertDialogDescription>Your unsaved answers will be cleared.</AlertDialogDescription>\n    <AlertDialogCancel asChild>\n      <button className=\"govuk-button govuk-button--secondary\" type=\"button\">Keep my answers</button>\n    </AlertDialogCancel>\n    <AlertDialogAction asChild>\n      <a className=\"govuk-button govuk-button--warning\" href=\"/cancelled\" role=\"button\">Cancel and lose answers</a>\n    </AlertDialogAction>\n  </AlertDialogContent>\n</AlertDialog>\n\n<div className=\"govuk-accordion\" data-module=\"govuk-accordion\" id=\"guidance\">\n  <div className=\"govuk-accordion__section\">\n    {/* Copy the remaining official Accordion DOM, IDs and classes exactly. */}\n  </div>\n</div>",
+      "sourceUrls": [
+        {
+          "name": "shadcn 4.21.0 package metadata",
+          "url": "https://registry.npmjs.org/shadcn/4.21.0"
+        },
+        {
+          "name": "radix-ui 1.6.7 package metadata",
+          "url": "https://registry.npmjs.org/radix-ui/1.6.7"
+        },
+        {
+          "name": "cn 0.2.6 package metadata",
+          "url": "https://registry.npmjs.org/cn/0.2.6"
+        },
+        {
+          "name": "shadcn official resources and package",
+          "url": "https://ui.shadcn.com/docs/official"
+        },
+        {
+          "name": "shadcn CLI documentation",
+          "url": "https://ui.shadcn.com/docs/cli"
+        },
+        {
+          "name": "shadcn Base UI default and explicit Radix selection",
+          "url": "https://ui.shadcn.com/docs/changelog/2026-07-base-ui-default"
+        },
+        {
+          "name": "shadcn unified Radix package migration",
+          "url": "https://ui.shadcn.com/docs/changelog/2026-02-radix-ui"
+        },
+        {
+          "name": "shadcn new-york-v4 Alert Dialog source",
+          "url": "https://github.com/shadcn-ui/ui/blob/main/apps/v4/registry/new-york-v4/ui/alert-dialog.tsx"
+        },
+        {
+          "name": "shadcn Radix Alert Dialog guidance",
+          "url": "https://ui.shadcn.com/docs/components/radix/alert-dialog"
+        },
+        {
+          "name": "shadcn cn package migration",
+          "url": "https://ui.shadcn.com/docs/changelog"
+        },
+        {
+          "name": "Radix Alert Dialog primitive",
+          "url": "https://www.radix-ui.com/primitives/docs/components/alert-dialog"
+        },
+        {
+          "name": "Radix server-side rendering",
+          "url": "https://www.radix-ui.com/primitives/docs/guides/server-side-rendering"
+        },
+        {
+          "name": "Radix accessibility",
+          "url": "https://www.radix-ui.com/primitives/docs/overview/accessibility"
+        },
+        {
+          "name": "Tailwind CSS Preflight",
+          "url": "https://tailwindcss.com/docs/preflight"
+        },
+        {
+          "name": "Tailwind CSS 4 browser requirements",
+          "url": "https://tailwindcss.com/docs/upgrade-guide#browser-requirements"
+        },
+        {
+          "name": "GOV.UK Design System production setup",
+          "url": "https://design-system.service.gov.uk/get-started/production/"
+        },
+        {
+          "name": "GOV.UK Frontend browser support",
+          "url": "https://frontend.design-system.service.gov.uk/browser-support/"
+        },
+        {
+          "name": "GOV.UK Accordion component",
+          "url": "https://design-system.service.gov.uk/components/accordion/"
+        }
+      ]
+    }
+  ]
+}

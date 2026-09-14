@@ -44,6 +44,16 @@ Framework adapters translate integration and lifecycle details without redefinin
 - [Svelte](frameworks/svelte/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
 - [Astro](frameworks/astro/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
 
+## UI-framework adapters
+
+UI-framework adapters map bounded integration concerns without replacing official GOV.UK components. Compatibility labels are scoped according to [ui-frameworks/manifest.json](ui-frameworks/manifest.json).
+
+See the [UI-framework compatibility matrix](ui-frameworks/compatibility.md) for the evidence boundary behind each label.
+
+- [Tailwind CSS](ui-frameworks/tailwind/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
+- [Chakra UI](ui-frameworks/chakra/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
+- [shadcn/ui (Radix)](ui-frameworks/shadcn/DESIGN.md) — `guidance`, `token`, `markup`, `behaviour-tested`
+
 ## Foundations and styles
 
 - [Colour](design/govuk/styles/colour.md)

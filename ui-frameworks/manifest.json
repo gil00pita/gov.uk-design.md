@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-11",
+  "govukFrontendVersion": "6.5.0",
+  "compatibilityLevels": [
+    "guidance",
+    "token",
+    "markup",
+    "behaviour-tested"
+  ],
+  "compatibilityMatrix": "compatibility.md",
+  "adapters": [
+    {
+      "id": "tailwind",
+      "name": "Tailwind CSS",
+      "status": "experimental",
+      "implementation": {
+        "name": "Tailwind CSS",
+        "package": "tailwindcss",
+        "version": "4.3.3"
+      },
+      "guidance": "tailwind/DESIGN.md",
+      "files": [
+        "tailwind/DESIGN.md",
+        "tailwind/govuk-theme.css"
+      ],
+      "tokenMapping": "tailwind/govuk-theme.css",
+      "fixture": "fixtures/tailwind/index.html",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "compatibilityBoundary": "Token utilities are limited to service-owned extensions. Markup and behaviour evidence comes from retaining official GOV.UK Frontend component HTML, classes and JavaScript rather than reconstructing components with Tailwind utilities."
+    },
+    {
+      "id": "chakra",
+      "name": "Chakra UI",
+      "status": "experimental",
+      "implementation": {
+        "name": "Chakra UI",
+        "package": "@chakra-ui/react",
+        "version": "3.37.0"
+      },
+      "guidance": "chakra/DESIGN.md",
+      "files": [
+        "chakra/DESIGN.md",
+        "chakra/govuk-system.mjs"
+      ],
+      "tokenMapping": "chakra/govuk-system.mjs",
+      "fixture": "fixtures/chakra/app.mjs",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "compatibilityBoundary": "Token and runtime evidence is limited to service-owned Chakra wrappers. Markup and behaviour evidence comes from retaining official GOV.UK Frontend component elements, classes and JavaScript; Chakra primitives, recipes and snippets are not GOV.UK component implementations."
+    },
+    {
+      "id": "shadcn",
+      "name": "shadcn/ui (Radix)",
+      "status": "experimental",
+      "implementation": {
+        "name": "shadcn CLI",
+        "package": "shadcn",
+        "version": "4.21.0"
+      },
+      "guidance": "shadcn/DESIGN.md",
+      "files": [
+        "shadcn/DESIGN.md",
+        "shadcn/govuk-theme.css"
+      ],
+      "tokenMapping": "shadcn/govuk-theme.css",
+      "fixture": "fixtures/shadcn/page.mjs",
+      "compatibility": [
+        "guidance",
+        "token",
+        "markup",
+        "behaviour-tested"
+      ],
+      "compatibilityBoundary": "Token compatibility is limited to a generated namespaced Tailwind bridge for locally owned service extensions. Markup and GOV.UK behaviour evidence comes from explicit official Button, Text input and Accordion fallbacks; the shadcn-style Radix Alert Dialog evidence applies only to the protected fixture-cancellation interaction and does not transfer to similarly named GOV.UK components."
+    }
+  ]
+}

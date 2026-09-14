@@ -13,7 +13,7 @@ Do not download GitHub's automatically generated “Source code” archive for i
 1. Make a backup or commit the repository before copying files.
 2. Confirm that none of the paths in `repository-overlay/` already exist in the target.
 3. Copy the complete contents of `repository-overlay/`, including dotfiles, into the repository root.
-4. Open `DESIGN.md` and confirm that its links to `design/govuk/` and `frameworks/` work.
+4. Open `DESIGN.md` and confirm that its links to `design/govuk/`, `frameworks/` and `ui-frameworks/` work.
 5. Keep `.govuk-design-md.json`; it allows a future CLI installation to verify and update this exact overlay.
 
 Never approve an operating-system overwrite prompt. A collision means the repository is not empty enough for the clean-overlay procedure.
@@ -22,7 +22,7 @@ Never approve an operating-system overwrite prompt. A collision means the reposi
 
 Do not copy the complete overlay over an existing repository. The safe manual procedure is:
 
-1. Copy `design/govuk/`, `frameworks/`, and `.agents/skills/govuk-design-system/` only when their destination paths are unused.
+1. Copy `design/govuk/`, `frameworks/`, `ui-frameworks/`, and `.agents/skills/govuk-design-system/` only when their destination paths are unused.
 2. If the repository already has `DESIGN.md`, copy the overlay entry point as `GOVUK-DESIGN.md`; otherwise use `DESIGN.md`.
 3. For `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and `.github/copilot-instructions.md`, append exactly the content between and including the `govuk-design-md:start` and `govuk-design-md:end` markers. Never replace existing instructions.
 4. Copy `.cursor/rules/govuk-design-system.mdc` only when that exact path is unused.
@@ -40,8 +40,8 @@ Keep `design/govuk/NOTICE.md`, `design/govuk/LICENSE-CONTENT.md`, and `design/go
 When Node.js is available, use:
 
 ```bash
-npx govuk-design-md@X.Y.Z init --framework react --ai codex,cursor
+npx govuk-design-md@X.Y.Z init --framework react --ui tailwind,shadcn,chakra --ai codex,cursor
 npx govuk-design-md@X.Y.Z check
 ```
 
-Omit `--framework` and `--ai` to choose interactively in a terminal. In automation, omitted selections default to `all`; pass explicit IDs or `none` for a reproducible subset. Pinning `X.Y.Z` makes the installation reproducible. Read the release notes and run `diff` before moving to a newer package version.
+Omit `--framework`, `--ui` and `--ai` to choose interactively in a terminal. In automation, omitted selections default to `all`; pass explicit IDs or `none` for a reproducible subset. Pinning `X.Y.Z` makes the installation reproducible. Read the release notes and run `diff` before moving to a newer package version.

@@ -7,11 +7,12 @@ const repositoryRoot = resolve(import.meta.dirname, '..')
 const astroCli = resolve(repositoryRoot, 'node_modules/astro/bin/astro.mjs')
 const child = spawn(
   process.execPath,
-  [astroCli, 'dev', '--root', resolve(repositoryRoot, 'fixtures/astro'), '--host', '127.0.0.1', '--port', '4177'],
+  [astroCli, 'dev', '--ignore-lock', '--root', resolve(repositoryRoot, 'fixtures/astro'), '--host', '127.0.0.1', '--port', '4177'],
   {
     cwd: repositoryRoot,
     env: {
       ...process.env,
+      ASTRO_DEV_BACKGROUND: '0',
       ASTRO_TELEMETRY_DISABLED: '1'
     },
     stdio: 'inherit'

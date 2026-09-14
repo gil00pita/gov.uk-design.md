@@ -1,0 +1,167 @@
+/*
+ * Generated from the reviewed GOV.UK Frontend 6.5.0 token source.
+ * This reset-free Chakra UI 3 system is for service-owned extensions, not component recreation.
+ * Load design/govuk/tokens/govuk.css before rendering components that consume these values.
+ */
+import { createSystem, defaultBaseConfig, defineConfig } from '@chakra-ui/react'
+
+const govukChakraConfig = defineConfig({
+  cssVarsPrefix: 'govuk-chakra',
+  disableLayers: true,
+  preflight: false,
+  globalCss: {},
+  theme: {
+    breakpoints: {
+      "govuk-mobile": "320px",
+      "govuk-tablet": "641px",
+      "govuk-desktop": "769px"
+    },
+    tokens: {
+      colors: {
+        "govuk-blue": { value: "var(--govuk-color-palette-blue-primary)" },
+        "govuk-blue-tint-25": { value: "var(--govuk-color-palette-blue-tint-25)" },
+        "govuk-blue-tint-50": { value: "var(--govuk-color-palette-blue-tint-50)" },
+        "govuk-blue-tint-80": { value: "var(--govuk-color-palette-blue-tint-80)" },
+        "govuk-blue-tint-95": { value: "var(--govuk-color-palette-blue-tint-95)" },
+        "govuk-blue-shade-10": { value: "var(--govuk-color-palette-blue-shade-10)" },
+        "govuk-blue-shade-25": { value: "var(--govuk-color-palette-blue-shade-25)" },
+        "govuk-blue-shade-50": { value: "var(--govuk-color-palette-blue-shade-50)" },
+        "govuk-green": { value: "var(--govuk-color-palette-green-primary)" },
+        "govuk-green-tint-25": { value: "var(--govuk-color-palette-green-tint-25)" },
+        "govuk-green-tint-50": { value: "var(--govuk-color-palette-green-tint-50)" },
+        "govuk-green-tint-80": { value: "var(--govuk-color-palette-green-tint-80)" },
+        "govuk-green-tint-95": { value: "var(--govuk-color-palette-green-tint-95)" },
+        "govuk-green-shade-25": { value: "var(--govuk-color-palette-green-shade-25)" },
+        "govuk-green-shade-50": { value: "var(--govuk-color-palette-green-shade-50)" },
+        "govuk-teal": { value: "var(--govuk-color-palette-teal-primary)" },
+        "govuk-teal-tint-25": { value: "var(--govuk-color-palette-teal-tint-25)" },
+        "govuk-teal-tint-50": { value: "var(--govuk-color-palette-teal-tint-50)" },
+        "govuk-teal-tint-80": { value: "var(--govuk-color-palette-teal-tint-80)" },
+        "govuk-teal-tint-95": { value: "var(--govuk-color-palette-teal-tint-95)" },
+        "govuk-teal-shade-25": { value: "var(--govuk-color-palette-teal-shade-25)" },
+        "govuk-teal-shade-50": { value: "var(--govuk-color-palette-teal-shade-50)" },
+        "govuk-teal-accent": { value: "var(--govuk-color-palette-teal-accent)" },
+        "govuk-purple": { value: "var(--govuk-color-palette-purple-primary)" },
+        "govuk-purple-tint-25": { value: "var(--govuk-color-palette-purple-tint-25)" },
+        "govuk-purple-tint-50": { value: "var(--govuk-color-palette-purple-tint-50)" },
+        "govuk-purple-tint-80": { value: "var(--govuk-color-palette-purple-tint-80)" },
+        "govuk-purple-tint-95": { value: "var(--govuk-color-palette-purple-tint-95)" },
+        "govuk-purple-shade-25": { value: "var(--govuk-color-palette-purple-shade-25)" },
+        "govuk-purple-shade-50": { value: "var(--govuk-color-palette-purple-shade-50)" },
+        "govuk-magenta": { value: "var(--govuk-color-palette-magenta-primary)" },
+        "govuk-magenta-tint-25": { value: "var(--govuk-color-palette-magenta-tint-25)" },
+        "govuk-magenta-tint-50": { value: "var(--govuk-color-palette-magenta-tint-50)" },
+        "govuk-magenta-tint-80": { value: "var(--govuk-color-palette-magenta-tint-80)" },
+        "govuk-magenta-tint-95": { value: "var(--govuk-color-palette-magenta-tint-95)" },
+        "govuk-magenta-shade-25": { value: "var(--govuk-color-palette-magenta-shade-25)" },
+        "govuk-magenta-shade-50": { value: "var(--govuk-color-palette-magenta-shade-50)" },
+        "govuk-red": { value: "var(--govuk-color-palette-red-primary)" },
+        "govuk-red-tint-25": { value: "var(--govuk-color-palette-red-tint-25)" },
+        "govuk-red-tint-50": { value: "var(--govuk-color-palette-red-tint-50)" },
+        "govuk-red-tint-80": { value: "var(--govuk-color-palette-red-tint-80)" },
+        "govuk-red-tint-95": { value: "var(--govuk-color-palette-red-tint-95)" },
+        "govuk-red-shade-25": { value: "var(--govuk-color-palette-red-shade-25)" },
+        "govuk-red-shade-50": { value: "var(--govuk-color-palette-red-shade-50)" },
+        "govuk-orange": { value: "var(--govuk-color-palette-orange-primary)" },
+        "govuk-orange-tint-25": { value: "var(--govuk-color-palette-orange-tint-25)" },
+        "govuk-orange-tint-50": { value: "var(--govuk-color-palette-orange-tint-50)" },
+        "govuk-orange-tint-80": { value: "var(--govuk-color-palette-orange-tint-80)" },
+        "govuk-orange-tint-95": { value: "var(--govuk-color-palette-orange-tint-95)" },
+        "govuk-orange-shade-25": { value: "var(--govuk-color-palette-orange-shade-25)" },
+        "govuk-orange-shade-50": { value: "var(--govuk-color-palette-orange-shade-50)" },
+        "govuk-yellow": { value: "var(--govuk-color-palette-yellow-primary)" },
+        "govuk-yellow-tint-25": { value: "var(--govuk-color-palette-yellow-tint-25)" },
+        "govuk-yellow-tint-50": { value: "var(--govuk-color-palette-yellow-tint-50)" },
+        "govuk-yellow-tint-80": { value: "var(--govuk-color-palette-yellow-tint-80)" },
+        "govuk-yellow-tint-95": { value: "var(--govuk-color-palette-yellow-tint-95)" },
+        "govuk-yellow-shade-25": { value: "var(--govuk-color-palette-yellow-shade-25)" },
+        "govuk-yellow-shade-50": { value: "var(--govuk-color-palette-yellow-shade-50)" },
+        "govuk-brown": { value: "var(--govuk-color-palette-brown-primary)" },
+        "govuk-brown-tint-25": { value: "var(--govuk-color-palette-brown-tint-25)" },
+        "govuk-brown-tint-50": { value: "var(--govuk-color-palette-brown-tint-50)" },
+        "govuk-brown-tint-95": { value: "var(--govuk-color-palette-brown-tint-95)" },
+        "govuk-black": { value: "var(--govuk-color-palette-black-primary)" },
+        "govuk-black-tint-25": { value: "var(--govuk-color-palette-black-tint-25)" },
+        "govuk-black-tint-50": { value: "var(--govuk-color-palette-black-tint-50)" },
+        "govuk-black-tint-80": { value: "var(--govuk-color-palette-black-tint-80)" },
+        "govuk-black-tint-95": { value: "var(--govuk-color-palette-black-tint-95)" },
+        "govuk-white": { value: "var(--govuk-color-palette-white)" },
+        "govuk-brand": { value: "var(--govuk-color-brand)" },
+        "govuk-text": { value: "var(--govuk-color-text)" },
+        "govuk-secondary-text": { value: "var(--govuk-color-secondary-text)" },
+        "govuk-body-background": { value: "var(--govuk-color-body-background)" },
+        "govuk-surface-background": { value: "var(--govuk-color-surface-background)" },
+        "govuk-template-background": { value: "var(--govuk-color-template-background)" },
+        "govuk-inverse-text": { value: "var(--govuk-color-inverse-text)" },
+        "govuk-border": { value: "var(--govuk-color-border)" },
+        "govuk-input-border": { value: "var(--govuk-color-input-border)" },
+        "govuk-link": { value: "var(--govuk-color-link)" },
+        "govuk-link-hover": { value: "var(--govuk-color-link-hover)" },
+        "govuk-link-visited": { value: "var(--govuk-color-link-visited)" },
+        "govuk-link-active": { value: "var(--govuk-color-link-active)" },
+        "govuk-focus": { value: "var(--govuk-color-focus)" },
+        "govuk-focus-text": { value: "var(--govuk-color-focus-text)" },
+        "govuk-error": { value: "var(--govuk-color-error)" },
+        "govuk-success": { value: "var(--govuk-color-success)" },
+        "govuk-hover": { value: "var(--govuk-color-hover)" },
+        "govuk-surface-text": { value: "var(--govuk-color-surface-text)" },
+        "govuk-surface-border": { value: "var(--govuk-color-surface-border)" },
+        "govuk-background": { value: "var(--govuk-color-body-background)" },
+        "govuk-surface": { value: "var(--govuk-color-surface-background)" }
+      },
+      spacing: {
+        "govuk-0": { value: "var(--govuk-spacing-static-0)" },
+        "govuk-1": { value: "var(--govuk-spacing-static-1)" },
+        "govuk-2": { value: "var(--govuk-spacing-static-2)" },
+        "govuk-3": { value: "var(--govuk-spacing-static-3)" },
+        "govuk-4": { value: "var(--govuk-spacing-static-4)" },
+        "govuk-5": { value: "var(--govuk-spacing-static-5)" },
+        "govuk-6": { value: "var(--govuk-spacing-static-6)" },
+        "govuk-7": { value: "var(--govuk-spacing-static-7)" },
+        "govuk-8": { value: "var(--govuk-spacing-static-8)" },
+        "govuk-9": { value: "var(--govuk-spacing-static-9)" },
+        "govuk-responsive-4": { value: "var(--govuk-spacing-responsive-4)" },
+        "govuk-responsive-5": { value: "var(--govuk-spacing-responsive-5)" },
+        "govuk-responsive-6": { value: "var(--govuk-spacing-responsive-6)" },
+        "govuk-responsive-7": { value: "var(--govuk-spacing-responsive-7)" },
+        "govuk-responsive-8": { value: "var(--govuk-spacing-responsive-8)" },
+        "govuk-responsive-9": { value: "var(--govuk-spacing-responsive-9)" },
+        "govuk-gutter": { value: "var(--govuk-page-gutter)" }
+      },
+      sizes: {
+        "govuk-page": { value: "var(--govuk-layout-page-width)" }
+      },
+      fontSizes: {
+        "govuk-16": { value: "var(--govuk-font-size-16)" },
+        "govuk-19": { value: "var(--govuk-font-size-19)" },
+        "govuk-24": { value: "var(--govuk-font-size-24)" },
+        "govuk-27": { value: "var(--govuk-font-size-27)" },
+        "govuk-36": { value: "var(--govuk-font-size-36)" },
+        "govuk-48": { value: "var(--govuk-font-size-48)" },
+        "govuk-80": { value: "var(--govuk-font-size-80)" }
+      },
+      lineHeights: {
+        "govuk-16": { value: "var(--govuk-line-height-16)" },
+        "govuk-19": { value: "var(--govuk-line-height-19)" },
+        "govuk-24": { value: "var(--govuk-line-height-24)" },
+        "govuk-27": { value: "var(--govuk-line-height-27)" },
+        "govuk-36": { value: "var(--govuk-line-height-36)" },
+        "govuk-48": { value: "var(--govuk-line-height-48)" },
+        "govuk-80": { value: "var(--govuk-line-height-80)" }
+      },
+      fontWeights: {
+        "govuk-regular": { value: "var(--govuk-typography-weight-regular)" },
+        "govuk-bold": { value: "var(--govuk-typography-weight-bold)" }
+      },
+      borderWidths: {
+        "govuk-standard": { value: "var(--govuk-border-standard)" },
+        "govuk-wide": { value: "var(--govuk-border-wide)" },
+        "govuk-narrow": { value: "var(--govuk-border-narrow)" },
+        "govuk-form-element": { value: "var(--govuk-border-form-element)" },
+        "govuk-focus": { value: "var(--govuk-border-focus)" }
+      }
+    }
+  }
+})
+
+export const govukChakraSystem = createSystem(defaultBaseConfig, govukChakraConfig)

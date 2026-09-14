@@ -26,6 +26,7 @@ Options:
   --target <directory> Repository to inspect or modify (default: current directory)
   --dry-run            Preview init, add, update, or uninstall without writing files
   --framework <ids>    Framework adapters for init/add: comma-separated IDs, all, or none
+  --ui <ids>           UI-framework adapters for init/add: comma-separated IDs, all, or none
   --ai <ids>           AI adapters for init/add: comma-separated IDs, all, or none
   --help               Show this help
   --version            Show the package version
@@ -38,6 +39,7 @@ function parseArguments(argv) {
     target: process.cwd(),
     dryRun: false,
     frameworks: null,
+    ui: null,
     ai: null,
     help: false,
     version: false
@@ -57,6 +59,11 @@ function parseArguments(argv) {
       if (!selection) throw new Error('--framework requires one or more IDs, all, or none')
       args.frameworks ??= []
       args.frameworks.push(selection)
+    } else if (value === '--ui' || value.startsWith('--ui=')) {
+      const selection = value === '--ui' ? remaining.shift() : value.slice('--ui='.length)
+      if (!selection) throw new Error('--ui requires one or more IDs, all, or none')
+      args.ui ??= []
+      args.ui.push(selection)
     } else if (value === '--ai' || value.startsWith('--ai=')) {
       const selection = value === '--ai' ? remaining.shift() : value.slice('--ai='.length)
       if (!selection) throw new Error('--ai requires one or more IDs, all, or none')
@@ -160,14 +167,16 @@ function parseAdapterSelection(values, adapters, label) {
 }
 
 async function resolveInitialSelections(args) {
-  const [frameworkManifest, aiManifest] = await Promise.all([
+  const [frameworkManifest, uiFrameworkManifest, aiManifest] = await Promise.all([
     readFile(resolve(packageRoot, 'frameworks', 'manifest.json'), 'utf8').then((contents) => JSON.parse(contents)),
+    readFile(resolve(packageRoot, 'ui-frameworks', 'manifest.json'), 'utf8').then((contents) => JSON.parse(contents)),
     readFile(resolve(packageRoot, 'adapters', 'manifest.json'), 'utf8').then((contents) => JSON.parse(contents))
   ])
   let frameworkValues = args.frameworks
+  let uiValues = args.ui
   let aiValues = args.ai
 
-  if (process.stdin.isTTY && process.stdout.isTTY && (frameworkValues === null || aiValues === null)) {
+  if (process.stdin.isTTY && process.stdout.isTTY && (frameworkValues === null || uiValues === null || aiValues === null)) {
     const { createInterface } = await import('node:readline/promises')
     const prompt = createInterface({ input: process.stdin, output: process.stdout })
     try {
@@ -175,6 +184,11 @@ async function resolveInitialSelections(args) {
         const choices = frameworkManifest.adapters.map(({ id, name }) => `${id} (${name})`).join(', ')
         const answer = await prompt.question(`Framework adapters: ${choices}\nSelect comma-separated IDs, all, or none [all]: `)
         frameworkValues = [answer || 'all']
+      }
+      if (uiValues === null) {
+        const choices = uiFrameworkManifest.adapters.map(({ id, name }) => `${id} (${name})`).join(', ')
+        const answer = await prompt.question(`UI-framework adapters: ${choices}\nSelect comma-separated IDs, all, or none [all]: `)
+        uiValues = [answer || 'all']
       }
       if (aiValues === null) {
         const choices = aiManifest.adapters.map(({ id, name }) => `${id} (${name})`).join(', ')
@@ -188,13 +202,14 @@ async function resolveInitialSelections(args) {
 
   return {
     frameworks: parseAdapterSelection(frameworkValues, frameworkManifest.adapters, 'framework'),
+    ui: parseAdapterSelection(uiValues, uiFrameworkManifest.adapters, 'UI-framework'),
     ai: parseAdapterSelection(aiValues, aiManifest.adapters, 'AI')
   }
 }
 
 function filterEntryPointFrameworks(contents, selectedAdapters) {
   const sectionStart = contents.indexOf('## Framework adapters\n')
-  const sectionEnd = contents.indexOf('\n## Foundations and styles', sectionStart)
+  const sectionEnd = contents.indexOf('\n## UI-framework adapters', sectionStart)
   if (sectionStart === -1 || sectionEnd === -1) throw new Error('package entry point has no framework adapter section')
 
   const selectedGuidance = new Set(selectedAdapters.map(({ guidance }) => `frameworks/${guidance}`))
@@ -217,6 +232,63 @@ function filterEntryPointFrameworks(contents, selectedAdapters) {
   return contents.slice(0, sectionStart) + filteredSection + contents.slice(sectionEnd)
 }
 
+function filterEntryPointUiFrameworks(contents, selectedAdapters) {
+  const sectionStart = contents.indexOf('## UI-framework adapters\n')
+  const sectionEnd = contents.indexOf('\n## Foundations and styles', sectionStart)
+  if (sectionStart === -1 || sectionEnd === -1) throw new Error('package entry point has no UI-framework adapter section')
+
+  const selectedGuidance = new Set(selectedAdapters.map(({ guidance }) => `ui-frameworks/${guidance}`))
+  let insertedEmptyState = false
+  const section = contents.slice(sectionStart, sectionEnd)
+  const filteredSection = section
+    .split('\n')
+    .flatMap((line) => {
+      const match = line.match(/^- \[[^\]]+\]\((ui-frameworks\/[^)]+)\)/)
+      if (!match) return [line]
+      if (selectedGuidance.has(match[1])) return [line]
+      if (selectedAdapters.length === 0 && !insertedEmptyState) {
+        insertedEmptyState = true
+        return ['No UI-framework adapter was selected during installation. Do not infer GOV.UK compatibility from an unreviewed theme or component library.']
+      }
+      return []
+    })
+    .join('\n')
+
+  return contents.slice(0, sectionStart) + filteredSection + contents.slice(sectionEnd)
+}
+
+function renderInstalledUiCompatibilityMatrix(manifest, selectedAdapters) {
+  const levels = manifest.compatibilityLevels
+  const cell = (adapter, level) => adapter.compatibility.includes(level) ? 'Included' : 'Not claimed'
+  const rows = selectedAdapters.length > 0
+    ? selectedAdapters.map((adapter) => `| [${adapter.name}](${adapter.guidance}) | ${cell(adapter, 'guidance')} | ${cell(adapter, 'token')} | ${cell(adapter, 'markup')} | ${cell(adapter, 'behaviour-tested')} | ${adapter.compatibilityBoundary} |`).join('\n')
+    : '| No adapter selected | Not claimed | Not claimed | Not claimed | Not claimed | Select and review an adapter before integrating a UI framework. |'
+
+  if (!Array.isArray(levels) || levels.join(',') !== 'guidance,token,markup,behaviour-tested') {
+    throw new Error('UI-framework manifest has unsupported compatibility levels')
+  }
+
+  return `<!-- Generated by govuk-design-md. Selection-filtered during installation. -->
+
+# UI-framework compatibility matrix
+
+These labels describe the reviewed evidence supplied by each installed adapter, not general compatibility or service conformance. A token or theme mapping cannot supply GOV.UK semantics, content rules, accessibility or progressive enhancement.
+
+| Adapter | Guidance | Token | Markup | Behaviour tested | Evidence boundary |
+| --- | --- | --- | --- | --- | --- |
+${rows}
+
+## Levels
+
+- **Guidance:** routes implementers to the applicable canonical and official GOV.UK guidance.
+- **Token:** maps reviewed values for bounded service-owned styling without claiming component equivalence.
+- **Markup:** the adapter demonstrates the official semantic DOM and class contract, including documented fallbacks where the UI framework cannot preserve it.
+- **Behaviour tested:** the reference fixture exercises the retained GOV.UK JavaScript, keyboard, focus and progressive-enhancement contract.
+
+No level makes an application conformant by itself. Teams must test the complete service against their users, supported browsers and accessibility requirements.
+`
+}
+
 async function mappingContents(mapping) {
   if (mapping.contents !== undefined) return Buffer.from(mapping.contents)
   return readFile(mapping.source)
@@ -225,13 +297,17 @@ async function mappingContents(mapping) {
 async function installPlan(target, existingEntryPoint = null, selections = null) {
   const mappings = []
   const frameworkManifest = JSON.parse(await readFile(resolve(packageRoot, 'frameworks', 'manifest.json'), 'utf8'))
+  const uiFrameworkManifest = JSON.parse(await readFile(resolve(packageRoot, 'ui-frameworks', 'manifest.json'), 'utf8'))
   const adapterManifest = JSON.parse(await readFile(resolve(packageRoot, 'adapters', 'manifest.json'), 'utf8'))
   const selectedFrameworkIds = new Set(selections?.frameworks ?? frameworkManifest.adapters.map(({ id }) => id))
+  const selectedUiFrameworkIds = new Set(selections === null ? uiFrameworkManifest.adapters.map(({ id }) => id) : (selections.ui ?? []))
   const selectedAiIds = new Set(selections?.ai ?? adapterManifest.adapters.map(({ id }) => id))
   const selectedFrameworks = frameworkManifest.adapters.filter(({ id }) => selectedFrameworkIds.has(id))
+  const selectedUiFrameworks = uiFrameworkManifest.adapters.filter(({ id }) => selectedUiFrameworkIds.has(id))
   const selectedAiAdapters = adapterManifest.adapters.filter(({ id }) => selectedAiIds.has(id))
   const resolvedSelections = {
     frameworks: selectedFrameworks.map(({ id }) => id),
+    ui: selectedUiFrameworks.map(({ id }) => id),
     ai: selectedAiAdapters.map(({ id }) => id)
   }
   const directories = [['design/govuk', 'design/govuk']]
@@ -264,13 +340,37 @@ async function installPlan(target, existingEntryPoint = null, selections = null)
     })
   }
 
+  const selectedUiFrameworkManifest = { ...uiFrameworkManifest, adapters: selectedUiFrameworks }
+  mappings.push({
+    contents: `${JSON.stringify(selectedUiFrameworkManifest, null, 2)}\n`,
+    target: resolve(target, 'ui-frameworks', 'manifest.json'),
+    mode: 'file'
+  })
+  mappings.push({
+    contents: renderInstalledUiCompatibilityMatrix(uiFrameworkManifest, selectedUiFrameworks),
+    target: resolve(target, 'ui-frameworks', uiFrameworkManifest.compatibilityMatrix),
+    mode: 'file'
+  })
+  for (const adapter of selectedUiFrameworks) {
+    for (const file of adapter.files) {
+      mappings.push({
+        source: resolveManagedPath(resolve(packageRoot, 'ui-frameworks'), file),
+        target: resolveManagedPath(resolve(target, 'ui-frameworks'), file),
+        mode: 'file'
+      })
+    }
+  }
+
   const entryName = existingEntryPoint ?? (await exists(resolve(target, 'DESIGN.md')) ? 'GOVUK-DESIGN.md' : 'DESIGN.md')
   if (!['DESIGN.md', 'GOVUK-DESIGN.md'].includes(entryName)) {
     throw new Error(`manifest contains an unsupported entry point: ${entryName}`)
   }
   const entryContents = await readFile(resolve(packageRoot, 'DESIGN.md'), 'utf8')
   mappings.push({
-    contents: filterEntryPointFrameworks(entryContents, selectedFrameworks),
+    contents: filterEntryPointUiFrameworks(
+      filterEntryPointFrameworks(entryContents, selectedFrameworks),
+      selectedUiFrameworks
+    ),
     target: resolve(target, entryName),
     mode: 'file'
   })
@@ -360,7 +460,7 @@ async function initialise(target, dryRun, selections) {
   }
 
   const manifest = {
-    schemaVersion: 3,
+    schemaVersion: 4,
     packageVersion: packageMetadata.version,
     govukFrontendVersion: catalog.govukFrontendVersion,
     entryPoint: entryName,
@@ -610,7 +710,7 @@ async function update(target, dryRun) {
       : { mode: 'file', hash: desired.hash }
   }
   const nextManifest = {
-    schemaVersion: 3,
+    schemaVersion: 4,
     packageVersion: packageMetadata.version,
     govukFrontendVersion: catalog.govukFrontendVersion,
     entryPoint: entryName,
@@ -777,9 +877,9 @@ async function main() {
   }
 
   const target = resolve(args.target)
-  const hasSelectionOptions = args.frameworks !== null || args.ai !== null
+  const hasSelectionOptions = args.frameworks !== null || args.ui !== null || args.ai !== null
   if (hasSelectionOptions && !['init', 'add'].includes(args.command)) {
-    throw new Error('--framework and --ai can only be used with init or add')
+    throw new Error('--framework, --ui and --ai can only be used with init or add')
   }
   if (args.command === 'init' || args.command === 'add') {
     await assertTarget(target)

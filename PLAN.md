@@ -97,25 +97,25 @@ Exit gate: every adapter documents asset setup, official DOM, server rendering, 
 
 ### Phase 7 — UI-framework adapters (`v0.9`)
 
-- [ ] Tailwind tokens/preset and preflight guidance.
-- [ ] shadcn mapping with official-markup fallbacks.
-- [ ] Chakra theme mapping and GOV.UK-specific wrappers.
-- [ ] Publish a compatibility matrix using `guidance`, `token`, `markup`, and `behaviour-tested` levels.
+- [x] Tailwind tokens/preset and preflight guidance.
+- [x] shadcn mapping with official-markup fallbacks.
+- [x] Chakra theme mapping and GOV.UK-specific wrappers. (you may use `https://github.com/gil00pita/govuk-chakra` reference)
+- [x] Publish a compatibility matrix using `guidance`, `token`, `markup`, and `behaviour-tested` levels.
 
 Exit gate: no adapter claims GOV.UK conformance from theming alone.
 
 ### Phase 8 — Automation and stable release (`v1.0`)
 
-- [ ] Scheduled upstream release and inventory checks.
-- [ ] Reviewable generated change reports.
-- [ ] Schema, link, provenance, installer, upgrade, fixture, accessibility, and visual CI.
-- [ ] Release provenance, changelog, and package-size gate.
+- [x] Scheduled upstream release and inventory checks.
+- [x] Reviewable generated change reports.
+- [x] Schema, link, provenance, installer, upgrade, fixture, accessibility, and visual CI.
+- [x] Release provenance, changelog, and package-size gate.
 
 Exit gate: all current official content is represented, safe install/update paths exist, and upstream changes arrive through reviewed pull requests.
 
 ## Current state
 
-- Last updated: 2026-09-10.
+- Last updated: 2026-09-11.
 - Branch at implementation start: `main`.
 - Pinned upstream: `govuk-frontend@6.5.0`.
 - Extraction evidence: the original 101-page raw bundle was removed from the maintained tree after review; source manifests, canonical derivatives and compact browser smoke evidence remain.
@@ -123,15 +123,17 @@ Exit gate: all current official content is represented, safe install/update path
   - only five generic component groups were inferred rather than the official component inventory;
   - dark mode is marked supported even though `variableDiff` is empty;
   - the colour reference page is reported as an anomaly because it intentionally demonstrates many palette values.
-- Implemented milestone: Phases 0, 2, 3, 4 and 6 plus the local Phase 1 baseline are complete. Phase 5 is complete locally except for maintainer-owned publication. The GitHub repository rename is complete; publishing and the optional local checkout rename remain separate maintainer actions.
+- Implemented milestone: Phases 0 through 8 are complete in the local implementation except for the maintainer-owned Phase 5 publication step. The GitHub repository rename is complete; npm/GitHub Release publication and the optional local checkout rename remain separate maintainer actions.
 - Canonical catalog: all 13 reviewed styles, 37 components and 30 patterns plus 151 portable tokens. Feedback and Language navigation retain their reviewed Trial status.
-- CLI baseline: safe `init`/`add`, `diff`, `update`, `check`, and `uninstall` flows with dry-run support; non-interactive and TTY framework/AI selection; existing root `DESIGN.md` and user-authored instruction content are preserved.
-- Browser fixtures: Plain HTML/CSS plus React, Angular and Svelte SSR/hydration and Astro static rendering use the exact `govuk-frontend@6.5.0` implementation. React 19.3.0 guards Strict Mode effects. Angular 22.1.6 hydrates its static OnPush boundary before enhancement. Svelte 5.57.0 retains the server DOM and starts scoped enhancement from its client-only `onMount` boundary after `tick` and one browser frame. Astro 7.3.2 emits complete native HTML without a client runtime, scopes its processed enhancement script and guards repeated `astro:page-load` events. All retain visible no-JavaScript content and passed mouse and Enter-key Accordion disclosure with correct focus and zero page errors, warnings, hydration mismatches or failed requests on 2026-09-10.
+- CLI baseline: safe `init`/`add`, `diff`, `update`, `check`, and `uninstall` flows with dry-run support; non-interactive and TTY application-framework, UI-framework and AI selection; existing root `DESIGN.md` and user-authored instruction content are preserved. Schema v4 retains all three selection categories and does not opt schema-v3 installations into new UI adapters during update.
+- Browser fixtures: Plain HTML/CSS plus React, Angular, Svelte, Astro, Tailwind, shadcn/Radix and Chakra use the exact `govuk-frontend@6.5.0` implementation. All eight retain visible no-JavaScript Accordion content and pass mouse, Enter-key, focus, responsive overflow and browser-diagnostic checks. The shadcn fixture additionally verifies its protected cancellation Alert Dialog and no-JavaScript confirmation route. The Chakra fixture asserts that reset-free mapped colours and responsive spacing resolve at desktop and mobile widths. Fresh browser CI captures both widths for every fixture.
 - AI adapter slice: generated routers for five reviewed repository instruction formats; existing shared files use hash-tracked managed blocks and Cursor uses a dedicated package-owned rule.
 - Installer/update slice: `add`, `diff`, `update`, `uninstall`, dry runs, atomic update replacement, side-by-side conflict files and selection-preserving schema-v3 manifests are implemented without silent replacement of local edits.
 - Framework slice: generated Plain HTML/CSS reference plus experimental React, Angular, Svelte and Astro guidance record `guidance`, `token`, `markup`, and `behaviour-tested` compatibility. Selected installs filter the framework manifest and entry-point links together.
+- UI-framework slice: Tailwind CSS 4.3.3 generates a namespaced CSS-first theme without Preflight; shadcn 4.21.0 uses locally owned Radix 1.6.7 composition only for a justified protected interruption and retains official markup fallbacks; Chakra UI 3.37.0 generates a reset-free, layer-free system for service-owned wrappers. The generated compatibility matrix records the `guidance`, `token`, `markup`, and `behaviour-tested` evidence boundary for all three without treating a theme as conformance.
+- Automation slice: read-only pull-request and tag gates validate generated output, source provenance, schemas, local links, installer/updater safety, fixtures, accessibility, fresh Chromium evidence and package contents. A weekly monitor compares the npm release and official 13/37/30 inventories, opening a report-only review pull request on drift. Candidate provenance binds the package, Git commit, reviewed upstream, source manifest, lockfile, changelog and byte limits.
 - Manual distribution slice: a clean-install repository overlay, manual merge guidance, release metadata, SHA-256 checksums and automated GitHub Release upload are implemented. A temporary clean build produced a verified `govuk-design-md-v0.4.0.zip`; release artifacts remain ignored by Git.
-- Verification at this checkpoint: `npm run check` passes with 80 inventory entries, 151 tokens, 5 framework adapters, 6 agent evaluation cases, and 55 tests; `npm run pack:check` passes with 124 files; the temporary ZIP integrity check and `git diff --check` pass.
+- Verification at this checkpoint: `npm run check` passes with 80 inventory entries, 151 tokens, 5 framework adapters, 3 UI-framework adapters, 6 agent evaluation cases, and 90 tests; `npm run pack:check` passes with 135 files; fresh desktop/mobile browser checks pass across all eight fixtures; candidate provenance remains within its 256 KiB packed and 1 MiB unpacked limits; the temporary ZIP integrity check and `git diff --check` pass.
 
 ## Completed
 
@@ -161,13 +163,18 @@ Exit gate: all current official content is represented, safe install/update path
 - Added the Angular 22.1.6 SSR/hydration adapter and fixture with shared hydration providers, server transfer state, a static OnPush boundary, post-stability GOV.UK initialisation, semantic tests and `output/playwright/angular-vertical-slice.png`. Real-browser verification hydrated 1 component and 43 nodes before clean mouse, Enter-key, focus and no-JavaScript Accordion checks.
 - Added the Svelte 5.57.0 SSR/hydration adapter and fixture with separate compiler targets, retained server DOM identity, a static client-only `onMount` boundary, semantic tests and `output/playwright/svelte-vertical-slice.png`. Real-browser verification passed clean pointer, Enter-key, focus and no-JavaScript Accordion checks with no hydration recovery.
 - Added the Astro 7.3.2 static-rendering adapter and fixture with native `.astro` markup, a processed browser-only GOV.UK Frontend import, scoped idempotent enhancement across `astro:page-load`, semantic/build tests and `output/playwright/astro-vertical-slice.png`. The fixture exposes the package's compiled assets from a repository-relative public directory and uses esbuild CSS minification because Astro 7's default Lightning CSS path rejects a legacy compatibility query in GOV.UK Frontend 6.5.0. Real-browser verification passed clean pointer, Enter-key, focus, repeated page-load and no-JavaScript checks without a client-runtime island.
+- Added the Tailwind CSS 4.3.3 adapter, generated `@theme static` token bridge and fixture. The integration imports Tailwind theme and utilities without Preflight, explicitly scans fixture sources, loads layered utility CSS before unlayered GOV.UK Frontend CSS and keeps official component DOM free of utility reconstruction. Tests cover token generation, stylesheet order, semantic contracts and safe schema-v3-to-v4 installer updates; browser evidence is stored at `output/playwright/tailwind-vertical-slice.png`.
+- Added the shadcn 4.21.0/Radix 1.6.7 adapter and SSR/hydration fixture. A locally owned Alert Dialog protects a cancellation decision, while Button, Text input and Accordion use explicit official GOV.UK markup fallbacks. Browser checks cover Enter, Escape, focus containment and return, pointer behavior, no-JavaScript cancellation and mobile overflow.
+- Added the Chakra UI 3.37.0 adapter, canonical-token system and SSR/hydration fixture. The system disables Preflight, global CSS and optional Chakra layers; Chakra style props stay on one service-owned wrapper while official components retain GOV.UK Frontend CSS and JavaScript.
+- Added a generated UI-framework compatibility matrix that is filtered with CLI selections and explains the evidence boundary behind all four compatibility labels.
+- Added scheduled upstream release/inventory monitoring, report-only review pull requests, deterministic generated-output reports, local-link validation, changelog and candidate-provenance enforcement, package byte limits, and fresh desktop/mobile Chromium checks for all eight fixtures.
 - Added non-interactive `--framework` and `--ai` selection plus TTY-only prompts. Selection tests cover filtered adapter payloads, `none`, unknown IDs, command scoping and update persistence.
 - Installed the attribution notice and both applicable licences inside the namespaced guidance tree so repository installs retain their legal context.
 - Added a curated manual-install ZIP builder and release workflow. The builder creates and checks an actual CLI overlay before archiving it, rejects release-tag/package-version mismatches, and includes manual instructions, release metadata and SHA-256 checksums.
 
 ## Next action
 
-Begin Phase 7 with the Tailwind tokens/preset and preflight guidance, preserving the official GOV.UK markup, component CSS and progressive-enhancement contracts rather than treating utility-token compatibility as complete conformance. Publishing the npm package and attaching the first ZIP remain explicit maintainer actions; renaming the local checkout directory is optional housekeeping outside the active workspace session.
+Review and commit the completed Phase 7 and Phase 8 implementation. Publishing the npm package with registry provenance and attaching the first curated ZIP remain explicit maintainer actions; renaming the local checkout directory is optional housekeeping outside the active workspace session.
 
 ## Resume procedure
 

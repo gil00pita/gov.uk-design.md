@@ -1,0 +1,110 @@
+<!doctype html>
+<html class="govuk-template" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1d70b8">
+    <title>GOV.UK Design MD Tailwind fixture</title>
+    <link rel="icon" href="/assets/images/favicon.ico" sizes="48x48">
+    <link rel="stylesheet" href="/vendor/tailwind.css">
+    <link rel="stylesheet" href="/vendor/govuk/govuk-frontend.min.css">
+  </head>
+  <body class="govuk-template__body">
+    <script>
+      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+    </script>
+
+    <a class="govuk-skip-link" href="#main-content" data-module="govuk-skip-link">
+      Skip to main content
+    </a>
+
+    <div class="govuk-width-container">
+      <main class="govuk-main-wrapper" id="main-content">
+        <h1 class="govuk-heading-xl">GOV.UK Design MD Tailwind fixture</h1>
+
+        <section
+          aria-labelledby="tailwind-token-heading"
+          class="bg-govuk-surface p-govuk-responsive-6 text-govuk-text govuk-tablet:max-w-govuk-page"
+          data-tailwind-token-example
+        >
+          <h2 class="govuk-heading-m" id="tailwind-token-heading">Service-owned token extension</h2>
+          <p class="govuk-body govuk-!-margin-bottom-0">
+            This wrapper uses namespaced Tailwind utilities. Its GOV.UK content styles remain official classes.
+          </p>
+        </section>
+
+        <section class="govuk-!-margin-top-9 govuk-!-margin-bottom-9" aria-labelledby="tailwind-button-heading">
+          <h2 class="govuk-heading-l" id="tailwind-button-heading">Button</h2>
+          <button class="govuk-button" data-module="govuk-button" type="submit">
+            Save and continue
+          </button>
+        </section>
+
+        <section class="govuk-!-margin-bottom-9" aria-labelledby="tailwind-text-input-heading">
+          <h2 class="govuk-heading-l" id="tailwind-text-input-heading">Text input</h2>
+          <div class="govuk-form-group govuk-form-group--error">
+            <label class="govuk-label" for="tailwind-national-insurance-number">
+              National Insurance number
+            </label>
+            <div class="govuk-hint" id="tailwind-national-insurance-number-hint">
+              It is on your National Insurance card, benefit letter, payslip or P60.
+            </div>
+            <p class="govuk-error-message" id="tailwind-national-insurance-number-error">
+              <span class="govuk-visually-hidden">Error:</span>
+              Enter a National Insurance number in the correct format
+            </p>
+            <input
+              aria-describedby="tailwind-national-insurance-number-hint tailwind-national-insurance-number-error"
+              class="govuk-input govuk-input--width-10 govuk-input--error"
+              id="tailwind-national-insurance-number"
+              name="nationalInsuranceNumber"
+              spellcheck="false"
+              type="text"
+            >
+          </div>
+        </section>
+
+        <section aria-labelledby="tailwind-accordion-heading">
+          <h2 class="govuk-heading-l" id="tailwind-accordion-heading">Accordion</h2>
+          <div class="govuk-accordion" data-module="govuk-accordion" id="tailwind-accordion-guidance">
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="tailwind-accordion-guidance-heading-1">
+                    Writing well for the web
+                  </span>
+                </h3>
+              </div>
+              <div class="govuk-accordion__section-content" id="tailwind-accordion-guidance-content-1">
+                <p class="govuk-body">This is the content for Writing well for the web.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="tailwind-accordion-guidance-heading-2">
+                    Know your audience
+                  </span>
+                </h3>
+              </div>
+              <div class="govuk-accordion__section-content" id="tailwind-accordion-guidance-content-2">
+                <p class="govuk-body">This is the content for Know your audience.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module">
+      import { initAll } from '/vendor/govuk/govuk-frontend.min.js';
+
+      initAll({
+        onError(error) {
+          throw error;
+        }
+      });
+      window.__govukTailwindFixtureReady = true;
+    </script>
+  </body>
+</html>

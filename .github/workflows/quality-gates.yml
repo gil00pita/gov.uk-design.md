@@ -1,0 +1,77 @@
+name: Quality gates
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install exact dependencies
+        run: npm ci
+
+      - name: Install Chromium for visual checks
+        run: npx playwright install --with-deps chromium
+
+      - name: Regenerate reviewable outputs
+        run: npm run generate
+
+      - name: Write generated change report
+        run: node scripts/generated-change-report.mjs --output /tmp/generated-change-report.md
+
+      - name: Reject stale generated outputs
+        run: node scripts/generated-change-report.mjs --max-patch-lines 0 --fail-on-change
+
+      - name: Validate schema, source provenance, links and evaluations
+        run: npm run check
+
+      - name: Run browser interaction, accessibility and visual checks
+        run: npm run visual:check -- --output /tmp/visual-evidence
+
+      - name: Check package contents
+        run: npm run pack:check
+
+      - name: Check changelog, release provenance and package size
+        run: node scripts/release-provenance.mjs --output /tmp/release-provenance.json
+
+      - name: Upload automation reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: quality-reports-${{ github.run_attempt }}
+          path: |
+            /tmp/generated-change-report.md
+            /tmp/release-provenance.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload visual evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-evidence-${{ github.run_attempt }}
+          path: |
+            /tmp/visual-evidence/*.png
+            output/playwright/*.png
+          if-no-files-found: error
+          retention-days: 14

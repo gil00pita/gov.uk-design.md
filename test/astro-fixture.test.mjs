@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url'
 const projectRoot = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const fixtureRoot = resolve(projectRoot, 'fixtures/astro')
 const fixtureSource = await readFile(resolve(fixtureRoot, 'src/pages/index.astro'), 'utf8')
+const fixtureServerSource = await readFile(resolve(projectRoot, 'scripts/serve-astro-fixture.mjs'), 'utf8')
 const packageJson = JSON.parse(await readFile(resolve(projectRoot, 'package.json'), 'utf8'))
 const outputDirectory = await mkdtemp(resolve(tmpdir(), 'govuk-design-md-astro-test-'))
 const astroCli = resolve(projectRoot, 'node_modules/astro/bin/astro.mjs')
@@ -88,4 +89,10 @@ test('Astro fixture scopes client enhancement and supports ClientRouter navigati
   assert.match(fixtureSource, /document\.addEventListener\('astro:page-load', initialiseGovuk\)/)
   assert.doesNotMatch(fixtureSource, /transition:persist/)
   assert.doesNotMatch(fixtureSource, /client:only/)
+})
+
+test('Astro fixture server stays foregrounded in agent-run browser automation', () => {
+  assert.match(fixtureServerSource, /'--ignore-lock'/)
+  assert.match(fixtureServerSource, /ASTRO_DEV_BACKGROUND: '0'/)
+  assert.match(fixtureServerSource, /child\.kill\(signal\)/)
 })

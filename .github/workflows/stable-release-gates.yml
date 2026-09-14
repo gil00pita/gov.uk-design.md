@@ -1,0 +1,61 @@
+name: Stable release gates
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stable-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify-release-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install exact dependencies without a shared release cache
+        run: npm ci
+
+      - name: Install Chromium for visual checks
+        run: npx playwright install --with-deps chromium
+
+      - name: Run schema, link, installer, upgrade, fixture and accessibility checks
+        run: npm run check
+
+      - name: Run browser interaction, accessibility and visual checks
+        run: npm run visual:check -- --output /tmp/visual-evidence
+
+      - name: Reject stale generated outputs
+        run: npm run generate && node scripts/generated-change-report.mjs --max-patch-lines 0 --fail-on-change
+
+      - name: Check package allow-list
+        run: npm run pack:check
+
+      - name: Record candidate provenance and enforce changelog and size gates
+        env:
+          GOVUK_EXPECTED_RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+        run: node scripts/release-provenance.mjs --output /tmp/release-provenance.json
+
+      - name: Upload release-candidate provenance
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-provenance-${{ github.ref_name }}-${{ github.run_attempt }}
+          path: |
+            /tmp/release-provenance.json
+            /tmp/visual-evidence/*.png
+          if-no-files-found: error
+          retention-days: 90

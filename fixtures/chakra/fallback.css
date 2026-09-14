@@ -1,0 +1,11 @@
+/*
+ * Progressive fallback for the service-owned Chakra wrapper.
+ * GOV.UK Frontend remains responsible for every govuk-* component below it.
+ */
+.govuk-chakra-service-surface {
+  max-width: var(--govuk-layout-page-width);
+  margin-bottom: var(--govuk-spacing-responsive-9);
+  padding: var(--govuk-spacing-responsive-6);
+  color: var(--govuk-color-surface-text);
+  background: var(--govuk-color-surface-background);
+}

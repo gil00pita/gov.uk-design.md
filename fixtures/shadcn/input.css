@@ -1,0 +1,16 @@
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "../../ui-frameworks/shadcn/govuk-theme.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "./app.mjs";
+@source "./components/ui/alert-dialog.mjs";
+
+.govuk-template__body .shadcn-js-only {
+  display: none;
+}
+
+.govuk-template__body.js-enabled .shadcn-js-only {
+  display: inline-block;
+}

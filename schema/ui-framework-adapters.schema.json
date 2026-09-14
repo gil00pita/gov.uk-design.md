@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gil00pita/gov.uk-design.md/blob/main/schema/ui-framework-adapters.schema.json",
+  "title": "GOV.UK UI-framework adapter source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "reviewedAt", "govukFrontendVersion", "adapters"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "reviewedAt": { "type": "string", "format": "date" },
+    "govukFrontendVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "adapters": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/adapter" }
+    }
+  },
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "package", "version"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "package": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" }
+      }
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "status",
+        "reviewedAt",
+        "implementation",
+        "description",
+        "output",
+        "tokenOutput",
+        "fixture",
+        "fixtureDescription",
+        "compatibility",
+        "compatibilityBoundary",
+        "requirements",
+        "installation",
+        "preflight",
+        "tokens",
+        "components",
+        "browserSupport",
+        "buildExampleIntro",
+        "buildExampleLanguage",
+        "buildExample",
+        "markupExampleIntro",
+        "markupExampleLanguage",
+        "markupExample",
+        "sourceUrls"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "name": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["experimental", "stable"] },
+        "reviewedAt": { "type": "string", "format": "date" },
+        "implementation": { "$ref": "#/$defs/implementation" },
+        "description": { "type": "string", "minLength": 1 },
+        "output": { "type": "string", "minLength": 1 },
+        "tokenOutput": { "type": "string", "minLength": 1 },
+        "fixture": { "type": "string", "minLength": 1 },
+        "fixtureDescription": { "type": "string", "minLength": 1 },
+        "compatibility": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["guidance", "token", "markup", "behaviour-tested"]
+          }
+        },
+        "compatibilityBoundary": { "type": "string", "minLength": 1 },
+        "requirements": { "$ref": "#/$defs/nonEmptyStrings" },
+        "installation": { "$ref": "#/$defs/nonEmptyStrings" },
+        "preflight": { "$ref": "#/$defs/nonEmptyStrings" },
+        "tokens": { "$ref": "#/$defs/nonEmptyStrings" },
+        "components": { "$ref": "#/$defs/nonEmptyStrings" },
+        "browserSupport": { "$ref": "#/$defs/nonEmptyStrings" },
+        "buildExampleIntro": { "type": "string", "minLength": 1 },
+        "buildExampleLanguage": { "enum": ["css", "js", "ts"] },
+        "buildExample": { "type": "string", "minLength": 1 },
+        "markupExampleIntro": { "type": "string", "minLength": 1 },
+        "markupExampleLanguage": { "enum": ["astro", "html", "jsx", "svelte"] },
+        "markupExample": { "type": "string", "minLength": 1 },
+        "sourceUrls": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "url"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -69,6 +69,7 @@ try {
 
   await copyFile(resolve(projectRoot, 'docs/manual-install.md'), resolve(archiveRoot, 'MANUAL-INSTALL.md'))
   await copyFile(resolve(projectRoot, 'README.md'), resolve(archiveRoot, 'README.md'))
+  await copyFile(resolve(projectRoot, 'CHANGELOG.md'), resolve(archiveRoot, 'CHANGELOG.md'))
   await copyFile(resolve(projectRoot, 'NOTICE.md'), resolve(archiveRoot, 'NOTICE.md'))
   await copyFile(resolve(projectRoot, 'LICENSE-CONTENT.md'), resolve(archiveRoot, 'LICENSE-CONTENT.md'))
   await copyFile(resolve(projectRoot, 'LICENSE-CODE.md'), resolve(archiveRoot, 'LICENSE-CODE.md'))

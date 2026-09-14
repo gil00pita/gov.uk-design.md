@@ -23,6 +23,7 @@ const forbiddenPrefixes = ['fixtures/', 'output/', 'src/', 'scripts/', 'test/']
 const forbidden = paths.filter((path) => forbiddenPrefixes.some((prefix) => path.startsWith(prefix)))
 const required = [
   'DESIGN.md',
+  'CHANGELOG.md',
   'catalog.json',
   'bin/govuk-design-md.js',
   'adapters/manifest.json',
@@ -33,6 +34,14 @@ const required = [
   'frameworks/angular/DESIGN.md',
   'frameworks/svelte/DESIGN.md',
   'frameworks/astro/DESIGN.md',
+  'ui-frameworks/manifest.json',
+  'ui-frameworks/compatibility.md',
+  'ui-frameworks/tailwind/DESIGN.md',
+  'ui-frameworks/tailwind/govuk-theme.css',
+  'ui-frameworks/chakra/DESIGN.md',
+  'ui-frameworks/chakra/govuk-system.mjs',
+  'ui-frameworks/shadcn/DESIGN.md',
+  'ui-frameworks/shadcn/govuk-theme.css',
   'design/govuk/catalog.json',
   'design/govuk/NOTICE.md',
   'design/govuk/LICENSE-CONTENT.md',

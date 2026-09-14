@@ -1,0 +1,84 @@
+name: Upstream monitor
+
+on:
+  schedule:
+    - cron: '23 7 * * 3'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: upstream-monitor
+  cancel-in-progress: true
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Compare the reviewed release and inventories with upstream
+        id: upstream
+        continue-on-error: true
+        run: node scripts/check-upstream.mjs --output /tmp/upstream-check.json --fail-on-change
+
+      - name: Build a deterministic review report
+        run: node scripts/generated-change-report.mjs --upstream-report /tmp/upstream-check.json --output /tmp/upstream-change-report.md
+
+      - name: Add report to workflow summary
+        run: cat /tmp/upstream-change-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload upstream review evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: upstream-review-${{ github.run_attempt }}
+          path: |
+            /tmp/upstream-check.json
+            /tmp/upstream-change-report.md
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Resolve the review branch
+        if: steps.upstream.outcome == 'failure'
+        run: node -e "const report=require('/tmp/upstream-check.json'); process.stdout.write('OBSERVED_VERSION='+report.observed.govukFrontendVersion+'\n')" >> "$GITHUB_ENV"
+
+      - name: Open or update a review pull request
+        if: steps.upstream.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          branch="automation/govuk-upstream-${OBSERVED_VERSION}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin "$branch"; then
+            git fetch origin "$branch"
+            git switch --create "$branch" --track "origin/$branch"
+          else
+            git switch --create "$branch"
+          fi
+          mkdir -p reports
+          cp /tmp/upstream-change-report.md reports/upstream-change-report.md
+          git add reports/upstream-change-report.md
+          if git diff --cached --quiet; then
+            echo "The open upstream review already contains this report."
+            exit 0
+          fi
+          git commit -m "Report GOV.UK upstream changes"
+          git push --set-upstream origin "$branch"
+          if [ "$(gh pr list --head "$branch" --state open --json number --jq length)" = "0" ]; then
+            gh pr create --base main --head "$branch" --title "Review GOV.UK upstream changes" --body-file reports/upstream-change-report.md
+          fi
+
+      - name: Require review when upstream changed
+        if: steps.upstream.outcome == 'failure'
+        run: exit 1

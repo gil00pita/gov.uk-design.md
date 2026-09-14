@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
-import { appendFile, mkdtemp, readFile, writeFile } from 'node:fs/promises'
+import { appendFile, mkdtemp, readFile, unlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -52,6 +52,14 @@ test('init installs the generated guidance and check verifies it', async () => {
     'frameworks/angular/DESIGN.md',
     'frameworks/svelte/DESIGN.md',
     'frameworks/astro/DESIGN.md',
+    'ui-frameworks/manifest.json',
+    'ui-frameworks/compatibility.md',
+    'ui-frameworks/tailwind/DESIGN.md',
+    'ui-frameworks/tailwind/govuk-theme.css',
+    'ui-frameworks/chakra/DESIGN.md',
+    'ui-frameworks/chakra/govuk-system.mjs',
+    'ui-frameworks/shadcn/DESIGN.md',
+    'ui-frameworks/shadcn/govuk-theme.css',
     'AGENTS.md',
     'CLAUDE.md',
     'GEMINI.md',
@@ -67,9 +75,10 @@ test('init installs the generated guidance and check verifies it', async () => {
   assert.match(check.stdout, /installation is intact/)
 
   const manifest = JSON.parse(await readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
-  assert.equal(manifest.schemaVersion, 3)
+  assert.equal(manifest.schemaVersion, 4)
   assert.deepEqual(manifest.selections, {
     frameworks: ['html-css', 'react', 'angular', 'svelte', 'astro'],
+    ui: ['tailwind', 'chakra', 'shadcn'],
     ai: ['codex', 'claude-code', 'gemini-cli', 'github-copilot', 'cursor']
   })
   assert.equal(manifest.managedFiles['AGENTS.md'].mode, 'managed-block')
@@ -94,7 +103,7 @@ test('add is an alias for init', async () => {
   assert.match(result.stdout, /entry point: DESIGN\.md/)
 })
 
-test('init installs only explicitly selected framework and AI adapters', async () => {
+test('init installs only explicitly selected framework, UI-framework and AI adapters', async () => {
   const target = await temporaryProject()
   const result = run(
     'init',
@@ -102,6 +111,8 @@ test('init installs only explicitly selected framework and AI adapters', async (
     target,
     '--framework',
     'astro',
+    '--ui',
+    'none',
     '--ai=codex,cursor'
   )
   assert.equal(result.status, 0, result.stderr)
@@ -121,6 +132,13 @@ test('init installs only explicitly selected framework and AI adapters', async (
 
   const frameworkManifest = JSON.parse(await readFile(resolve(target, 'frameworks/manifest.json'), 'utf8'))
   assert.deepEqual(frameworkManifest.adapters.map(({ id }) => id), ['astro'])
+  const uiFrameworkManifest = JSON.parse(await readFile(resolve(target, 'ui-frameworks/manifest.json'), 'utf8'))
+  assert.deepEqual(uiFrameworkManifest.adapters, [])
+  assert.match(await readFile(resolve(target, 'ui-frameworks/compatibility.md'), 'utf8'), /No adapter selected/)
+  await assert.rejects(readFile(resolve(target, 'ui-frameworks/tailwind/DESIGN.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'ui-frameworks/tailwind/govuk-theme.css'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'ui-frameworks/chakra/DESIGN.md'), 'utf8'))
+  await assert.rejects(readFile(resolve(target, 'ui-frameworks/shadcn/DESIGN.md'), 'utf8'))
 
   const entryPoint = await readFile(resolve(target, 'DESIGN.md'), 'utf8')
   assert.match(entryPoint, /\[Astro\]\(frameworks\/astro\/DESIGN\.md\)/)
@@ -128,23 +146,31 @@ test('init installs only explicitly selected framework and AI adapters', async (
   assert.doesNotMatch(entryPoint, /\[React\]/)
   assert.doesNotMatch(entryPoint, /\[Angular\]/)
   assert.doesNotMatch(entryPoint, /\[Svelte\]/)
+  assert.match(entryPoint, /No UI-framework adapter was selected during installation/)
 
   const manifest = JSON.parse(await readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
-  assert.deepEqual(manifest.selections, { frameworks: ['astro'], ai: ['codex', 'cursor'] })
+  assert.deepEqual(manifest.selections, { frameworks: ['astro'], ui: [], ai: ['codex', 'cursor'] })
   assert.equal(run('check', '--target', target).status, 0)
 })
 
-test('init supports explicit none selections without touching AI instruction files', async () => {
+test('init supports explicit none selections without touching adapter files or AI instructions', async () => {
   const target = await temporaryProject()
-  const result = run('init', '--target', target, '--framework', 'none', '--ai', 'none')
+  const result = run('init', '--target', target, '--framework', 'none', '--ui', 'none', '--ai', 'none')
   assert.equal(result.status, 0, result.stderr)
 
   assert.ok(await readFile(resolve(target, 'design/govuk/catalog.json'), 'utf8'))
   const frameworkManifest = JSON.parse(await readFile(resolve(target, 'frameworks/manifest.json'), 'utf8'))
   assert.deepEqual(frameworkManifest.adapters, [])
+  const uiFrameworkManifest = JSON.parse(await readFile(resolve(target, 'ui-frameworks/manifest.json'), 'utf8'))
+  assert.deepEqual(uiFrameworkManifest.adapters, [])
+  assert.match(await readFile(resolve(target, 'ui-frameworks/compatibility.md'), 'utf8'), /No adapter selected/)
   assert.match(
     await readFile(resolve(target, 'DESIGN.md'), 'utf8'),
     /No framework adapter was selected during installation/
+  )
+  assert.match(
+    await readFile(resolve(target, 'DESIGN.md'), 'utf8'),
+    /No UI-framework adapter was selected during installation/
   )
 
   for (const path of [
@@ -153,6 +179,12 @@ test('init supports explicit none selections without touching AI instruction fil
     'frameworks/angular/DESIGN.md',
     'frameworks/svelte/DESIGN.md',
     'frameworks/astro/DESIGN.md',
+    'ui-frameworks/tailwind/DESIGN.md',
+    'ui-frameworks/tailwind/govuk-theme.css',
+    'ui-frameworks/chakra/DESIGN.md',
+    'ui-frameworks/chakra/govuk-system.mjs',
+    'ui-frameworks/shadcn/DESIGN.md',
+    'ui-frameworks/shadcn/govuk-theme.css',
     '.agents/skills/govuk-design-system/SKILL.md',
     'AGENTS.md',
     'CLAUDE.md',
@@ -164,7 +196,7 @@ test('init supports explicit none selections without touching AI instruction fil
   }
 
   const manifest = JSON.parse(await readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
-  assert.deepEqual(manifest.selections, { frameworks: [], ai: [] })
+  assert.deepEqual(manifest.selections, { frameworks: [], ui: [], ai: [] })
   assert.equal(run('check', '--target', target).status, 0)
 })
 
@@ -177,10 +209,19 @@ test('adapter selection rejects unknown IDs before installation', async () => {
   await assert.rejects(readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
 })
 
+test('UI-framework adapter selection rejects unknown IDs before installation', async () => {
+  const target = await temporaryProject()
+  const result = run('init', '--target', target, '--ui', 'bootstrap')
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /unknown UI-framework adapter: bootstrap/)
+  assert.match(result.stderr, /available: tailwind, chakra, shadcn, all, none/)
+  await assert.rejects(readFile(resolve(target, '.govuk-design-md.json'), 'utf8'))
+})
+
 test('adapter selection options are limited to init and add', async () => {
   const target = await temporaryProject()
   assert.equal(run('init', '--target', target).status, 0)
-  const result = run('check', '--target', target, '--framework', 'react')
+  const result = run('check', '--target', target, '--ui', 'tailwind')
   assert.equal(result.status, 1)
   assert.match(result.stderr, /can only be used with init or add/)
 })
@@ -290,10 +331,10 @@ test('update changes only an unmodified managed block and preserves local instru
   assert.equal(extractManagedBlock(updated), currentBlock)
 })
 
-test('update preserves the installed framework and AI selections', async () => {
+test('update preserves the installed framework, UI-framework and AI selections', async () => {
   const target = await temporaryProject()
   assert.equal(
-    run('init', '--target', target, '--framework', 'react', '--ai', 'cursor').status,
+    run('init', '--target', target, '--framework', 'react', '--ui', 'tailwind', '--ai', 'cursor').status,
     0
   )
 
@@ -319,9 +360,39 @@ test('update preserves the installed framework and AI selections', async () => {
   await assert.rejects(readFile(resolve(target, 'frameworks/astro/DESIGN.md'), 'utf8'))
   await assert.rejects(readFile(resolve(target, 'AGENTS.md'), 'utf8'))
   assert.ok(await readFile(resolve(target, '.cursor/rules/govuk-design-system.mdc'), 'utf8'))
+  assert.ok(await readFile(resolve(target, 'ui-frameworks/tailwind/DESIGN.md'), 'utf8'))
+  assert.ok(await readFile(resolve(target, 'ui-frameworks/tailwind/govuk-theme.css'), 'utf8'))
 
   const updatedManifest = JSON.parse(await readFile(manifestPath, 'utf8'))
-  assert.deepEqual(updatedManifest.selections, { frameworks: ['react'], ai: ['cursor'] })
+  assert.deepEqual(updatedManifest.selections, { frameworks: ['react'], ui: ['tailwind'], ai: ['cursor'] })
+})
+
+test('updating a schema-v3 installation does not opt into a new UI-framework adapter', async () => {
+  const target = await temporaryProject()
+  assert.equal(
+    run('init', '--target', target, '--framework', 'react', '--ui', 'none', '--ai', 'cursor').status,
+    0
+  )
+
+  const manifestPath = resolve(target, '.govuk-design-md.json')
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
+  manifest.schemaVersion = 3
+  delete manifest.selections.ui
+  delete manifest.managedFiles['ui-frameworks/manifest.json']
+  delete manifest.managedFiles['ui-frameworks/compatibility.md']
+  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')
+  await unlink(resolve(target, 'ui-frameworks/manifest.json'))
+  await unlink(resolve(target, 'ui-frameworks/compatibility.md'))
+
+  const update = run('update', '--target', target)
+  assert.equal(update.status, 0, update.stderr)
+  const updatedManifest = JSON.parse(await readFile(manifestPath, 'utf8'))
+  assert.equal(updatedManifest.schemaVersion, 4)
+  assert.deepEqual(updatedManifest.selections, { frameworks: ['react'], ui: [], ai: ['cursor'] })
+  await assert.rejects(readFile(resolve(target, 'ui-frameworks/tailwind/DESIGN.md'), 'utf8'))
+  const uiFrameworkManifest = JSON.parse(await readFile(resolve(target, 'ui-frameworks/manifest.json'), 'utf8'))
+  assert.deepEqual(uiFrameworkManifest.adapters, [])
+  assert.match(await readFile(resolve(target, 'ui-frameworks/compatibility.md'), 'utf8'), /No adapter selected/)
 })
 
 test('update never overwrites a locally modified managed file and emits a conflict file', async () => {

@@ -5,6 +5,7 @@ import {
   loadAiAdapters,
   loadComponents,
   loadFrameworkAdapters,
+  loadUiFrameworkAdapters,
   loadPatterns,
   loadSourceManifest,
   loadStyles,
@@ -14,13 +15,14 @@ import {
 } from './lib/catalog.mjs'
 
 const errors = []
-const [components, styles, patterns, sourceManifest, aiAdapterSource, frameworkAdapterSource, tokens, expectedFiles] = await Promise.all([
+const [components, styles, patterns, sourceManifest, aiAdapterSource, frameworkAdapterSource, uiFrameworkAdapterSource, tokens, expectedFiles] = await Promise.all([
   loadComponents(),
   loadStyles(),
   loadPatterns(),
   loadSourceManifest(),
   loadAiAdapters(),
   loadFrameworkAdapters(),
+  loadUiFrameworkAdapters(),
   loadTokens(),
   expectedGeneratedFiles()
 ])
@@ -31,6 +33,141 @@ const reviewedInventoryCounts = {
   styles: 13,
   components: 37,
   patterns: 30
+}
+
+if (uiFrameworkAdapterSource.schemaVersion !== 1) {
+  errors.push('sources/ui-framework-adapters.json: unsupported schemaVersion')
+}
+if (uiFrameworkAdapterSource.govukFrontendVersion !== sourceManifest.upstreams.govukFrontend.version) {
+  errors.push('sources/ui-framework-adapters.json: govukFrontendVersion does not match sources/govuk.json')
+}
+if (!/^\d{4}-\d{2}-\d{2}$/.test(uiFrameworkAdapterSource.reviewedAt ?? '') || Number.isNaN(Date.parse(`${uiFrameworkAdapterSource.reviewedAt}T00:00:00Z`))) {
+  errors.push('sources/ui-framework-adapters.json: reviewedAt must be a valid date')
+}
+if (!Array.isArray(uiFrameworkAdapterSource.adapters) || uiFrameworkAdapterSource.adapters.length === 0) {
+  errors.push('sources/ui-framework-adapters.json: expected at least one UI-framework adapter')
+} else {
+  const adapterIds = new Set()
+  const adapterOutputs = new Set()
+  const adapterFixtures = new Set()
+  const knownCompatibility = new Set(['guidance', 'token', 'markup', 'behaviour-tested'])
+
+  for (const adapter of uiFrameworkAdapterSource.adapters) {
+    const label = `UI-framework adapter ${adapter.id ?? '<missing id>'}`
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(adapter.id ?? '')) errors.push(`${label}: invalid id`)
+    if (adapterIds.has(adapter.id)) errors.push(`${label}: duplicate id`)
+    adapterIds.add(adapter.id)
+
+    for (const field of ['name', 'description', 'fixtureDescription', 'compatibilityBoundary', 'buildExampleIntro', 'buildExample', 'markupExampleIntro', 'markupExample']) {
+      if (typeof adapter[field] !== 'string' || adapter[field].length === 0) {
+        errors.push(`${label}: ${field} must be a non-empty string`)
+      }
+    }
+    if (!['experimental', 'stable'].includes(adapter.status)) errors.push(`${label}: unsupported status ${adapter.status}`)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(adapter.reviewedAt ?? '') || Number.isNaN(Date.parse(`${adapter.reviewedAt}T00:00:00Z`))) {
+      errors.push(`${label}: reviewedAt must be a valid date`)
+    }
+    if (!['css', 'js', 'ts'].includes(adapter.buildExampleLanguage)) {
+      errors.push(`${label}: unsupported buildExampleLanguage ${adapter.buildExampleLanguage}`)
+    }
+    if (!['astro', 'html', 'jsx', 'svelte'].includes(adapter.markupExampleLanguage)) {
+      errors.push(`${label}: unsupported markupExampleLanguage ${adapter.markupExampleLanguage}`)
+    }
+
+    for (const field of ['output', 'tokenOutput']) {
+      const path = adapter[field] ?? ''
+      const root = resolve(projectRoot, '.ui-framework-path-check')
+      const resolvedPath = resolve(root, path)
+      const relativePath = relative(root, resolvedPath)
+      if (!relativePath || relativePath === '..' || relativePath.startsWith(`..${process.platform === 'win32' ? '\\' : '/'}`)) {
+        errors.push(`${label}: ${field} must stay within the ui-frameworks directory`)
+      }
+      if (adapterOutputs.has(path)) errors.push(`${label}: duplicate generated output ${path}`)
+      adapterOutputs.add(path)
+    }
+
+    if (!Array.isArray(adapter.compatibility) || adapter.compatibility.length === 0) {
+      errors.push(`${label}: compatibility must be a non-empty array`)
+    } else {
+      const levels = new Set()
+      for (const level of adapter.compatibility) {
+        if (!knownCompatibility.has(level)) errors.push(`${label}: unsupported compatibility level ${level}`)
+        if (levels.has(level)) errors.push(`${label}: duplicate compatibility level ${level}`)
+        levels.add(level)
+      }
+      if (levels.has('behaviour-tested') && !levels.has('markup')) {
+        errors.push(`${label}: behaviour-tested requires markup compatibility`)
+      }
+    }
+
+    for (const field of ['requirements', 'installation', 'preflight', 'tokens', 'components', 'browserSupport']) {
+      if (!Array.isArray(adapter[field]) || adapter[field].length === 0 || adapter[field].some((item) => typeof item !== 'string' || item.length === 0)) {
+        errors.push(`${label}: ${field} must be a non-empty string array`)
+      }
+    }
+
+    const implementation = adapter.implementation
+    if (!implementation || typeof implementation.name !== 'string' || typeof implementation.package !== 'string' || !/^\d+\.\d+\.\d+$/.test(implementation.version ?? '')) {
+      errors.push(`${label}: implementation must include a name, package and semantic version`)
+    } else {
+      const installedPackage = await readFile(resolve(projectRoot, 'node_modules', implementation.package, 'package.json'), 'utf8')
+        .then(JSON.parse)
+        .catch(() => null)
+      if (!installedPackage) {
+        errors.push(`${label}: ${implementation.package} is not installed; run npm install`)
+      } else if (installedPackage.version !== implementation.version) {
+        errors.push(`${label}: installed ${implementation.package} ${installedPackage.version} does not match ${implementation.version}`)
+      }
+    }
+
+    const fixturePath = resolve(projectRoot, adapter.fixture ?? '')
+    const fixtureRelative = relative(projectRoot, fixturePath)
+    if (!fixtureRelative || fixtureRelative === '..' || fixtureRelative.startsWith(`..${process.platform === 'win32' ? '\\' : '/'}`)) {
+      errors.push(`${label}: fixture must stay within the repository`)
+    } else {
+      await access(fixturePath).catch(() => errors.push(`${label}: fixture does not exist: ${adapter.fixture}`))
+    }
+    if (adapterFixtures.has(adapter.fixture)) errors.push(`${label}: duplicate fixture ${adapter.fixture}`)
+    adapterFixtures.add(adapter.fixture)
+
+    if (!Array.isArray(adapter.sourceUrls) || adapter.sourceUrls.length === 0) {
+      errors.push(`${label}: sourceUrls must be a non-empty array`)
+    } else {
+      for (const source of adapter.sourceUrls) {
+        if (typeof source.name !== 'string' || source.name.length === 0) errors.push(`${label}: source name must be non-empty`)
+        try {
+          new URL(source.url)
+        } catch {
+          errors.push(`${label}: source URL must be absolute`)
+        }
+      }
+    }
+
+    if (adapter.id === 'tailwind') {
+      if (!adapter.buildExample.includes('tailwindcss/theme.css') || !adapter.buildExample.includes('tailwindcss/utilities.css')) {
+        errors.push(`${label}: build example must import Tailwind theme and utilities explicitly`)
+      }
+      if (/@import ["']tailwindcss["']/.test(adapter.buildExample)) {
+        errors.push(`${label}: build example must not enable Tailwind Preflight`)
+      }
+    } else if (adapter.id === 'shadcn') {
+      if (!adapter.buildExample.includes('tailwindcss/theme.css') || !adapter.buildExample.includes('tailwindcss/utilities.css')) {
+        errors.push(`${label}: build example must import Tailwind theme and utilities explicitly`)
+      }
+      if (/@import ["']tailwindcss["']/.test(adapter.buildExample)) {
+        errors.push(`${label}: build example must not enable Tailwind Preflight`)
+      }
+      if (!/official[\s\S]*fallback/i.test(adapter.components.join('\n'))) {
+        errors.push(`${label}: component guidance must document official-markup fallbacks`)
+      }
+    } else if (adapter.id === 'chakra') {
+      for (const contract of ['defaultBaseConfig', 'disableLayers: true', 'preflight: false', 'globalCss: {}']) {
+        if (!adapter.buildExample.includes(contract)) errors.push(`${label}: build example must include ${contract}`)
+      }
+    } else {
+      errors.push(`${label}: no reviewed generator contract exists`)
+    }
+  }
 }
 
 if (aiAdapterSource.schemaVersion !== 1) errors.push('sources/ai-adapters.json: unsupported schemaVersion')
@@ -481,5 +618,6 @@ if (errors.length > 0) {
 } else {
   const inventoryEntryCount = Object.values(reviewedInventoryCounts).reduce((total, count) => total + count, 0)
   const frameworkAdapterLabel = frameworkAdapterSource.adapters.length === 1 ? 'framework adapter' : 'framework adapters'
-  process.stdout.write(`validated ${inventoryEntryCount} inventory entries, ${styles.length} style records, ${components.length} component records, ${patterns.length} pattern records, ${knownTokens.size} tokens, and ${frameworkAdapterSource.adapters.length} ${frameworkAdapterLabel}\n`)
+  const uiFrameworkAdapterLabel = uiFrameworkAdapterSource.adapters.length === 1 ? 'UI-framework adapter' : 'UI-framework adapters'
+  process.stdout.write(`validated ${inventoryEntryCount} inventory entries, ${styles.length} style records, ${components.length} component records, ${patterns.length} pattern records, ${knownTokens.size} tokens, ${frameworkAdapterSource.adapters.length} ${frameworkAdapterLabel}, and ${uiFrameworkAdapterSource.adapters.length} ${uiFrameworkAdapterLabel}\n`)
 }

@@ -27,6 +27,11 @@ jobs:
       - name: Verify release inputs
         run: npm run check && npm run pack:check
 
+      - name: Record release provenance and enforce changelog and size gates
+        env:
+          GOVUK_EXPECTED_RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
+        run: npm run release:provenance -- --output release/provenance.json
+
       - name: Build manual install archive
         env:
           GOVUK_EXPECTED_RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
@@ -36,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: govuk-design-md-manual-install
-          path: release/*.zip
+          path: release/*
           if-no-files-found: error
 
       - name: Attach archive to GitHub Release
@@ -44,4 +49,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
-        run: gh release upload "$RELEASE_TAG" release/*.zip --clobber
+        run: gh release upload "$RELEASE_TAG" release/* --clobber
